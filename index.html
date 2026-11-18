@@ -5,181 +5,238 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SOETRA - FATREFU</title>
 <style>
-*{box-sizing:border-box} body{font-family:Arial,sans-serif;margin:0;background:#f4f4f0;color:#222}
-header{background:#1a6b3c;color:#fff;padding:18px 16px;position:sticky;top:0;z-index:10}
-header h1{margin:0;font-size:24px} header p{margin:2px 0 0;font-size:15px}
-.contenedor{max-width:900px;margin:14px auto;padding:0 12px}
-.tarjeta{background:#fff;border-radius:14px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:14px}
-.tarjeta h2{margin:0;font-size:24px} .sub{margin:6px 0 16px;color:#777;font-size:17px}
-.dos{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+*{box-sizing:border-box} body{font-family:Arial,sans-serif;margin:0;background:#eef2f0;color:#222}
+header{background:#0b4a2f;color:#fff;padding:14px 16px;position:sticky;top:0;z-index:10}
+header h1{margin:0;font-size:20px} header p{margin:4px 0 0;font-size:12px;opacity:.9}
+.wrap{max-width:1100px;margin:0 auto;padding:12px}
+.caja{background:#fff;padding:16px;border-radius:14px;box-shadow:0 1px 6px rgba(0,0,0,.08);margin-bottom:12px}
+h2{margin:0 0 8px;font-size:19px} h3{margin:14px 0 8px;font-size:16px}
+input,select{width:100%;padding:13px 12px;margin:6px 0;border:1.5px solid #d0d0d0;border-radius:10px;font-size:16px}
+button{width:100%;padding:14px 12px;background:#0b4a2f;color:#fff;border:0;border-radius:10px;font-size:16px;font-weight:700;margin-top:8px;cursor:pointer}
+.btn2{background:#c9a227;color:#222} .btnRojo{background:#a83232} .btnGris{background:#666} .btnForm{background:#1a5c8a} .btnCargar{background:#6a1b9a}
+.btnWsp{background:#25D366} .btnWspChico{background:#25D366;padding:10px;font-size:14px;margin:4px 0}
+.btnChico{padding:10px;font-size:14px;margin:4px 0} .btnAzulDoc{background:#4a7ab5} .btnBeige{background:#d9b06a;color:#222}
+.oculto{display:none} .afiliado{border:1px solid #e0e0e0;padding:12px;border-radius:12px;margin-top:10px;background:#fcfcfc}
+.activo{color:#0a7a3a;font-weight:bold} .baja{color:#a83232;font-weight:bold}
+.carpetaBtn{background:#e8f5e9;color:#0b4a2f;border:1px solid #0b4a2f;padding:10px;margin:4px 0;font-size:14px}
+.filaForm{border:1px solid #e0e0e0;padding:12px;border-radius:12px;margin-top:10px}
+.falta{color:#a83232;font-size:13px;font-weight:bold} .ok{color:#0a7a3a;font-size:13px;font-weight:bold}
+.campo{font-size:14px;margin:3px 0;line-height:1.4} .label{color:#666;font-size:12px}
+.tabla{width:100%;font-size:13px;border-collapse:collapse} .tabla td,.tabla th{border:1px solid #ddd;padding:8px;text-align:left}
+.wspBox{background:#dcf8c6;border:1px solid #25D366;padding:10px;border-radius:10px;margin-top:8px}
+.badge{display:inline-block;background:#0b4a2f;color:#fff;padding:4px 8px;border-radius:20px;font-size:12px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px} .grid2 button{margin-top:0}
+.cardPadron{border:1px solid #e0e0e0;border-radius:10px;padding:10px;margin:8px 0;background:#fff}
+@media(max-width:768px){.grid2{grid-template-columns:1fr}.tabla{display:block;overflow-x:auto;white-space:nowrap}}
+@media(min-width:769px){header h1{font-size:24px}.layoutPC{display:grid;grid-template-columns:340px 1fr;gap:12px;align-items:start}.layoutPC .col-izq{position:sticky;top:70px}}
 .opcion{border:2px solid #dceadf;border-radius:16px;padding:22px 10px;text-align:center;cursor:pointer}
-.opcion .icono{font-size:42px} .opcion h3{color:#1a6b3c;margin:10px 0 6px;font-size:19px} .opcion p{margin:2px 0;color:#777;font-size:14px}
-input,select,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ccc;border-radius:8px;font-size:15px}
-label{font-weight:bold;font-size:14px} .bloqueado{color:#777;font-size:13px}
-.btn{display:block;width:100%;padding:13px;border:0;border-radius:8px;font-weight:bold;cursor:pointer;text-align:center;text-decoration:none;margin:8px 0;font-size:15px}
-.btn-amarillo{background:#e6c34d;color:#222} .btn-verde{background:#1a6b3c;color:#fff}
-.btn-azul{background:#4a7ab5;color:#fff} .btn-celeste{background:#6ec5b8;color:#fff}
-.btn-violeta{background:#a06ee0;color:#fff} .btn-gris{background:#8a9ab0;color:#fff}
-.btn-gris2{background:#eee;color:#222}
-.oculto{display:none}
-.formulario{border:1px solid #ddd;border-radius:12px;padding:14px;margin:12px 0}
-.cargado{color:#0a8a2f;font-weight:bold;font-size:13px} .nocargado{color:#b4552d;font-weight:bold;font-size:13px}
-.carpeta-item{border-top:1px solid #eee;padding:10px 0} .carpeta-item b{font-size:16px} .sin{color:#b4552d;font-weight:bold}
-.seccion h2{color:#1a6b3c;font-size:20px}
-.check{display:flex;gap:8px;align-items:center;background:#eef6f1;padding:10px;border-radius:8px;margin:8px 0}
-.check input{width:auto}
-.links{font-size:16px} .links a{color:#3b2aa0}
+.opcion h3{color:#0b4a2f;margin:10px 0 6px} .opcion p{margin:2px 0;color:#777;font-size:14px}
 </style>
 </head>
 <body>
-<header><h1>SOETRA - FATREFU</h1><p>Padrón Completo - Teléfono y PC</p></header>
-<div class="contenedor">
+<header><h1>🌾 S.O.E.T.R.A. - F.A.T.R.E.F.U.</h1><p>Padrón Completo - Teléfono y PC</p></header>
+<div class="wrap">
 
-<!-- INICIO - COMO EN TU FOTO -->
-<div id="inicio" class="tarjeta">
-<h2>Hola, bienvenido a SOETRA</h2><p class="sub">Elegí cómo querés entrar:</p>
-<div class="dos">
-<div class="opcion" onclick="mostrar('autorizados')"><div class="icono">🔍</div><h3>AUTORIZADOS</h3><p>Buscar afiliado</p><p>Completar datos faltantes</p><p>Ver padrones</p></div>
-<div class="opcion" onclick="mostrar('login')"><div class="icono">🔐</div><h3>ADMINISTRADOR</h3><p>Acceso a toda</p><p>la aplicación</p><p>Gestionar usuarios</p></div>
-</div>
-</div>
-
-<!-- AUTORIZADOS -->
-<div id="autorizados" class="tarjeta oculto">
-<h2>AUTORIZADOS</h2><p class="sub">Buscar afiliado - Completar datos faltantes - Ver padrones</p>
-<input id="buscarAfiliado" placeholder="Buscar por nombre, DNI o CUIL">
-<button class="btn btn-azul" onclick="buscar()">BUSCAR</button><p id="resultadoBuscar"></p>
-<button class="btn btn-gris2" onclick="mostrar('inicio')">← VOLVER</button>
+<!-- INICIO COMO EN TU FOTO -->
+<div id="pantallaInicio" class="caja">
+<h2>Hola, bienvenido a SOETRA</h2><p style="color:#777">Elegí cómo querés entrar:</p>
+<div class="grid2">
+<div class="opcion" onclick="elegirAcceso('AUTORIZADOS')"><div style="font-size:42px">🔍</div><h3>AUTORIZADOS</h3><p>Buscar afiliado</p><p>Completar datos faltantes</p><p>Ver padrones</p></div>
+<div class="opcion" onclick="elegirAcceso('ADMINISTRADOR')"><div style="font-size:42px">🔐</div><h3>ADMINISTRADOR</h3><p>Acceso a toda</p><p>la aplicación</p><p>Gestionar usuarios</p></div>
 </div>
 
-<!-- FICHA AFILIADO - COMO EN TU FOTO 1 -->
-<div id="fichaAfiliado" class="tarjeta">
-<h2>Ficha del Afiliado</h2>
-<label>Tel Renuncia UATRE (Bloqueado - cargado por Admin)</label>
-<input id="telRenuncia" value="RENUNCIO UATRE SI" readonly>
-<label>Condición (Bloqueado - cargado por Admin)</label>
-<input id="condicion" value="TITULAR" readonly>
-<label>Apellido y Nombre</label><input id="a_nombre" placeholder="Apellido y Nombre">
-<label>DNI</label><input id="a_dni" placeholder="DNI">
-<label>Empresa</label><input id="a_empresa" placeholder="Empresa">
-<button class="btn btn-amarillo" onclick="guardarDatos()">GUARDAR DATOS</button>
-
-<div style="border:1px solid #cfe6d8;border-radius:12px;padding:14px;margin-top:12px">
-<b>Enviar ficha por WhatsApp</b>
-<label class="check"><input type="checkbox" id="chkWhatsapp" checked> ✓ Enviar por WhatsApp</label>
-<button class="btn btn-celeste" onclick="enviarFichaWhatsapp()">ENVIAR FICHA POR WHATSAPP</button>
+<!-- LOGIN AUTORIZADOS - COMO EN TU FOTO -->
+<div id="loginAutorizados" class="oculto" style="margin-top:16px;border-top:1px solid #eee;padding-top:12px">
+<h3>Ingresar - AUTORIZADOS</h3><p style="font-size:13px;color:#666">Entrá con el email y clave que te dio el Administrador.</p>
+<input id="emailAut" placeholder="Email" inputmode="email">
+<input id="claveAut" type="password" placeholder="Contraseña">
+<button style="background:#4a8a9a" onclick="entrarComo('AUTORIZADOS')">ENTRAR</button>
+<p style="font-size:12px;text-align:center;color:#666">Ejemplo: usuario@soetra.com / usuario123</p>
 </div>
 
-<!-- CARPETA DEL AFILIADO - SOLO DESCARGA - SEGURIDAD -->
-<div style="border-top:2px solid #333;margin-top:16px;padding-top:10px">
-<b>CARPETA DEL AFILIADO - Solo descarga</b>
-<div id="carpetaAfiliado"></div>
+<!-- LOGIN ADMIN -->
+<div id="loginAdmin" class="oculto" style="margin-top:16px;border-top:1px solid #eee;padding-top:12px">
+<h3>Ingresar - ADMINISTRADOR</h3><p style="font-size:13px;color:#666">Acceso a toda la aplicación - Gestionar usuarios</p>
+<input id="emailAdm" placeholder="Email" inputmode="email">
+<input id="claveAdm" type="password" placeholder="Contraseña">
+<button onclick="entrarComo('ADMINISTRADOR')">ENTRAR</button>
+<p style="font-size:12px;text-align:center;color:#666">Admin: admin@soetra.com / admin123</p>
 </div>
 </div>
 
-<!-- LOGIN -->
-<div id="login" class="tarjeta oculto">
-<h2>ADMINISTRADOR</h2><p class="sub">Acceso a toda la aplicación - Gestionar usuarios</p>
-<input id="usuario" type="text" placeholder="Email">
-<input id="clave" type="password" placeholder="Contraseña">
-<button class="btn btn-verde" onclick="ingresar()">INGRESAR</button><p id="mensajeLogin"></p>
-<div id="panelAdmin" class="oculto">
-<h3>Panel Administrador - Bienvenido Nolberto</h3>
-<p id="estadoFirebase">Conectando con Firebase...</p>
-<button class="btn btn-amarillo" onclick="mostrar('copia')">COPIA DE SEGURIDAD</button>
-<button class="btn btn-gris" onclick="salir()">SALIR</button>
+<!-- PANEL -->
+<div id="panel" class="oculto">
+<div class="caja"><h2 id="bienvenida">Hola</h2><p id="rol" style="margin:0;color:#666"></p>
+<p style="font-size:13px;margin:6px 0 0">Acceso: <span id="txtAcceso"></span> - Localidades: <span id="txtLocalidades"></span><br>Padrón: <b id="totalPadron">0</b> afiliados - Localidad: <span id="infoLocalidadTop"></span></p>
+<button class="btnGris" onclick="salir()">SALIR / CAMBIAR DE ACCESO</button></div>
+
+<!-- PANEL AUTORIZADOS - COMO EN TU FOTO -->
+<div id="panelAutorizados" class="caja">
+<h3>Panel Autorizados</h3>
+<div class="grid2">
+<div class="opcion" onclick="irA('buscar')"><div style="font-size:36px">🔍</div><h3>BUSCAR AFILIADO</h3><p>Ver ficha y carpeta</p></div>
+<div class="opcion" onclick="irA('padrones')"><div style="font-size:36px">📋</div><h3>PADRONES</h3><p>Solo tus localidades</p></div>
 </div>
-<button class="btn btn-gris2" onclick="mostrar('inicio')">← VOLVER</button>
+<button class="btnForm" onclick="irA('formularios')">FORMULARIOS - DESCARGAR Y ENVIAR</button>
+<button class="btnBeige" onclick="irA('documentacion')">DOCUMENTACIÓN SOETRA - FATREFU</button>
 </div>
 
-<!-- COPIA DE SEGURIDAD + FORMULARIOS PDF - COMO EN TUS FOTOS 2 y 3 -->
-<div id="copia" class="tarjeta">
-<button class="btn btn-amarillo" onclick="copiaSeguridad()">COPIA DE SEGURIDAD</button>
-<button class="btn btn-gris2" onclick="mostrar('inicio')">← VOLVER</button>
-<div class="seccion">
-<h2>Formularios PDF - Descargar vacíos y enviar</h2>
-<div id="listaFormularios"></div>
+<!-- PANEL ADMIN - COMO EN TU FOTO -->
+<div id="panelAdmin" class="caja oculto">
+<h3>Panel Administrador - Todo lo autorizado +</h3>
+<div class="grid2">
+<div class="opcion" onclick="irA('buscar')"><div style="font-size:36px">👥</div><h3>AFILIADOS</h3><p>Buscar y cargar</p></div>
+<div class="opcion" onclick="irA('padrones')"><div style="font-size:36px">📋</div><h3>PADRONES</h3><p>Todas las localidades</p></div>
+<div class="opcion" onclick="irA('formularios')"><div style="font-size:36px">📄</div><h3>FORMULARIOS</h3><p>Cargar y enviar</p></div>
+<div class="opcion" onclick="irA('documentacion')"><div style="font-size:36px">📁</div><h3>DOCUMENTACIÓN</h3><p>Cargar y enviar</p></div>
 </div>
+<button class="btnCargar" onclick="gestionarUsuarios()">USUARIOS Y CLAVES</button>
+<button class="btn2" onclick="copiaSeguridad()">COPIA DE SEGURIDAD</button>
+<div id="listaUsuarios"></div>
 </div>
 
-<div class="links"><a href="Ficha.pdf" target="_blank">ABRIR FICHA</a> <a href="Solicita-Autoriza.pdf" target="_blank">ABRIR SOLICITA...</a></div>
+<div class="layoutPC">
+<div class="col-izq">
+<div id="secBuscar" class="caja"><h3>🔍 Buscar Afiliado</h3>
+<input id="buscarCuil" placeholder="CUIL: 20-20362729-8" inputmode="numeric" maxlength="13">
+<button onclick="buscarPorCuil()">BUSCAR AFILIADO</button><div id="resultado"></div></div>
 
+<div id="secFormularios" class="caja"><h3>📄 Formularios PDF - Descargar vacíos y enviar</h3><p style="font-size:12px;color:#666">Sin modificar. El Admin los carga. Todo se puede enviar por WhatsApp.</p><div id="listaFormularios"></div>
+<button class="btnGris" onclick="volverPanel()">← VOLVER</button></div>
+
+<div id="secDocumentacion" class="caja"><h3>📁 Documentación SOETRA - FATREFU</h3><p style="font-size:12px;color:#666">Autorizado: descargar y enviar por WhatsApp con tilde. Administrador: cargar, descargar y enviar.</p><div id="listaDocumentos"></div>
+<button class="btnGris" onclick="volverPanel()">← VOLVER</button></div>
 </div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-const firebaseConfig = { apiKey: "AIzaSyAz2QsNccuKVxC4YDebOJaR1dNXBAIOCBc", authDomain: "admin-soetra.firebaseapp.com", projectId: "admin-soetra", storageBucket: "admin-soetra.firebasestorage.app", messagingSenderId: "90980716540", appId: "1:90980716540:web:101e3e32322a01734ec79", measurementId: "G-FS381E2H3F" };
-const app = initializeApp(firebaseConfig); const db = getFirestore(app);
-window.probarConexion = async function(){ try{ const d = await getDocs(collection(db,"usuarios")); alert("Conectado! Hay "+d.size+" usuarios"); }catch(e){ alert("Error: "+e.message); } };
-window.guardarDatos = async function(){ try{ await addDoc(collection(db,"afiliados"),{nombre:document.getElementById("a_nombre").value,dni:document.getElementById("a_dni").value,empresa:document.getElementById("a_empresa").value,condicion:"TITULAR",renuncia:"RENUNCIO UATRE SI",fecha:new Date()}); alert("Datos guardados"); }catch(e){ alert("Error: "+e.message); } };
-document.getElementById("estadoFirebase").textContent = "Firebase listo.";
-</script>
+<div class="col-der">
+<div id="soloAdmin"><div class="caja"><h3>➕ Cargar Afiliado</h3>
+<button class="btn2" onclick="document.getElementById('formCarga').classList.toggle('oculto')">+ CARGAR AFILIADO</button>
+<div id="formCarga" class="oculto">
+<label class="label">N° DE AFILIADO - por ahora queda vacío</label><input id="nNumAfiliado" placeholder="N° de Afiliado (vacío por ahora)">
+<input id="nNombre" placeholder="Apellido y Nombres *"><input id="nCuil" placeholder="CUIL 11 números *" maxlength="13" inputmode="numeric">
+<input id="nDni" placeholder="DNI" inputmode="numeric"><input id="nCondicion" placeholder="Condición - TITULAR"><input id="nNac" placeholder="Fecha Nacimiento"><input id="nObra" placeholder="Obra Social"><input id="nAfOSocial" placeholder="Fecha Afil. O Social"><input id="nDomicilio" placeholder="Domicilio"><input id="nLoc" placeholder="Localidad"><input id="nProv" placeholder="Provincia"><input id="nAfSoetra" placeholder="Fecha Af. SOETRA"><input id="nEmp" placeholder="Empresa / Empleador"><input id="nCorreoEmp" placeholder="Correo Empleador"><input id="nCuitEmp" placeholder="CUIT Empresa"><input id="nTelRenuncia" placeholder="Tel Renuncia UATRE">
+<button onclick="guardarAfiliado()">GUARDAR AFILIADO</button></div></div>
+
+<div id="secPadrones" class="caja"><h3>📋 Padrón - Descargar por Localidad</h3>
+<label class="label">Elegí la localidad</label><select id="filtroLocalidad"><option value="TODAS">TODAS LAS LOCALIDADES</option></select><p style="font-size:12px" id="infoLocalidad"></p>
+<div class="grid2"><button class="btn2" onclick="descargarExcelPorLocalidad()">⬇️ DESCARGAR POR LOCALIDAD</button><button class="btnWsp" onclick="enviarPadronPorWsp()">📲 ENVIAR POR WHATSAPP</button></div>
+<button class="btn2" onclick="verPadronPorLocalidad()">👁️ VER PADRÓN POR LOCALIDAD</button>
+<button class="btn2" onclick="verPadron()">VER PADRÓN COMPLETO</button>
+<button class="btn2" onclick="descargarExcel()">⬇️ DESCARGAR COMPLETO (TODOS)</button>
+<button class="btnWsp" onclick="enviarPadronCompletoPorWsp()">📲 ENVIAR COMPLETO POR WHATSAPP</button>
+<button class="btnCargar" onclick="document.getElementById('inputPadron').click()">⬆️ CARGAR PADRÓN DESDE EXCEL / CSV</button>
+<input type="file" id="inputPadron" accept=".csv,.txt" style="display:none" onchange="cargarPadron(event)"><div id="padron"></div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
 
 <script>
-let esAdmin = false;
-let pdfsGuardados = JSON.parse(localStorage.getItem("pdfsGuardados")||"{}");
-
-function mostrar(id){ ["inicio","autorizados","login","fichaAfiliado","copia"].forEach(s=>{ let el=document.getElementById(s); if(el) el.classList.add("oculto"); }); document.getElementById(id).classList.remove("oculto"); }
-function buscar(){ document.getElementById("resultadoBuscar").textContent = "Buscando: "+document.getElementById("buscarAfiliado").value; mostrar("fichaAfiliado"); }
-function enviarFichaWhatsapp(){ if(!document.getElementById("chkWhatsapp").checked){ alert("Marcá Enviar por WhatsApp"); return; } window.open("https://wa.me/?text="+encodeURIComponent("Ficha SOETRA - "+document.getElementById("a_nombre").value+" DNI "+document.getElementById("a_dni").value)," _blank"); }
-function copiaSeguridad(){ const datos = {fecha:new Date().toISOString(), pdfs:Object.keys(pdfsGuardados), afiliado:document.getElementById("a_nombre").value}; const blob = new Blob([JSON.stringify(datos,null,2)],{type:"application/json"}); const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="copia-seguridad-soetra.json"; a.click(); alert("Copia de seguridad descargada"); }
-
-// TODOS LOS ARCHIVOS DE GIT - ESTOS YA ESTAN CARGADOS COMO PDF ORIGINAL
+const usuarios = {
+  "admin@soetra.com": { clave: "admin123", rol: "ADMINISTRADOR", nombre: "Nolberto", localidades: "TODAS" },
+  "usuario@soetra.com": { clave: "usuario123", rol: "AUTORIZADOS", nombre: "Usuario de Prueba", localidades: "HERNANDO" }
+};
+const TIPOS_CARPETA = ["Ficha Afiliación","Solicita-Autoriza","DNI","Recibo Sueldo","Telegrama Renuncia SOETRA","Telegrama Renuncia UATRE"];
+const PADRON_INICIAL = [
+  {"numAfiliado":"","idExcel":1,"nombre":"SANCHEZ PEDRO FRANCISCO","cuil":"20-14856450-8","dni":"14856450","condicion":"TITULAR","fechaNac":"","obraSocial":"OTRA","fechaAfilOSocial":"","domicilio":"","localidad":"HERNANDO","provincia":"CORDOBA","fechaAfSoetra":"25/12/2025","empresa":"CENTRO TECNOLOGICO AGROPECUARIO SA","correoEmpleador":"","cuitEmpresa":"30-71009964-9","telRenunciaUatre":"","estado":"ACTIVO","autoriza":"SI","carpeta":{}},
+  {"numAfiliado":"","idExcel":2,"nombre":"FONSFRIA HECTOR FABIAN","cuil":"20-18587177-1","dni":"18587177","condicion":"TITULAR","fechaNac":"","obraSocial":"OTRA","fechaAfilOSocial":"","domicilio":"","localidad":"HERNANDO","provincia":"CORDOBA","fechaAfSoetra":"01/12/2025","empresa":"CENTRO TECNOLOGICO AGROPECUARIO SA","correoEmpleador":"","cuitEmpresa":"30-71009964-9","telRenunciaUatre":"","estado":"ACTIVO","autoriza":"SI","carpeta":{}},
+  {"numAfiliado":"","idExcel":3,"nombre":"RODRIGUEZ NOLBERTO","cuil":"20-20362729-8","dni":"20362729","condicion":"TITULAR","fechaNac":"11/12/1968","obraSocial":"OTRA","fechaAfilOSocial":"","domicilio":"ALMIRANTE BROWN 677","localidad":"HERNANDO","provincia":"CORDOBA","fechaAfSoetra":"01/12/2025","empresa":"CENTRO TECNOLOGICO AGROPECUARIO SA","correoEmpleador":"","cuitEmpresa":"30-71009964-9","telRenunciaUatre":"RENUNCIO UATRE SI","estado":"RENUNCIA UATRE - SIGUE AFILIADO A SOETRA","autoriza":"SI","carpeta":{}},
+  {"numAfiliado":"","idExcel":4,"nombre":"RODRIGUEZ ROBERTO LEONIDES","cuil":"20-21126985-6","dni":"21126985","condicion":"TITULAR","fechaNac":"","obraSocial":"OTRA","fechaAfilOSocial":"","domicilio":"","localidad":"HERNANDO","provincia":"CORDOBA","fechaAfSoetra":"01/12/2025","empresa":"CENTRO TECNOLOGICO AGROPECUARIO SA","correoEmpleador":"","cuitEmpresa":"30-71009964-9","telRenunciaUatre":"","estado":"ACTIVO","autoriza":"SI","carpeta":{}},
+  {"numAfiliado":"","idExcel":5,"nombre":"NUÑEZ JUAN CARLOS","cuil":"20-21890821-8","dni":"21890821","condicion":"TITULAR","fechaNac":"","obraSocial":"OSPREF - OPCION","fechaAfilOSocial":"01/11/2026","domicilio":"","localidad":"HERNANDO","provincia":"CORDOBA","fechaAfSoetra":"01/12/2025","empresa":"CENTRO TECNOLOGICO AGROPECUARIO SA","correoEmpleador":"","cuitEmpresa":"30-71009964-9","telRenunciaUatre":"","estado":"ACTIVO","autoriza":"SI","carpeta":{}},
+  {"numAfiliado":"","idExcel":6,"nombre":"FERREYRA JOSE LUIS","cuil":"20-21890853-3","dni":"21890853","condicion":"TITULAR","fechaNac":"","obraSocial":"OTRA","fechaAfilOSocial":"","domicilio":"","localidad":"HERNANDO","provincia":"CORDOBA","fechaAfSoetra":"25/12/2025","empresa":"LA LAICA SRL","correoEmpleador":"","cuitEmpresa":"","telRenunciaUatre":"","estado":"ACTIVO","autoriza":"SI","carpeta":{}},
+  {"numAfiliado":"","idExcel":7,"nombre":"ALTAMIRANO ELBIO RAMON","cuil":"20-21890867-6","dni":"21890867","condicion":"TITULAR","fechaNac":"","obraSocial":"OTRA","fechaAfilOSocial":"","domicilio":"","localidad":"HERNANDO","provincia":"CORDOBA","fechaAfSoetra":"25/12/2025","empresa":"CENTRO TECNOLOGICO AGROPECUARIO SA","correoEmpleador":"","cuitEmpresa":"30-71009964-9","telRenunciaUatre":"","estado":"ACTIVO","autoriza":"SI","carpeta":{}},
+  {"numAfiliado":"","idExcel":8,"nombre":"ALTAMIRANO CLAUDIO MARCELO","cuil":"20-23122032-2","dni":"23122032","condicion":"TITULAR","fechaNac":"","obraSocial":"OTRA","fechaAfilOSocial":"","domicilio":"","localidad":"HERNANDO","provincia":"CORDOBA","fechaAfSoetra":"01/12/2025","empresa":"CENTRO TECNOLOGICO AGROPECUARIO SA","correoEmpleador":"","cuitEmpresa":"30-71009964-9","telRenunciaUatre":"","estado":"ACTIVO","autoriza":"SI","carpeta":{}}
+];
+let afiliados = JSON.parse(localStorage.getItem("soetra_afiliados_v3")||"null");
+if(!afiliados || afiliados.length<8){ afiliados=PADRON_INICIAL; localStorage.setItem("soetra_afiliados_v3",JSON.stringify(afiliados)); }
 const FORMULARIOS = [
-  { nombre:"FICHA DE AFILIACIÓN", archivo:"Ficha.pdf", enGit:true },
-  { nombre:"SOLICITA - AUTORIZA", archivo:"Solicita-Autoriza.pdf", enGit:true },
-  { nombre:"TELEGRAMA RENUNCIA A SOETRA", archivo:"Telegrama-Renuncia-SOETRA.pdf", enGit:false },
-  { nombre:"TELEGRAMA RENUNCIA A UATRE", archivo:"Telegrama-Renuncia-UATRE.pdf", enGit:false },
-  { nombre:"CTA bancaria SOETRA", archivo:"CTA bancaria SOETRA.pdf", enGit:true },
-  { nombre:"CUENTA BANCO FATREFU", archivo:"CUENTA BANCO FATREFU.pdf", enGit:true },
-  { nombre:"CUIT SOETRA", archivo:"CUIT SOETRA.pdf", enGit:true },
-  { nombre:"Constancia Autoridades 1 FATREFU", archivo:"Constancia Autoridades 1 FATREFU.pdf", enGit:true },
-  { nombre:"Estatuto soetra", archivo:"Estatuto soetra.pdf", enGit:true },
-  { nombre:"estatuto fatrefu", archivo:"estatuto fatrefu.pdf", enGit:true }
+  {id:"ficha",titulo:"FICHA DE AFILIACIÓN",archivo:"Ficha.pdf"},
+  {id:"autoriza",titulo:"SOLICITA - AUTORIZA",archivo:"Solicita-Autoriza.pdf"},
+  {id:"tele_soetra",titulo:"TELEGRAMA RENUNCIA A SOETRA",archivo:"Telegrama-Renuncia-SOETRA.pdf"},
+  {id:"tele_uatre",titulo:"TELEGRAMA RENUNCIA A UATRE",archivo:"Telegrama-Renuncia-UATRE.pdf"}
 ];
-
-const CARPETA = [
-  "Ficha Afiliación","Solicita-Autoriza","DNI","Recibo Sueldo","Telegrama Renuncia SOETRA","Telegrama Renuncia UATRE"
+const DOCUMENTOS = [
+  {id:"cbu_soetra",titulo:"CBU SOETRA",archivo:"CTA bancaria SOETRA.pdf"},
+  {id:"cbu_fatrefu",titulo:"CBU FATREFU",archivo:"CUENTA BANCO FATREFU.pdf"},
+  {id:"aut_fatrefu",titulo:"AUTORIDADES FATREFU",archivo:"Constancia Autoridades 1 FATREFU.pdf"},
+  {id:"cuit",titulo:"CUIT SOETRA",archivo:"CUIT SOETRA.pdf"},
+  {id:"est_soetra",titulo:"ESTATUTO SOETRA",archivo:"Estatuto soetra.pdf"},
+  {id:"est_fatrefu",titulo:"ESTATUTO FATREFU",archivo:"estatuto fatrefu.pdf"}
 ];
-
-function estaCargado(f){ return f.enGit || pdfsGuardados[f.archivo]; }
-
-function MostrarFormularios(){
-  const lista=document.getElementById("listaFormularios"); lista.innerHTML="";
-  FORMULARIOS.forEach(function(F){
-    const cargado = estaCargado(F);
-    let botones = "";
-    if(cargado){
-      botones = `<a class="btn btn-azul" href="${F.archivo}" target="_blank">DESCARGAR FORMULARIO VACÍO / ABRIR</a>
-      <label class="check"><input type="checkbox" checked> ✓ Enviar PDF por WhatsApp</label>
-      <a class="btn btn-celeste" href="https://wa.me/?text=${encodeURIComponent("Te envío "+F.nombre+" SOETRA: "+F.archivo)}" target="_blank">ENVIAR PDF POR WHATSAPP</a>
-      ${esAdmin ? `<button class="btn btn-gris" onclick="reemplazarPDF('${F.archivo}')">REEMPLAZAR PDF (Admin)</button>` : ``}`;
-    } else {
-      botones = esAdmin ? `<button class="btn btn-violeta" onclick="cargarPDF('${F.archivo}')">CARGAR PDF (Solo Admin)</button>` : `<p style="color:#b4552d">Solo el Administrador puede subirlo</p>`;
-    }
-    lista.innerHTML += `<div class="formulario"><b>${F.nombre}</b><br><span style="font-size:13px;color:#666">Archivo: ${F.archivo}</span><br><span class="${cargado?'cargado':'nocargado'}">${cargado?'CARGADO - PDF ORIGINAL':'TODAVÍA NO ESTÁ CARGADO'}</span>${botones}</div>`;
-  });
+let pdfsGuardados = JSON.parse(localStorage.getItem("soetra_pdfs")||"{}");
+let docsGuardados = JSON.parse(localStorage.getItem("soetra_docs")||"{}");
+let esAdminActual=false; let usuarioActual=null;
+function elegirAcceso(tipo){ document.getElementById("loginAutorizados").classList.toggle("oculto",tipo!=="AUTORIZADOS"); document.getElementById("loginAdmin").classList.toggle("oculto",tipo!=="ADMINISTRADOR"); }
+function salir(){ location.reload(); }
+function volverPanel(){ document.getElementById("secBuscar").scrollIntoView(); }
+function irA(seccion){ let ids={buscar:"secBuscar",padrones:"secPadrones",formularios:"secFormularios",documentacion:"secDocumentacion"}; let el=document.getElementById(ids[seccion]); if(el) el.scrollIntoView({behavior:"smooth"}); }
+function abrirWsp(m){ if(!esAdminActual && usuarioActual && usuarioActual.rol!=="AUTORIZADOS"){ alert("Solo el Administrador puede enviar por WhatsApp"); return; } window.open("https://wa.me/?text="+encodeURIComponent(m),"_blank"); }
+function enviarPadronPorWsp(){ let loc=document.getElementById("filtroLocalidad").value; let lista=filtrarPorLocalidad(); let t="Hola, te envío el PADRÓN SOETRA - Localidad: "+loc+" - Cantidad: "+lista.length+" afiliados.\n\n"; lista.slice(0,20).forEach(a=>{ t+="- "+a.nombre+" - CUIL "+a.cuil+" - "+a.estado+"\n"; }); descargarExcelPorLocalidad(); abrirWsp(t); }
+function enviarPadronCompletoPorWsp(){ descargarExcel(); abrirWsp("Hola, te envío el PADRÓN COMPLETO SOETRA - Total: "+afiliados.length+" afiliados. Archivo adjunto: padron_soetra_completo.csv"); }
+function enviarFormularioPorWsp(id,titulo,archivo){ abrirPDF(id); abrirWsp("Hola, te envío el formulario SOETRA: "+titulo+"\nArchivo original sin modificar: "+archivo+"\nLo adjunto en este mensaje para imprimir."); }
+function enviarArchivoCarpetaPorWsp(cuil,tipo){ let af=afiliados.find(a=>a.cuil===cuil); let arch=af.carpeta[tipo]; if(arch) abrirArchivoCarpeta(cuil,tipo); abrirWsp("Hola, te envío el archivo SOETRA:\nAfiliado: "+af.nombre+"\nCUIL: "+af.cuil+"\nDocumento: "+tipo+"\nArchivo: "+(arch?arch.nombre:tipo)); }
+function enviarFichaCompletaPorWsp(cuil){ let af=afiliados.find(a=>a.cuil===cuil); abrirWsp("FICHA SOETRA - AFILIADO:\nN° Afiliado: "+(af.numAfiliado||"(vacío)")+"\nNombre: "+af.nombre+"\nCUIL: "+af.cuil+"\nDNI: "+(af.dni||"")+"\nLocalidad: "+(af.localidad||"")+" - "+(af.provincia||"")+"\nDomicilio: "+(af.domicilio||"")+"\nFecha Af. SOETRA: "+(af.fechaAfSoetra||"")+"\nEmpresa: "+(af.empresa||"")+" - CUIT: "+(af.cuitEmpresa||"")+"\nEstado: "+af.estado+"\nObra Social: "+(af.obraSocial||"")); }
+function guardarEnCelu(){ localStorage.setItem("soetra_afiliados_v3",JSON.stringify(afiliados)); document.getElementById("totalPadron").innerText=afiliados.length; }
+function entrarComo(tipo){
+  let e = tipo==="AUTORIZADOS" ? document.getElementById("emailAut").value.trim() : document.getElementById("emailAdm").value.trim();
+  let c = tipo==="AUTORIZADOS" ? document.getElementById("claveAut").value : document.getElementById("claveAdm").value;
+  if(usuarios[e] && usuarios[e].clave===c && usuarios[e].rol===tipo){
+    usuarioActual=usuarios[e]; esAdminActual=(tipo==="ADMINISTRADOR");
+    document.getElementById("pantallaInicio").classList.add("oculto"); document.getElementById("panel").classList.remove("oculto");
+    document.getElementById("bienvenida").innerText="Hola "+usuarioActual.nombre;
+    document.getElementById("rol").innerText="Rol: "+usuarioActual.rol;
+    document.getElementById("txtAcceso").innerText=usuarioActual.rol; document.getElementById("txtLocalidades").innerText=usuarioActual.localidades;
+    document.getElementById("totalPadron").innerText=afiliados.length;
+    if(esAdminActual){ document.getElementById("panelAdmin").classList.remove("oculto"); document.getElementById("soloAdmin").classList.remove("oculto"); }
+    else { document.getElementById("panelAutorizados").classList.remove("oculto"); document.getElementById("soloAdmin").classList.add("oculto"); }
+    cargarLocalidades(); mostrarFormularios(); mostrarDocumentos();
+  } else alert("Email o clave incorrecta");
 }
-
-function MostrarCarpeta(){
-  const c=document.getElementById("carpetaAfiliado"); c.innerHTML="";
-  CARPETA.forEach(function(nombre){
-    c.innerHTML += `<div class="carpeta-item"><b>${nombre}: <span class="sin">Sin archivo</span></b><br><span style="font-size:13px;color:#666">Sin archivo cargado - Solo el Administrador puede subirlo</span></div>`;
-  });
+function validarCuil(c){ return c.replace(/[^0-9]/g,"").length===11; }
+function formatearCuil(c){ let l=c.replace(/[^0-9]/g,""); return l.slice(0,2)+"-"+l.slice(2,10)+"-"+l.slice(10,11); }
+function cargarLocalidades(){
+  let sel=document.getElementById("filtroLocalidad");
+  let locs=[...new Set(afiliados.map(a=>(a.localidad||"SIN LOCALIDAD").trim().toUpperCase()))].sort();
+  if(!esAdminActual && usuarioActual){ locs=locs.filter(l=>l===usuarioActual.localidades); }
+  sel.innerHTML='<option value="TODAS">TODAS LAS LOCALIDADES ('+afiliados.length+')</option>';
+  locs.forEach(l=>{ let cant=afiliados.filter(a=>(a.localidad||"").trim().toUpperCase()===l).length; sel.innerHTML+='<option value="'+l+'">'+l+' ('+cant+')</option>'; });
+  actualizarInfoLocalidad();
 }
-
-function cargarPDF(archivo){ if(!esAdmin){ alert("Solo el Administrador puede subirlo"); return; } const inp=document.createElement("input"); inp.type="file"; inp.accept="application/pdf"; inp.onchange=function(e){ const r=new FileReader(); r.onload=function(){ pdfsGuardados[archivo]=r.result; localStorage.setItem("pdfsGuardados",JSON.stringify(pdfsGuardados)); MostrarFormularios(); alert("PDF cargado"); }; r.readAsDataURL(e.target.files[0]); }; inp.click(); }
-function reemplazarPDF(archivo){ cargarPDF(archivo); }
-
-MostrarFormularios(); MostrarCarpeta();
-
-function ingresar(){
-  const u=document.getElementById("usuario").value.trim(); const c=document.getElementById("clave").value;
-  if(u==="nolberto37@hotmail.com" && c==="Bolito**1968"){ esAdmin=true; document.getElementById("mensajeLogin").textContent="Bienvenido Nolberto"; document.getElementById("panelAdmin").classList.remove("oculto"); MostrarFormularios(); }
-  else { document.getElementById("mensajeLogin").textContent="Usuario o contraseña incorrectos."; }
+function filtrarPorLocalidad(){ let loc=document.getElementById("filtroLocalidad").value; if(loc==="TODAS") return afiliados; return afiliados.filter(a=>(a.localidad||"").trim().toUpperCase()===loc); }
+function actualizarInfoLocalidad(){ let loc=document.getElementById("filtroLocalidad").value; let lista=filtrarPorLocalidad(); document.getElementById("infoLocalidad").innerText="Localidad elegida: "+loc+" - "+lista.length+" afiliados"; document.getElementById("infoLocalidadTop").innerText=loc+" ("+lista.length+")"; }
+document.addEventListener("change",function(e){ if(e.target && e.target.id==="filtroLocalidad") actualizarInfoLocalidad(); });
+function verPadronPorLocalidad(){ let loc=document.getElementById("filtroLocalidad").value; let lista=filtrarPorLocalidad(); let div=document.getElementById("padron"); let esCelu=window.innerWidth<=768; let h="<h3>Padrón "+loc+" ("+lista.length+")</h3>"; if(esCelu){ lista.forEach(a=>{ h+='<div class="cardPadron"><b>'+a.nombre+'</b><br>CUIL: '+a.cuil+'<br>Localidad: '+a.localidad+'<br>Empresa: '+(a.empresa||"")+'<br>Estado: '+a.estado+'</div>'; }); } else { h+="<table class='tabla'><tr><th>N° Afil.</th><th>ID</th><th>Nombre</th><th>CUIL</th><th>DNI</th><th>Localidad</th><th>Empresa</th><th>Fecha Af SOETRA</th><th>Estado</th></tr>"; lista.forEach(a=>{ h+='<tr><td>'+(a.numAfiliado||"")+'</td><td>'+(a.idExcel||"")+'</td><td>'+a.nombre+'</td><td>'+a.cuil+'</td><td>'+(a.dni||"")+'</td><td>'+(a.localidad||"")+'</td><td>'+(a.empresa||"")+'</td><td>'+(a.fechaAfSoetra||"")+'</td><td>'+a.estado+'</td></tr>'; }); h+="</table>"; } div.innerHTML=h; }
+function descargarExcelPorLocalidad(){ let loc=document.getElementById("filtroLocalidad").value; let lista=filtrarPorLocalidad(); if(!lista.length){ alert("No hay afiliados en esa localidad"); return; } let csv="N°Afiliado;ID;Apellido y Nombres;CUIL;DNI;Condicion;Fecha Nac;Obra Social;Fecha Afil O Social;Domicilio;Localidad;Provincia;Fecha Af SOETRA;Empresa;Correo Empleador;CUIT Empresa;Tel Renuncia UATRE;Estado;Autoriza\n"; lista.forEach(a=>{ csv+=(a.numAfiliado||"")+";"+(a.idExcel||"")+";"+a.nombre+";"+a.cuil+";"+(a.dni||"")+";"+(a.condicion||"")+";"+(a.fechaNac||"")+";"+(a.obraSocial||"")+";"+(a.fechaAfilOSocial||"")+";"+(a.domicilio||"")+";"+(a.localidad||"")+";"+(a.provincia||"")+";"+(a.fechaAfSoetra||"")+";"+(a.empresa||"")+";"+(a.correoEmpleador||"")+";"+(a.cuitEmpresa||"")+";"+(a.telRenunciaUatre||"")+";"+a.estado+";"+a.autoriza+"\n"; }); let blob=new Blob(["\ufeff"+csv],{type:"text/csv"}); let link=document.createElement("a"); link.href=URL.createObjectURL(blob); link.download="padron_soetra_"+(loc==="TODAS"?"TODAS":loc.replace(/ /g,"_"))+"_"+lista.length+".csv"; link.click(); }
+function guardarAfiliado(){ let nombre=document.getElementById("nNombre").value; let cuil=document.getElementById("nCuil").value; if(!nombre||!cuil){ alert("Falta Nombre y CUIL"); return; } if(!validarCuil(cuil)){ alert("CUIL INCOMPLETO. Tiene que tener 11 números."); return; } afiliados.push({numAfiliado:document.getElementById("nNumAfiliado").value||"",idExcel:"",nombre:nombre,cuil:formatearCuil(cuil),dni:document.getElementById("nDni").value,condicion:document.getElementById("nCondicion").value||"TITULAR",fechaNac:document.getElementById("nNac").value,obraSocial:document.getElementById("nObra").value,fechaAfilOSocial:document.getElementById("nAfOSocial").value,domicilio:document.getElementById("nDomicilio").value,localidad:document.getElementById("nLoc").value,provincia:document.getElementById("nProv").value,fechaAfSoetra:document.getElementById("nAfSoetra").value,empresa:document.getElementById("nEmp").value,correoEmpleador:document.getElementById("nCorreoEmp").value,cuitEmpresa:document.getElementById("nCuitEmp").value,telRenunciaUatre:document.getElementById("nTelRenuncia").value,estado:"ACTIVO",autoriza:"SI",carpeta:{}}); guardarEnCelu(); cargarLocalidades(); alert("Guardado."); document.getElementById("formCarga").classList.add("oculto"); verPadron(); }
+function buscarPorCuil(){ let q=document.getElementById("buscarCuil").value.trim(); if(!q){ alert("Escribí CUIL o N° de Afiliado"); return; } let enc=null; if(q.replace(/[^0-9]/g,"").length===11){ let limpio=q.replace(/[^0-9]/g,""); enc=afiliados.find(a=>a.cuil.replace(/[^0-9]/g,"")===limpio); } else { enc=afiliados.find(a=>(a.numAfiliado||"")===q); } let div=document.getElementById("resultado"); if(enc){ mostrarFicha(enc,div); } else { div.innerHTML="<p><b>No está afiliado</b></p>"; } }
+function mostrarFicha(a,div){
+  let clase=a.estado==="ACTIVO"?"activo":"baja";
+  let html='<div class="afiliado"><b style="font-size:18px">'+a.nombre+'</b><br><div class="campo"><span class="label">N° AFILIADO:</span> <b>'+(a.numAfiliado||"(vacío por ahora)")+'</b> | <span class="label">ID Excel:</span> '+(a.idExcel||"")+'</div><div class="campo"><span class="label">CUIL:</span> '+a.cuil+' | <span class="label">DNI:</span> '+(a.dni||"")+' | <span class="label">CONDICION:</span> '+(a.condicion||"")+'</div><div class="campo"><span class="label">Fecha Nacimiento:</span> '+(a.fechaNac||"")+' | <span class="label">Obra Social:</span> '+(a.obraSocial||"")+' | <span class="label">Fecha Afil. O Social:</span> '+(a.fechaAfilOSocial||"")+'</div><div class="campo"><span class="label">Domicilio:</span> '+(a.domicilio||"")+'</div><div class="campo"><span class="label">Localidad:</span> '+(a.localidad||"")+' - <span class="label">Provincia:</span> '+(a.provincia||"")+'</div><div class="campo"><span class="label">Fecha Af. SOETRA:</span> '+(a.fechaAfSoetra||"")+'</div><div class="campo"><span class="label">Empresa:</span> '+(a.empresa||"")+' | <span class="label">CUIT Empresa:</span> '+(a.cuitEmpresa||"")+'</div><div class="campo"><span class="label">Correo Empleador:</span> '+(a.correoEmpleador||"")+'</div><div class="campo"><span class="label">Tel Renuncia UATRE:</span> '+(a.telRenunciaUatre||"")+'</div><div class="campo"><span class="label">Estado:</span> <span class="'+clase+'">'+a.estado+'</span> | <span class="label">Autoriza:</span> '+a.autoriza+'</div>';
+  if(esAdminActual){ html+='<div class="wspBox"><b>📲 Enviar ficha por WhatsApp (Solo Admin)</b><br><button class="btnWspChico" onclick="enviarFichaCompletaPorWsp(\''+a.cuil+'\')">📲 ENVIAR FICHA POR WHATSAPP</button></div>'; }
+  html+='<hr><b>Completar datos - Admin puede cambiar todo</b><br><label class="label">N° de Afiliado (Vacío - podés completarlo)</label><input id="editNum_'+a.cuil.replace(/[^0-9]/g,"")+'" value="'+(a.numAfiliado||"")+'"><label class="label">DNI</label><input value="'+(a.dni||"")+'" id="editDni_'+a.cuil.replace(/[^0-9]/g,"")+'"><label class="label">Fecha Nacimiento</label><input value="'+(a.fechaNac||"")+'" id="editNac_'+a.cuil.replace(/[^0-9]/g,"")+'"><label class="label">Obra Social</label><input value="'+(a.obraSocial||"")+'" id="editObra_'+a.cuil.replace(/[^0-9]/g,"")+'"><label class="label">Fecha Afil. O Social (Vacío - podés completarlo)</label><input value="'+(a.fechaAfilOSocial||"")+'" id="editAfOS_'+a.cuil.replace(/[^0-9]/g,"")+'">';
+  if(esAdminActual){ html+='<button class="btn2" onclick="guardarEdicion(\''+a.cuil+'\')">GUARDAR DATOS</button>'; }
+  html+='<hr><b>📁 CARPETA DEL AFILIADO</b><br>';
+  TIPOS_CARPETA.forEach(function(tipo,idx){ let arch=a.carpeta?a.carpeta[tipo]:null; let safe=a.cuil.replace(/[^0-9]/g,""); html+='<div style="border:1px solid #eee;padding:8px;margin:4px 0;border-radius:8px"><b>'+tipo+':</b> '; if(arch){ html+='<span class="ok">✅ Cargado: '+arch.nombre+'</span><br><button class="carpetaBtn btnChico" onclick="abrirArchivoCarpeta(\''+a.cuil+'\',\''+tipo+'\')">📥 ABRIR / DESCARGAR</button>'; if(esAdminActual) html+=' <button class="btnWspChico" onclick="enviarArchivoCarpetaPorWsp(\''+a.cuil+'\',\''+tipo+'\')">📲 ENVIAR POR WHATSAPP</button> <button class="btnGris btnChico" onclick="document.getElementById(\'file_'+safe+'_'+idx+'\').click()">REEMPLAZAR (Admin)</button>'; } else { html+='<span class="falta">Sin archivo</span><br>'; if(esAdminActual) html+='<button class="btnCargar btnChico" onclick="document.getElementById(\'file_'+safe+'_'+idx+'\').click()">⬆️ CARGAR ARCHIVO (Solo Admin)</button>'; else html+='<span style="font-size:12px">Sin archivo cargado - Solo el Administrador puede subirlo</span>'; } html+='<input type="file" id="file_'+safe+'_'+idx+'" style="display:none" accept=".pdf,.jpg,.jpeg,.png" onchange="cargarArchivoCarpeta(event,\''+a.cuil+'\',\''+tipo+'\')"></div>'; });
+  if(esAdminActual){ html+='<hr><b>Telegrama Renuncia:</b><br><select id="tipoRenuncia"><option value="SOETRA">Renuncia a SOETRA</option><option value="UATRE">Renuncia a UATRE</option></select><button class="btnRojo" onclick="cargarRenuncia(\''+a.cuil+'\')">APLICAR RENUNCIA</button>'; }
+  html+='</div>'; div.innerHTML=html;
 }
-function salir(){ esAdmin=false; document.getElementById("panelAdmin").classList.add("oculto"); document.getElementById("usuario").value=""; document.getElementById("clave").value=""; MostrarFormularios(); }
+function guardarEdicion(cuil){ let safe=cuil.replace(/[^0-9]/g,""); let af=afiliados.find(a=>a.cuil===cuil); af.numAfiliado=document.getElementById("editNum_"+safe).value; af.dni=document.getElementById("editDni_"+safe).value; af.fechaNac=document.getElementById("editNac_"+safe).value; af.obraSocial=document.getElementById("editObra_"+safe).value; af.fechaAfilOSocial=document.getElementById("editAfOS_"+safe).value; guardarEnCelu(); alert("Datos guardados"); buscarPorCuil(); }
+function cargarRenuncia(cuil){ let tipo=document.getElementById("tipoRenuncia").value; let af=afiliados.find(a=>a.cuil===cuil); if(tipo==="SOETRA"){ af.estado="BAJA POR RENUNCIA"; alert("BAJA POR RENUNCIA - SOETRA"); } else { af.estado="RENUNCIA UATRE - SIGUE AFILIADO A SOETRA"; af.telRenunciaUatre="RENUNCIO UATRE SI"; alert("RENUNCIA UATRE - Sigue afiliado a SOETRA"); } guardarEnCelu(); buscarPorCuil(); }
+function cargarArchivoCarpeta(event,cuil,tipo){ let archivo=event.target.files[0]; if(!archivo) return; let lector=new FileReader(); lector.onload=function(e){ let af=afiliados.find(a=>a.cuil===cuil); if(!af.carpeta) af.carpeta={}; af.carpeta[tipo]={nombre:archivo.name,data:e.target.result,tipo:archivo.type}; guardarEnCelu(); alert(tipo+" cargado para "+af.nombre); buscarPorCuil(); }; lector.readAsDataURL(archivo); }
+function abrirArchivoCarpeta(cuil,tipo){ let af=afiliados.find(a=>a.cuil===cuil); let arch=af.carpeta[tipo]; if(!arch){ alert("Sin archivo"); return; } let v=window.open(""); if(arch.tipo && arch.tipo.includes("image")){ v.document.write('<img src="'+arch.data+'" style="width:100%">'); } else { v.document.write('<iframe src="'+arch.data+'" style="width:100%;height:100vh;border:none"></iframe>'); } }
+function verPadron(){ let div=document.getElementById("padron"); let esCelu=window.innerWidth<=768; let h="<h3>Padrón ("+afiliados.length+")</h3>"; if(esCelu){ afiliados.forEach(a=>{ h+='<div class="cardPadron"><b>'+a.nombre+'</b><br>CUIL: '+a.cuil+'<br>Localidad: '+a.localidad+'<br>Estado: '+a.estado+'</div>'; }); } else { h+="<table class='tabla'><tr><th>N° Afil.</th><th>ID</th><th>Nombre</th><th>CUIL</th><th>DNI</th><th>Localidad</th><th>Empresa</th><th>Fecha Af SOETRA</th><th>Estado</th></tr>"; afiliados.forEach(a=>{ h+='<tr><td>'+(a.numAfiliado||"")+'</td><td>'+(a.idExcel||"")+'</td><td>'+a.nombre+'</td><td>'+a.cuil+'</td><td>'+(a.dni||"")+'</td><td>'+(a.localidad||"")+'</td><td>'+(a.empresa||"")+'</td><td>'+(a.fechaAfSoetra||"")+'</td><td>'+a.estado+'</td></tr>'; }); h+="</table>"; } div.innerHTML=h; }
+function descargarExcel(){ let csv="N°Afiliado;ID;Apellido y Nombres;CUIL;DNI;Condicion;Fecha Nac;Obra Social;Fecha Afil O Social;Domicilio;Localidad;Provincia;Fecha Af SOETRA;Empresa;Correo Empleador;CUIT Empresa;Tel Renuncia UATRE;Estado;Autoriza\n"; afiliados.forEach(a=>{ csv+=(a.numAfiliado||"")+";"+(a.idExcel||"")+";"+a.nombre+";"+a.cuil+";"+(a.dni||"")+";"+(a.condicion||"")+";"+(a.fechaNac||"")+";"+(a.obraSocial||"")+";"+(a.fechaAfilOSocial||"")+";"+(a.domicilio||"")+";"+(a.localidad||"")+";"+(a.provincia||"")+";"+(a.fechaAfSoetra||"")+";"+(a.empresa||"")+";"+(a.correoEmpleador||"")+";"+(a.cuitEmpresa||"")+";"+(a.telRenunciaUatre||"")+";"+a.estado+";"+a.autoriza+"\n"; }); let blob=new Blob(["\ufeff"+csv],{type:"text/csv"}); let link=document.createElement("a"); link.href=URL.createObjectURL(blob); link.download="padron_soetra_completo.csv"; link.click(); }
+function cargarPadron(event){ let archivo=event.target.files[0]; if(!archivo) return; let lector=new FileReader(); lector.onload=function(e){ let texto=e.target.result; let lineas=texto.split(/\r?\n/); let nuevos=[]; for(let i=0;i<lineas.length;i++){ let linea=lineas[i].trim(); if(!linea) continue; if(i===0 && linea.toLowerCase().includes("nombre")) continue; let partes=linea.split(";"); if(partes.length<2) partes=linea.split(","); if(partes.length<2) continue; let cuilRaw=(partes[3]||"").trim(); if(!cuilRaw) continue; let cuil=cuilRaw; if(cuil.replace(/[^0-9]/g,"").length===11) cuil=formatearCuil(cuil); nuevos.push({numAfiliado:(partes[0]||"").trim(),idExcel:(partes[1]||"").trim(),nombre:(partes[2]||"").trim(),cuil:cuil,dni:(partes[4]||"").trim(),condicion:(partes[5]||"").trim(),fechaNac:(partes[6]||"").trim(),obraSocial:(partes[7]||"").trim(),fechaAfilOSocial:(partes[8]||"").trim(),domicilio:(partes[9]||"").trim(),localidad:(partes[10]||"").trim(),provincia:(partes[11]||"").trim(),fechaAfSoetra:(partes[12]||"").trim(),empresa:(partes[13]||"").trim(),correoEmpleador:(partes[14]||"").trim(),cuitEmpresa:(partes[15]||"").trim(),telRenunciaUatre:(partes[16]||"").trim(),estado:(partes[17]||"ACTIVO").trim(),autoriza:(partes[18]||"SI").trim(),carpeta:{}}); } if(!nuevos.length){ alert("No se pudo leer el padrón."); return; } if(confirm("¿Reemplazar padrón actual ("+afiliados.length+") por nuevo padrón con "+nuevos.length+" afiliados?")){ afiliados=nuevos; guardarEnCelu(); cargarLocalidades(); alert("Padrón cargado: "+nuevos.length+" afiliados."); verPadron(); } }; lector.readAsText(archivo); }
+function mostrarFormularios(){ let div=document.getElementById("listaFormularios"); let html=""; FORMULARIOS.forEach(f=>{ let cargado=pdfsGuardados[f.id]?true:false; html+='<div class="filaForm"><b>📄 '+f.titulo+'</b><br><span style="font-size:12px">Archivo: '+f.archivo+'</span><br>'; if(cargado){ html+='<span class="ok">✅ CARGADO - PDF ORIGINAL</span><br><button class="btnForm" onclick="abrirPDF(\''+f.id+'\')">DESCARGAR FORMULARIO VACÍO / ABRIR</button><br><label style="display:flex;gap:8px;align-items:center;background:#eef6f1;padding:10px;border-radius:8px;margin:8px 0"><input type="checkbox" id="chk_'+f.id+'" checked style="width:auto"> ✓ Enviar PDF por WhatsApp</label><button class="btnWsp" onclick="enviarFormularioPorWsp(\''+f.id+'\',\''+f.titulo+'\',\''+f.archivo+'\')">ENVIAR PDF POR WHATSAPP</button>'; if(esAdminActual) html+='<button class="btnGris" onclick="document.getElementById(\'input_'+f.id+'\').click()">REEMPLAZAR PDF (Admin)</button>'; } else { html+='<span class="falta">⚠️ TODAVÍA NO ESTÁ CARGADO</span><br><a href="'+f.archivo+'" target="_blank"><button class="btnForm">DESCARGAR FORMULARIO VACÍO / ABRIR</button></a><br><label style="display:flex;gap:8px;align-items:center;background:#eef6f1;padding:10px;border-radius:8px;margin:8px 0"><input type="checkbox" checked style="width:auto"> ✓ Enviar PDF por WhatsApp</label><button class="btnWsp" onclick="enviarFormularioPorWsp(\''+f.id+'\',\''+f.titulo+'\',\''+f.archivo+'\')">ENVIAR PDF POR WHATSAPP</button>'; if(esAdminActual) html+='<button class="btnCargar" onclick="document.getElementById(\'input_'+f.id+'\').click()">⬆️ CARGAR PDF (Solo Admin)</button>'; else html+='<p style="font-size:12px">Pedile al Administrador que lo cargue.</p>'; } html+='<input type="file" id="input_'+f.id+'" accept=".pdf" style="display:none" onchange="cargarPDF(event,\''+f.id+'\')"></div>'; }); div.innerHTML=html; }
+function mostrarDocumentos(){ let div=document.getElementById("listaDocumentos"); let html=""; DOCUMENTOS.forEach(f=>{ let cargado=docsGuardados[f.id]?true:false; html+='<div class="filaForm"><b>'+f.titulo+'</b><br><span style="font-size:12px">Cargado: '+f.archivo+'</span><br>'; if(cargado || true){ html+='<button class="btnAzulDoc" onclick="abrirDoc(\''+f.id+'\',\''+f.archivo+'\')">DESCARGAR / ABRIR</button><br><label style="display:flex;gap:8px;align-items:center;background:#eef6f1;padding:10px;border-radius:8px;margin:8px 0"><input type="checkbox" checked style="width:auto"> ✓ Enviar por WhatsApp</label><button class="btnWsp" onclick="enviarDocPorWsp(\''+f.titulo+'\',\''+f.archivo+'\')">ENVIAR POR WHATSAPP</button>'; if(esAdminActual) html+='<button class="btnGris" onclick="document.getElementById(\'inputDoc_'+f.id+'\').click()">REEMPLAZAR (Admin)</button>'; } html+='<input type="file" id="inputDoc_'+f.id+'" accept=".pdf" style="display:none" onchange="cargarDoc(event,\''+f.id+'\')"></div>'; }); div.innerHTML=html; }
+function cargarPDF(event,id){ let archivo=event.target.files[0]; if(!archivo) return; let lector=new FileReader(); lector.onload=function(e){ pdfsGuardados[id]=e.target.result; localStorage.setItem("soetra_pdfs",JSON.stringify(pdfsGuardados)); alert("PDF cargado y guardado. No se modificó nada, quedó el original."); mostrarFormularios(); }; lector.readAsDataURL(archivo); }
+function cargarDoc(event,id){ let archivo=event.target.files[0]; if(!archivo) return; let lector=new FileReader(); lector.onload=function(e){ docsGuardados[id]=e.target.result; localStorage.setItem("soetra_docs",JSON.stringify(docsGuardados)); alert("Documento cargado."); mostrarDocumentos(); }; lector.readAsDataURL(archivo); }
+function abrirPDF(id){ let data=pdfsGuardados[id]; if(!data){ alert("Todavía no está cargado en este dispositivo, se abre el archivo de Git si está."); return; } let v=window.open(""); v.document.write('<iframe src="'+data+'" style="width:100%;height:100vh;border:none"></iframe>'); }
+function abrirDoc(id,archivo){ let data=docsGuardados[id]; if(data){ let v=window.open(""); v.document.write('<iframe src="'+data+'" style="width:100%;height:100vh;border:none"></iframe>'); } else { window.open(archivo,"_blank"); } }
+function enviarDocPorWsp(titulo,archivo){ abrirWsp("Hola, te envío documentación SOETRA: "+titulo+"\nArchivo: "+archivo+"\nLo adjunto en este mensaje."); }
+function gestionarUsuarios(){ let div=document.getElementById("listaUsuarios"); div.innerHTML='<div style="border:1px solid #ddd;padding:12px;border-radius:10px;margin-top:10px"><b>Usuarios y claves</b><br>admin@soetra.com / admin123 - ADMINISTRADOR - TODAS<br>usuario@soetra.com / usuario123 - AUTORIZADOS - HERNANDO<br><p style="font-size:12px;color:#666">Para cambiar una clave, avisame y te lo cambio en el código. No se cambia desde la app por seguridad.</p></div>'; }
+function copiaSeguridad(){ let datos={fecha:new Date().toISOString(),afiliados:afiliados,pdfs:Object.keys(pdfsGuardados),docs:Object.keys(docsGuardados)}; let blob=new Blob([JSON.stringify(datos,null,2)],{type:"application/json"}); let a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="copia-seguridad-soetra.json"; a.click(); alert("Copia de seguridad descargada"); }
 </script>
 </body>
 </html>

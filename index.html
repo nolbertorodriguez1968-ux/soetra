@@ -57,16 +57,7 @@
 
   <div id="documentos" class="tarjeta oculto">
     <h2>Documentos</h2>
-    <div class="formulario">
-      <h3>Estatuto SOETRA</h3>
-      <span class="cargado">● CARGADO - PDF ORIGINAL</span><br>
-      <a class="btn" href="Estatuto soetra.pdf" target="_blank">ABRIR ESTATUTO</a>
-    </div>
-    <div class="formulario">
-      <h3>CUIT SOETRA</h3>
-      <span class="cargado">● CARGADO - PDF ORIGINAL</span><br>
-      <a class="btn" href="CUIT SOETRA.pdf" target="_blank">ABRIR CUIT</a>
-    </div>
+    <div id="listaDocumentos"></div>
   </div>
 
   <div id="login" class="tarjeta oculto">
@@ -122,11 +113,25 @@ function mostrar(id){
   document.getElementById(id).classList.remove("oculto");
 }
 
+// TODOS LOS ARCHIVOS QUE ESTAN EN GIT - SIN DEJAR NINGUNO AFUERA
 const FORMULARIOS = [
   { nombre: "Ficha de Afiliación SOETRA", archivo: "Ficha.pdf" },
   { nombre: "Solicita - Autoriza", archivo: "Solicita-Autoriza.pdf" },
+  { nombre: "CTA bancaria SOETRA", archivo: "CTA bancaria SOETRA.pdf" },
+  { nombre: "CUENTA BANCO FATREFU", archivo: "CUENTA BANCO FATREFU.pdf" },
+  { nombre: "CUIT SOETRA", archivo: "CUIT SOETRA.pdf" },
+  { nombre: "Constancia Autoridades 1 FATREFU", archivo: "Constancia Autoridades 1 FATREFU.pdf" },
+  { nombre: "Estatuto soetra", archivo: "Estatuto soetra.pdf" },
+  { nombre: "estatuto fatrefu", archivo: "estatuto fatrefu.pdf" }
+];
+
+const DOCUMENTOS = [
   { nombre: "Estatuto SOETRA", archivo: "Estatuto soetra.pdf" },
-  { nombre: "CUIT SOETRA", archivo: "CUIT SOETRA.pdf" }
+  { nombre: "CUIT SOETRA", archivo: "CUIT SOETRA.pdf" },
+  { nombre: "CTA bancaria SOETRA", archivo: "CTA bancaria SOETRA.pdf" },
+  { nombre: "CUENTA BANCO FATREFU", archivo: "CUENTA BANCO FATREFU.pdf" },
+  { nombre: "Constancia Autoridades 1 FATREFU", archivo: "Constancia Autoridades 1 FATREFU.pdf" },
+  { nombre: "estatuto fatrefu", archivo: "estatuto fatrefu.pdf" }
 ];
 
 function MostrarFormularios(){
@@ -143,7 +148,24 @@ function MostrarFormularios(){
     `;
   });
 }
+
+function MostrarDocumentos(){
+  const lista = document.getElementById("listaDocumentos");
+  lista.innerHTML = "";
+  DOCUMENTOS.forEach(function(F){
+    lista.innerHTML += `
+      <div class="formulario">
+        <h3>${F.nombre}</h3>
+        <span class="cargado">● CARGADO - PDF ORIGINAL</span><br>
+        <a class="btn" href="${F.archivo}" target="_blank">ABRIR ${F.nombre.toUpperCase()}</a>
+        <p style="font-size:12px;color:#666">Archivo: ${F.archivo}</p>
+      </div>
+    `;
+  });
+}
+
 MostrarFormularios();
+MostrarDocumentos();
 
 function ingresar(){
   const u = document.getElementById("usuario").value.trim();

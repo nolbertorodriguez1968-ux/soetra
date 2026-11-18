@@ -3,142 +3,91 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SOETRA - Sindicato</title>
+<title>SOETRA - Sindicato de Obreros y Empleados de Estaciones de Servicio</title>
 <style>
-*{box-sizing:border-box} body{font-family:Arial,sans-serif;margin:0;background:#f2f2f2;color:#222}
-header{background:#0b4a7a;color:#fff;padding:20px;text-align:center}
-header h1{margin:0;font-size:28px} header p{margin:5px 0 0;font-size:14px}
-nav{background:#fff;padding:10px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;box-shadow:0 2px 5px rgba(0,0,0,.1)}
-nav button{padding:10px 14px;border:0;border-radius:8px;background:#0b4a7a;color:#fff;cursor:pointer;font-size:14px}
-.contenedor{max-width:920px;margin:18px auto;padding:0 12px}
-.tarjeta{background:#fff;border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
-h2{color:#0b4a7a;margin-top:0} h3{margin:15px 0 5px}
-.oculto{display:none}
-input,select,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ccc;border-radius:8px;font-size:15px}
-label{font-weight:bold;font-size:14px}
-.btn{display:inline-block;padding:12px 18px;border:0;border-radius:8px;background:#0a8a2f;color:#fff;font-weight:bold;cursor:pointer;text-decoration:none;margin:6px 4px 0 0;font-size:15px}
-.btn.azul{background:#0b4a7a} .btn.gris{background:#666} .btn.rojo{background:#b00}
-.cargado{color:#0a8a2f;font-weight:bold}
-.formulario{border:2px solid #0b4a7a;border-radius:12px;padding:16px;margin:15px 0;background:#fff}
-.fila{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-@media(max-width:600px){.fila{grid-template-columns:1fr}}
-.alerta{background:#fff3cd;border:1px solid #ffcc00;padding:12px;border-radius:8px}
-.firma{border-top:1px solid #000;margin-top:40px;padding-top:8px;text-align:center}
-@media print{ header,nav,.no-imprimir{display:none!important} .contenedor{margin:0;max-width:100%} .tarjeta{box-shadow:none} }
+  *{box-sizing:border-box}
+  body{font-family:Arial,sans-serif;margin:0;background:#f2f2f2;color:#222}
+  header{background:#0b4a7a;color:#fff;padding:20px;text-align:center}
+  header h1{margin:0;font-size:26px}
+  header p{margin:5px 0 0}
+  nav{background:#fff;padding:10px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;box-shadow:0 2px 5px rgba(0,0,0,.1)}
+  nav button{padding:10px 16px;border:0;border-radius:8px;background:#0b4a7a;color:#fff;cursor:pointer;font-size:15px}
+  .contenedor{max-width:900px;margin:20px auto;padding:0 15px}
+  .tarjeta{background:#fff;border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+  h2{margin-top:0;color:#0b4a7a}
+  h3{margin-bottom:5px}
+  .formulario{border:1px solid #ddd;border-radius:10px;padding:14px;margin:12px 0}
+  .cargado{color:#0a8a2f;font-weight:bold}
+  .btn{display:inline-block;padding:10px 16px;border-radius:8px;background:#0a8a2f;color:#fff;text-decoration:none;font-weight:bold;margin-top:8px}
+  .btn.azul{background:#0b4a7a}
+  .btn.gris{background:#666}
+  input{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:8px;font-size:16px}
+  .oculto{display:none}
+  .alerta{background:#fff3cd;border:1px solid #ffcc00;padding:12px;border-radius:8px;margin-bottom:12px}
 </style>
 </head>
 <body>
 
 <header>
-<h1>SOETRA</h1>
-<p>Sindicato de Obreros y Empleados de Estaciones de Servicio, Garages, Playas de Estacionamiento y Lavaderos</p>
+  <h1>SOETRA</h1>
+  <p>Sindicato de Obreros y Empleados de Estaciones de Servicio, Garages, Playas de Estacionamiento y Lavaderos</p>
 </header>
 
 <nav>
-<button onclick="mostrar('inicio')">Inicio</button>
-<button onclick="mostrar('formularios')">Formularios</button>
-<button onclick="mostrar('documentos')">Documentos</button>
-<button onclick="mostrar('login')">Ingresar</button>
+  <button onclick="mostrar('inicio')">Inicio</button>
+  <button onclick="mostrar('formularios')">Formularios</button>
+  <button onclick="mostrar('documentos')">Documentos</button>
+  <button onclick="mostrar('login')">Ingresar / Administrador</button>
 </nav>
 
 <div class="contenedor">
 
-<div id="inicio" class="tarjeta">
-<h2>Bienvenidos a SOETRA</h2>
-<p>Los formularios ya están <b>adentro de la aplicación</b>. No dependen de ningún PDF externo. Se pueden llenar, imprimir y guardar.</p>
-<p id="estadoFirebase">Conectando con Firebase...</p>
-<button class="btn azul no-imprimir" onclick="mostrar('formularios')">VER FORMULARIOS</button>
-<button class="btn no-imprimir" onclick="probarConexion()">Probar conexión Firebase</button>
-</div>
+  <div id="inicio" class="tarjeta">
+    <h2>Bienvenidos a SOETRA</h2>
+    <p>Acá podés ver y descargar los formularios y documentos oficiales del sindicato.</p>
+    <p id="estadoFirebase" style="margin-top:15px">Conectando con Firebase...</p>
+    <button onclick="probarConexion()">Probar conexión Firebase</button>
+    <button class="btn azul" onclick="mostrar('formularios')">VER FORMULARIOS</button>
+  </div>
 
-<div id="formularios" class="tarjeta oculto">
-<h2>Formularios</h2>
-<div class="alerta">✅ Estos formularios están adentro del código. Funcionan aunque falle el PDF.</div>
+  <div id="formularios" class="tarjeta oculto">
+    <h2>Formularios</h2>
+    <div id="listaFormularios"></div>
+  </div>
 
-<!-- ============ FORMULARIO 1: FICHA ============ -->
-<div class="formulario" id="ficha">
-<h2 style="text-align:center">FICHA DE AFILIACIÓN SOETRA</h2>
-<p style="text-align:center;font-size:13px">Con adhesión a Federación</p>
-<span class="cargado">● CARGADO - FORMULARIO INTERNO</span>
-<div class="fila">
-<div><label>Apellido y Nombre</label><input id="f_nombre" placeholder="Apellido y Nombre"></div>
-<div><label>DNI</label><input id="f_dni" placeholder="DNI"></div>
-</div>
-<div class="fila">
-<div><label>CUIL</label><input id="f_cuil" placeholder="CUIL"></div>
-<div><label>Fecha de Nacimiento</label><input type="date" id="f_nac"></div>
-</div>
-<div class="fila">
-<div><label>Domicilio</label><input id="f_dom" placeholder="Calle, número, localidad"></div>
-<div><label>Teléfono / Celular</label><input id="f_tel" placeholder="Teléfono"></div>
-</div>
-<div class="fila">
-<div><label>Empresa donde trabaja</label><input id="f_empresa" placeholder="Empresa"></div>
-<div><label>Fecha de Ingreso</label><input type="date" id="f_ingreso"></div>
-</div>
-<div><label>Email</label><input id="f_email" placeholder="Email"></div>
-<div><label>Observaciones</label><textarea id="f_obs" rows="2"></textarea></div>
-<p style="font-size:13px">Por la presente solicito mi afiliación a SOETRA y autorizo el descuento de la cuota sindical conforme a la Ley y Estatuto vigente.</p>
-<div class="fila"><div class="firma">Firma del Afiliado</div><div class="firma">Firma y Sello SOETRA</div></div>
-<div class="no-imprimir">
-<button class="btn" onclick="imprimirSolo('ficha')">🖨️ IMPRIMIR / GUARDAR PDF FICHA</button>
-<a class="btn azul" href="Ficha.pdf" target="_blank">ABRIR FICHA PDF ORIGINAL</a>
-<button class="btn gris" onclick="guardarFicha()">Guardar en Firebase</button>
-</div>
-</div>
+  <div id="documentos" class="tarjeta oculto">
+    <h2>Documentos</h2>
+    <div class="formulario">
+      <h3>Estatuto SOETRA</h3>
+      <span class="cargado">● CARGADO - PDF ORIGINAL</span><br>
+      <a class="btn" href="Estatuto soetra.pdf" target="_blank">ABRIR ESTATUTO</a>
+    </div>
+    <div class="formulario">
+      <h3>CUIT SOETRA</h3>
+      <span class="cargado">● CARGADO - PDF ORIGINAL</span><br>
+      <a class="btn" href="CUIT SOETRA.pdf" target="_blank">ABRIR CUIT</a>
+    </div>
+  </div>
 
-<!-- ============ FORMULARIO 2: SOLICITA-AUTORIZA ============ -->
-<div class="formulario" id="solicita">
-<h2 style="text-align:center">SOLICITA - AUTORIZA</h2>
-<span class="cargado">● CARGADO - FORMULARIO INTERNO</span>
-<div class="fila">
-<div><label>Apellido y Nombre</label><input id="s_nombre" placeholder="Apellido y Nombre"></div>
-<div><label>DNI</label><input id="s_dni" placeholder="DNI"></div>
-</div>
-<div class="fila">
-<div><label>Empresa</label><input id="s_empresa" placeholder="Empresa"></div>
-<div><label>Localidad</label><input id="s_localidad" placeholder="Localidad"></div>
-</div>
-<div><label>Autorizo a descontar de mis haberes:</label>
-<select id="s_tipo"><option>Cuota Sindical</option><option>Cuota Solidaria</option><option>Préstamo / Ayuda</option><option>Otro</option></select></div>
-<div><label>Monto / Detalle</label><input id="s_monto" placeholder="Monto o detalle"></div>
-<p style="font-size:13px">Autorizo a mi empleador a descontar de mis haberes y depositar a favor de SOETRA el concepto arriba indicado, hasta su cancelación o revocación por escrito.</p>
-<div class="fila"><div class="firma">Firma del Trabajador</div><div class="firma">Firma y Sello SOETRA</div></div>
-<div class="no-imprimir">
-<button class="btn" onclick="imprimirSolo('solicita')">🖨️ IMPRIMIR / GUARDAR PDF SOLICITA</button>
-<a class="btn azul" href="Solicita-Autoriza.pdf" target="_blank">ABRIR SOLICITA PDF ORIGINAL</a>
-<button class="btn gris" onclick="guardarSolicita()">Guardar en Firebase</button>
-</div>
-</div>
-
-</div>
-
-<div id="documentos" class="tarjeta oculto">
-<h2>Documentos</h2>
-<div class="formulario"><h3>Estatuto SOETRA</h3><span class="cargado">● CARGADO</span><br><a class="btn" href="Estatuto soetra.pdf" target="_blank">ABRIR ESTATUTO</a></div>
-<div class="formulario"><h3>CUIT SOETRA</h3><span class="cargado">● CARGADO</span><br><a class="btn" href="CUIT SOETRA.pdf" target="_blank">ABRIR CUIT</a></div>
-<div class="formulario"><h3>Ficha PDF Original</h3><span class="cargado">● CARGADO</span><br><a class="btn" href="Ficha.pdf" target="_blank">ABRIR FICHA PDF</a></div>
-<div class="formulario"><h3>Solicita-Autoriza PDF Original</h3><span class="cargado">● CARGADO</span><br><a class="btn" href="Solicita-Autoriza.pdf" target="_blank">ABRIR SOLICITA PDF</a></div>
-</div>
-
-<div id="login" class="tarjeta oculto">
-<h2>Ingresar</h2>
-<label>Email</label><input id="usuario" type="text" placeholder="Email">
-<label>Contraseña</label><input id="clave" type="password" placeholder="Contraseña">
-<button class="btn azul" onclick="ingresar()">INGRESAR</button>
-<p id="mensajeLogin"></p>
-<div id="panelAdmin" class="oculto">
-<h3>Panel Administrador - Bienvenido Nolberto</h3>
-<p>Estás dentro. Los formularios ya están adentro de la aplicación y no necesitan cargarse.</p>
-<button class="btn gris" onclick="salir()">SALIR</button>
-</div>
-</div>
+  <div id="login" class="tarjeta oculto">
+    <h2>Ingresar</h2>
+    <input id="usuario" type="text" placeholder="Email">
+    <input id="clave" type="password" placeholder="Contraseña">
+    <button class="btn azul" onclick="ingresar()">INGRESAR</button>
+    <p id="mensajeLogin"></p>
+    <div id="panelAdmin" class="oculto">
+      <h3>Panel Administrador</h3>
+      <p>Ya estás dentro.</p>
+      <button class="btn gris" onclick="salir()">SALIR</button>
+    </div>
+  </div>
 
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 const firebaseConfig = {
   apiKey: "AIzaSyAz2QsNccuKVxC4YDebOJaR1dNXBAIOCBc",
   authDomain: "admin-soetra.firebaseapp.com",
@@ -148,36 +97,54 @@ const firebaseConfig = {
   appId: "1:90980716540:web:101e3e32322a01734ec79",
   measurementId: "G-FS381E2H3F"
 };
+
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
 window.probarConexion = async function(){
-  try{ const d = await getDocs(collection(db,"usuarios")); alert("Conectado a Firebase! Hay "+d.size+" usuarios"); }
-  catch(e){ alert("Error de conexión: "+e.message); }
+  try{
+    const datos = await getDocs(collection(db, "usuarios"));
+    alert("Conectado a Firebase! Hay " + datos.size + " usuarios");
+  }catch(e){ alert("Error de conexión: " + e.message); }
 };
-window.guardarFicha = async function(){
-  try{ await addDoc(collection(db,"fichas"),{nombre:document.getElementById("f_nombre").value,dni:document.getElementById("f_dni").value,cuil:document.getElementById("f_cuil").value,empresa:document.getElementById("f_empresa").value,fecha:new Date()}); alert("Ficha guardada en Firebase!"); }
-  catch(e){ alert("Error: "+e.message); }
-};
-window.guardarSolicita = async function(){
-  try{ await addDoc(collection(db,"solicita"),{nombre:document.getElementById("s_nombre").value,dni:document.getElementById("s_dni").value,empresa:document.getElementById("s_empresa").value,tipo:document.getElementById("s_tipo").value,fecha:new Date()}); alert("Solicita guardado en Firebase!"); }
-  catch(e){ alert("Error: "+e.message); }
+window.guardarEnFirebase = async function(nombre){
+  await addDoc(collection(db, "usuarios"), { nombre: nombre });
+  alert("Guardado en Firebase!");
 };
 document.getElementById("estadoFirebase").textContent = "Firebase listo.";
 </script>
 
 <script>
 function mostrar(id){
-  ["inicio","formularios","documentos","login"].forEach(s=>document.getElementById(s).classList.add("oculto"));
+  ["inicio","formularios","documentos","login"].forEach(function(s){
+    document.getElementById(s).classList.add("oculto");
+  });
   document.getElementById(id).classList.remove("oculto");
 }
-function imprimirSolo(id){
-  // Muestra solo ese formulario para imprimir
-  const original = document.body.innerHTML;
-  const contenido = document.getElementById(id).innerHTML;
-  document.body.innerHTML = '<div style="padding:20px;font-family:Arial">'+contenido+'</div>';
-  window.print();
-  location.reload();
+
+const FORMULARIOS = [
+  { nombre: "Ficha de Afiliación SOETRA", archivo: "Ficha.pdf" },
+  { nombre: "Solicita - Autoriza", archivo: "Solicita-Autoriza.pdf" },
+  { nombre: "Estatuto SOETRA", archivo: "Estatuto soetra.pdf" },
+  { nombre: "CUIT SOETRA", archivo: "CUIT SOETRA.pdf" }
+];
+
+function MostrarFormularios(){
+  const lista = document.getElementById("listaFormularios");
+  lista.innerHTML = "";
+  FORMULARIOS.forEach(function(F){
+    lista.innerHTML += `
+      <div class="formulario">
+        <h3>${F.nombre}</h3>
+        <span class="cargado">● CARGADO - PDF ORIGINAL</span><br>
+        <a class="btn" href="${F.archivo}" target="_blank">ABRIR ${F.nombre.toUpperCase()}</a>
+        <p style="font-size:12px;color:#666">Archivo: ${F.archivo}</p>
+      </div>
+    `;
+  });
 }
+MostrarFormularios();
+
 function ingresar(){
   const u = document.getElementById("usuario").value.trim();
   const c = document.getElementById("clave").value;
@@ -190,8 +157,10 @@ function ingresar(){
 }
 function salir(){
   document.getElementById("panelAdmin").classList.add("oculto");
-  document.getElementById("usuario").value=""; document.getElementById("clave").value="";
+  document.getElementById("usuario").value = "";
+  document.getElementById("clave").value = "";
 }
 </script>
+
 </body>
 </html>

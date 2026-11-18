@@ -3,65 +3,82 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SOETRA - Sindicato de Obreros y Empleados de Estaciones de Servicio</title>
+<title>SOETRA - FATREFU</title>
 <style>
   *{box-sizing:border-box}
-  body{font-family:Arial,sans-serif;margin:0;background:#f2f2f2;color:#222}
-  header{background:#0b4a7a;color:#fff;padding:20px;text-align:center}
-  header h1{margin:0;font-size:26px}
-  header p{margin:5px 0 0}
-  nav{background:#fff;padding:10px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;box-shadow:0 2px 5px rgba(0,0,0,.1)}
-  nav button{padding:10px 16px;border:0;border-radius:8px;background:#0b4a7a;color:#fff;cursor:pointer;font-size:15px}
-  .contenedor{max-width:900px;margin:20px auto;padding:0 15px}
-  .tarjeta{background:#fff;border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
-  h2{margin-top:0;color:#0b4a7a}
-  h3{margin-bottom:5px}
-  .formulario{border:1px solid #ddd;border-radius:10px;padding:14px;margin:12px 0}
+  body{font-family:Arial,sans-serif;margin:0;background:#f4f4f0;color:#222}
+  header{background:#1a6b3c;color:#fff;padding:18px 16px}
+  header h1{margin:0;font-size:24px}
+  header p{margin:2px 0 0;font-size:15px}
+  .contenedor{max-width:900px;margin:14px auto;padding:0 12px}
+  .tarjeta{background:#fff;border-radius:14px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+  .tarjeta h2{margin:0;font-size:24px}
+  .tarjeta p.sub{margin:6px 0 16px;color:#777;font-size:17px}
+  .dos{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:600px){.dos{grid-template-columns:1fr 1fr}}
+  .opcion{border:2px solid #dceadF;border-radius:16px;padding:22px 10px;text-align:center;cursor:pointer;background:#fff}
+  .opcion .icono{font-size:42px}
+  .opcion h3{color:#1a6b3c;margin:10px 0 6px;font-size:19px}
+  .opcion p{margin:2px 0;color:#777;font-size:14px;line-height:1.4}
+  .formulario{border:1px solid #ddd;border-radius:10px;padding:14px;margin:12px 0;background:#fff}
   .cargado{color:#0a8a2f;font-weight:bold}
   .btn{display:inline-block;padding:10px 16px;border-radius:8px;background:#0a8a2f;color:#fff;text-decoration:none;font-weight:bold;margin-top:8px}
-  .btn.azul{background:#0b4a7a}
+  .btn.azul{background:#1a6b3c}
   .btn.gris{background:#666}
   input{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:8px;font-size:16px}
   .oculto{display:none}
-  .alerta{background:#fff3cd;border:1px solid #ffcc00;padding:12px;border-radius:8px;margin-bottom:12px}
+  .links{margin-top:16px;font-size:16px}
+  .links a{color:#3b2aa0}
+  .seccion{margin-top:18px}
+  .seccion h2{color:#1a6b3c}
 </style>
 </head>
 <body>
 
 <header>
-  <h1>SOETRA</h1>
-  <p>Sindicato de Obreros y Empleados de Estaciones de Servicio, Garages, Playas de Estacionamiento y Lavaderos</p>
+  <h1>SOETRA - FATREFU</h1>
+  <p>Padrón Completo - Teléfono y PC</p>
 </header>
-
-<nav>
-  <button onclick="mostrar('inicio')">Inicio</button>
-  <button onclick="mostrar('formularios')">Formularios</button>
-  <button onclick="mostrar('documentos')">Documentos</button>
-  <button onclick="mostrar('login')">Ingresar / Administrador</button>
-</nav>
 
 <div class="contenedor">
 
+  <!-- PANTALLA COMO EN TU FOTO -->
   <div id="inicio" class="tarjeta">
-    <h2>Bienvenidos a SOETRA</h2>
-    <p>Acá podés ver y descargar los formularios y documentos oficiales del sindicato.</p>
-    <p id="estadoFirebase" style="margin-top:15px">Conectando con Firebase...</p>
-    <button onclick="probarConexion()">Probar conexión Firebase</button>
-    <button class="btn azul" onclick="mostrar('formularios')">VER FORMULARIOS</button>
+    <h2>Hola, bienvenido a SOETRA</h2>
+    <p class="sub">Elegí cómo querés entrar:</p>
+    <div class="dos">
+      <div class="opcion" onclick="mostrar('autorizados')">
+        <div class="icono">🔍</div>
+        <h3>AUTORIZADOS</h3>
+        <p>Buscar afiliado</p>
+        <p>Completar datos faltantes</p>
+        <p>Ver padrones</p>
+      </div>
+      <div class="opcion" onclick="mostrar('login')">
+        <div class="icono">🔐</div>
+        <h3>ADMINISTRADOR</h3>
+        <p>Acceso a toda</p>
+        <p>la aplicación</p>
+        <p>Gestionar usuarios</p>
+      </div>
+    </div>
   </div>
 
-  <div id="formularios" class="tarjeta oculto">
-    <h2>Formularios</h2>
-    <div id="listaFormularios"></div>
+  <!-- AUTORIZADOS -->
+  <div id="autorizados" class="tarjeta oculto seccion">
+    <h2>AUTORIZADOS</h2>
+    <p>Buscar afiliado - Completar datos faltantes - Ver padrones</p>
+    <input id="buscarAfiliado" placeholder="Buscar por nombre, DNI o CUIL">
+    <button class="btn azul" onclick="buscar()">BUSCAR</button>
+    <p id="resultadoBuscar"></p>
+    <button class="btn gris" onclick="mostrar('inicio')">VOLVER</button>
+    <div id="listaPadrones"></div>
   </div>
 
-  <div id="documentos" class="tarjeta oculto">
-    <h2>Documentos</h2>
-    <div id="listaDocumentos"></div>
-  </div>
-
-  <div id="login" class="tarjeta oculto">
-    <h2>Ingresar</h2>
+  <!-- LOGIN ADMINISTRADOR - MISMO ALGORITMO DE ANTES -->
+  <div id="login" class="tarjeta oculto seccion">
+    <h2>ADMINISTRADOR</h2>
+    <p>Acceso a toda la aplicación - Gestionar usuarios</p>
     <input id="usuario" type="text" placeholder="Email">
     <input id="clave" type="password" placeholder="Contraseña">
     <button class="btn azul" onclick="ingresar()">INGRESAR</button>
@@ -69,8 +86,23 @@
     <div id="panelAdmin" class="oculto">
       <h3>Panel Administrador</h3>
       <p>Ya estás dentro.</p>
+      <p id="estadoFirebase">Conectando con Firebase...</p>
+      <button class="btn" onclick="probarConexion()">Probar conexión Firebase</button>
       <button class="btn gris" onclick="salir()">SALIR</button>
     </div>
+    <br><button class="btn gris" onclick="mostrar('inicio')">VOLVER</button>
+  </div>
+
+  <!-- FORMULARIOS - TODOS LOS QUE ESTAN EN GIT, SIN DEJAR NINGUNO AFUERA -->
+  <div class="seccion">
+    <h2>Formularios y Documentos</h2>
+    <div id="listaFormularios"></div>
+  </div>
+
+  <!-- LINKS COMO SE VEN EN TU FOTO ABAJO -->
+  <div class="links">
+    <a href="Ficha.pdf" target="_blank">ABRIR FICHA</a>
+    <a href="Solicita-Autoriza.pdf" target="_blank">ABRIR SOLICITA-AUTORIZA</a>
   </div>
 
 </div>
@@ -107,13 +139,17 @@ document.getElementById("estadoFirebase").textContent = "Firebase listo.";
 
 <script>
 function mostrar(id){
-  ["inicio","formularios","documentos","login"].forEach(function(s){
+  ["inicio","autorizados","login"].forEach(function(s){
     document.getElementById(s).classList.add("oculto");
   });
   document.getElementById(id).classList.remove("oculto");
 }
 
-// TODOS LOS ARCHIVOS QUE ESTAN EN GIT - SIN DEJAR NINGUNO AFUERA
+function buscar(){
+  document.getElementById("resultadoBuscar").textContent = "Buscando: " + document.getElementById("buscarAfiliado").value;
+}
+
+// TODOS LOS ARCHIVOS QUE ESTAN EN GIT
 const FORMULARIOS = [
   { nombre: "Ficha de Afiliación SOETRA", archivo: "Ficha.pdf" },
   { nombre: "Solicita - Autoriza", archivo: "Solicita-Autoriza.pdf" },
@@ -122,15 +158,6 @@ const FORMULARIOS = [
   { nombre: "CUIT SOETRA", archivo: "CUIT SOETRA.pdf" },
   { nombre: "Constancia Autoridades 1 FATREFU", archivo: "Constancia Autoridades 1 FATREFU.pdf" },
   { nombre: "Estatuto soetra", archivo: "Estatuto soetra.pdf" },
-  { nombre: "estatuto fatrefu", archivo: "estatuto fatrefu.pdf" }
-];
-
-const DOCUMENTOS = [
-  { nombre: "Estatuto SOETRA", archivo: "Estatuto soetra.pdf" },
-  { nombre: "CUIT SOETRA", archivo: "CUIT SOETRA.pdf" },
-  { nombre: "CTA bancaria SOETRA", archivo: "CTA bancaria SOETRA.pdf" },
-  { nombre: "CUENTA BANCO FATREFU", archivo: "CUENTA BANCO FATREFU.pdf" },
-  { nombre: "Constancia Autoridades 1 FATREFU", archivo: "Constancia Autoridades 1 FATREFU.pdf" },
   { nombre: "estatuto fatrefu", archivo: "estatuto fatrefu.pdf" }
 ];
 
@@ -148,24 +175,7 @@ function MostrarFormularios(){
     `;
   });
 }
-
-function MostrarDocumentos(){
-  const lista = document.getElementById("listaDocumentos");
-  lista.innerHTML = "";
-  DOCUMENTOS.forEach(function(F){
-    lista.innerHTML += `
-      <div class="formulario">
-        <h3>${F.nombre}</h3>
-        <span class="cargado">● CARGADO - PDF ORIGINAL</span><br>
-        <a class="btn" href="${F.archivo}" target="_blank">ABRIR ${F.nombre.toUpperCase()}</a>
-        <p style="font-size:12px;color:#666">Archivo: ${F.archivo}</p>
-      </div>
-    `;
-  });
-}
-
 MostrarFormularios();
-MostrarDocumentos();
 
 function ingresar(){
   const u = document.getElementById("usuario").value.trim();

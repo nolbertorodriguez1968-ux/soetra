@@ -40,7 +40,7 @@ button{width:100%;padding:14px 12px;background:#8fb3a0;color:#fff;border:0;borde
 </style>
 </head>
 <body>
-<header><h1>🌾 S.O.E.T.R.A. - F.A.T.R.E.F.U.</h1><p>Padrón Completo - Teléfono y PC - Firestore</p></header>
+<header><h1>🌾 S.O.E.T.R.A. - F.A.T.R.E.F.U.</h1><p>Padrón Completo - Teléfono y PC - Firestore / Supabase</p></header>
 <div class="wrap">
 <div id="pantallaInicio" class="caja">
 <h2>Hola, bienvenido a SOETRA</h2><p style="color:#888">Elegí cómo querés entrar:</p>
@@ -136,8 +136,8 @@ Atte. S.O.E.T.R.A. - F.A.T.R.E.F.U.</textarea>
 <div id="bloqueAdminPadron" class="oculto">
 <button class="btn2" onclick="verPadron()">VER PADRÓN COMPLETO</button>
 <button class="btn2" onclick="descargarExcel()">⬇️ DESCARGAR COMPLETO (TODOS)</button>
-<button class="btnCargar" onclick="document.getElementById('inputPadron').click()">⬆️ CARGAR PADRÓN DESDE EXCEL / CSV A FIRESTORE</button>
-<button class="btnForm" onclick="cargarPadronDesdeFirestore()">🔄 RECARGAR PADRÓN DESDE FIRESTORE</button>
+<button class="btnCargar" onclick="document.getElementById('inputPadron').click()">⬆️ CARGAR PADRÓN DESDE EXCEL / CSV</button>
+<button class="btnForm" onclick="cargarPadronDesdeFirestore()">🔄 RECARGAR PADRÓN DESDE FIRESTORE / SUPABASE</button>
 </div>
 <input type="file" id="inputPadron" accept=".csv,.txt" style="display:none" onchange="cargarPadron(event)"><div id="padron"></div>
 <button class="btnGris" onclick="volverPanel()">← VOLVER AL PANEL</button></div>
@@ -155,6 +155,10 @@ var TIPOS_CARPETA = ["Ficha Afiliación","Solicita-Autoriza","DNI","Recibo Sueld
 var firebaseConfig = { apiKey: "AIzaSyAz2QsNccuKVxC4YDebOJaR1dNXBAIOCBc", authDomain: "admin-soetra.firebaseapp.com", projectId: "admin-soetra", storageBucket: "admin-soetra.firebasestorage.app", messagingSenderId: "90980716540", appId: "1:90980716540:web:101e3e32322a01734ec79", measurementId: "G-FS381E2H3F" };
 try{ firebase.initializeApp(firebaseConfig); }catch(e){}
 var db = null; try{ db = firebase.firestore(); }catch(e){}
+// --- SUPABASE - SI LO USÁS, PONÉ ACÁ TU URL Y TU CLAVE ANON ---
+var SUPABASE_URL = "";
+var SUPABASE_KEY = "";
+var padronYaCargado = false;
 var PADRON_INICIAL = [
   {"numAfiliado":"","idExcel":1,"nombre":"SANCHEZ PEDRO FRANCISCO","cuil":"20-14856450-8","dni":"14856450","condicion":"TITULAR","fechaNac":"","obraSocial":"OTRA","fechaAfilOSocial":"","domicilio":"","localidad":"HERNANDO","provincia":"CORDOBA","fechaAfSoetra":"25/12/2025","empresa":"CENTRO TECNOLOGICO AGROPECUARIO SA","correoEmpleador":"","cuitEmpresa":"30-71009964-9","telRenunciaUatre":"","estado":"AFILIADO A SOETRA","autoriza":"SI","carpeta":{}},
   {"numAfiliado":"","idExcel":2,"nombre":"FONSFRIA HECTOR FABIAN","cuil":"20-18587177-1","dni":"18587177","condicion":"TITULAR","fechaNac":"","obraSocial":"OTRA","fechaAfilOSocial":"","domicilio":"","localidad":"HERNANDO","provincia":"CORDOBA","fechaAfSoetra":"01/12/2025","empresa":"CENTRO TECNOLOGICO AGROPECUARIO SA","correoEmpleador":"","cuitEmpresa":"30-71009964-9","telRenunciaUatre":"","estado":"AFILIADO A SOETRA","autoriza":"SI","carpeta":{}},
@@ -164,20 +168,47 @@ var PADRON_INICIAL = [
 var afiliados = JSON.parse(localStorage.getItem("soetra_afiliados_v3")||"null");
 if(!afiliados || afiliados.length<4){ afiliados=PADRON_INICIAL; localStorage.setItem("soetra_afiliados_v3",JSON.stringify(afiliados)); }
 afiliados.forEach(function(a){ if(a.estado==="ACTIVO" || !a.estado) a.estado="AFILIADO A SOETRA"; if(a.estado.indexOf("RENUNCIA UATRE")!==-1) a.estado="RENUNCIO A UATRE"; });
+// --- ESTA ES LA PARTE REESCRITA: CARGA EL PADRÓN REAL ANTES DE BUSCAR ---
 async function cargarPadronDesdeFirestore(){
-  if(!db) return;
-  try{
-    var snap = await db.collection("padron").get();
-    if(snap.size>0){
-      var lista=[];
-      snap.forEach(function(doc){ var d=doc.data(); d._id=doc.id; if(!d.carpeta) d.carpeta={}; lista.push(d); });
-      afiliados=lista;
-      localStorage.setItem("soetra_afiliados_v3",JSON.stringify(afiliados));
-      var t=document.getElementById("totalPadron"); if(t) t.innerText=afiliados.length;
-      var tf=document.getElementById("txtFirestore"); if(tf) tf.innerText="✅ Padrón desde Firestore: "+afiliados.length+" afiliados";
-      cargarLocalidades();
-    }
-  }catch(e){ console.log("Firestore error",e); }
+  if(db){
+    try{
+      var snap = await db.collection("padron").get();
+      if(snap.size>0){
+        var lista=[];
+        snap.forEach(function(doc){ var d=doc.data(); d._id=doc.id; if(!d.carpeta) d.carpeta={}; lista.push(d); });
+        afiliados=lista;
+        localStorage.setItem("soetra_afiliados_v3",JSON.stringify(afiliados));
+        padronYaCargado=true;
+        var t=document.getElementById("totalPadron"); if(t) t.innerText=afiliados.length;
+        var tf=document.getElementById("txtFirestore"); if(tf) tf.innerText="✅ Padrón desde Firestore: "+afiliados.length+" afiliados";
+        cargarLocalidades();
+        return true;
+      }
+    }catch(e){ console.log("Firestore falló",e); }
+  }
+  if(SUPABASE_URL && SUPABASE_KEY){
+    try{
+      var r = await fetch(SUPABASE_URL+"/rest/v1/padron?select=*", {headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY}});
+      var datos = await r.json();
+      if(datos && datos.length>0){
+        afiliados=datos.map(function(d){ if(!d.carpeta) d.carpeta={}; return d; });
+        localStorage.setItem("soetra_afiliados_v3",JSON.stringify(afiliados));
+        padronYaCargado=true;
+        var t2=document.getElementById("totalPadron"); if(t2) t2.innerText=afiliados.length;
+        var tf2=document.getElementById("txtFirestore"); if(tf2) tf2.innerText="✅ Padrón desde Supabase: "+afiliados.length+" afiliados";
+        cargarLocalidades();
+        return true;
+      }
+    }catch(e){ console.log("Supabase falló",e); }
+  }
+  var guardado = JSON.parse(localStorage.getItem("soetra_afiliados_v3")||"null");
+  if(guardado && guardado.length>0){ afiliados=guardado; padronYaCargado=true; return true; }
+  return false;
+}
+async function asegurarPadronCargado(){
+  if(padronYaCargado && afiliados.length>4) return true;
+  await cargarPadronDesdeFirestore();
+  return afiliados.length>0;
 }
 cargarPadronDesdeFirestore();
 var FORMULARIOS = [ {id:"ficha",titulo:"FICHA DE AFILIACIÓN",archivo:"Ficha.pdf"}, {id:"autoriza",titulo:"SOLICITA - AUTORIZA",archivo:"Solicita-Autoriza.pdf"} ];
@@ -298,20 +329,13 @@ function enviarPadronCompletoPorWsp(){ descargarExcel(); abrirWsp("Hola, te env�
 async function enviarFormularioPorWsp(id,titulo,archivo){
   refrescarArchivos();
   var data=pdfsGuardados[id];
-  if(!data){
-    alert("El formulario todavía no está cargado por el Administrador. Se descarga el archivo de la web si está.");
-    window.open(archivo,"_blank"); return;
-  }
+  if(!data){ alert("El formulario todavía no está cargado por el Administrador. Se descarga el archivo de la web si está."); window.open(archivo,"_blank"); return; }
   await compartirArchivoPorWsp(data,archivo,"Hola, te envío el formulario SOETRA: "+titulo+" - Archivo original sin modificar.");
 }
 async function enviarDocPorWsp(id,titulo,archivo){
   refrescarArchivos();
   var data=docsGuardados[id];
-  if(!data){
-    descargarDataURL(archivo,archivo);
-    alert("El documento no está cargado en este aparato, se abrió el archivo. En WhatsApp adjuntá el archivo descargado.");
-    window.open("https://wa.me/?text="+encodeURIComponent("Hola, te envío documentación SOETRA: "+titulo),"_blank"); return;
-  }
+  if(!data){ descargarDataURL(archivo,archivo); alert("El documento no está cargado en este aparato, se abrió el archivo. En WhatsApp adjuntá el archivo descargado."); window.open("https://wa.me/?text="+encodeURIComponent("Hola, te envío documentación SOETRA: "+titulo),"_blank"); return; }
   await compartirArchivoPorWsp(data,archivo,"Hola, te envío documentación SOETRA: "+titulo);
 }
 async function enviarArchivoCarpetaPorWsp(cuil,tipo){
@@ -379,11 +403,14 @@ document.addEventListener("change",function(e){ if(e.target && e.target.id==="fi
 function verPadronPorLocalidad(){ var loc=document.getElementById("filtroLocalidad").value; var lista=filtrarPorLocalidad(); if(!lista.length){ document.getElementById("padron").innerHTML="<p><b>No tenés acceso a ese padrón.</b></p>"; return; } var div=document.getElementById("padron"); var esCelu=window.innerWidth<=768; var h="<h3>Padrón "+loc+" ("+lista.length+")</h3>"; if(esCelu){ lista.forEach(function(a){ h+='<div class="cardPadron"><b>'+a.nombre+'</b><br>CUIL: '+a.cuil+'<br>Localidad: '+a.localidad+'<br>Empresa: '+(a.empresa||"")+'<br>Estado: '+estadoMostrar(a)+'</div>'; }); } else { h+="<table class='tabla'><tr><th>N° Afil.</th><th>ID</th><th>Nombre</th><th>CUIL</th><th>DNI</th><th>Localidad</th><th>Empresa</th><th>Fecha Af SOETRA</th><th>Estado</th></tr>"; lista.forEach(function(a){ h+='<tr><td>'+(a.numAfiliado||"")+'</td><td>'+(a.idExcel||"")+'</td><td>'+a.nombre+'</td><td>'+a.cuil+'</td><td>'+(a.dni||"")+'</td><td>'+(a.localidad||"")+'</td><td>'+(a.empresa||"")+'</td><td>'+(a.fechaAfSoetra||"")+'</td><td>'+estadoMostrar(a)+'</td></tr>'; }); h+="</table>"; } div.innerHTML=h; }
 function descargarExcelPorLocalidad(){ var loc=document.getElementById("filtroLocalidad").value; var lista=filtrarPorLocalidad(); if(!lista.length){ alert("No tenés acceso a ese padrón."); return; } var csv="N°Afiliado;ID;Apellido y Nombres;CUIL;DNI;Condicion;Fecha Nac;Obra Social;Fecha Afil O Social;Domicilio;Localidad;Provincia;Fecha Af SOETRA;Empresa;Correo Empleador;CUIT Empresa;Tel Renuncia UATRE;Estado;Autoriza\n"; lista.forEach(function(a){ csv+=(a.numAfiliado||"")+";"+(a.idExcel||"")+";"+a.nombre+";"+a.cuil+";"+(a.dni||"")+";"+(a.condicion||"")+";"+(a.fechaNac||"")+";"+(a.obraSocial||"")+";"+(a.fechaAfilOSocial||"")+";"+(a.domicilio||"")+";"+(a.localidad||"")+";"+(a.provincia||"")+";"+(a.fechaAfSoetra||"")+";"+(a.empresa||"")+";"+(a.correoEmpleador||"")+";"+(a.cuitEmpresa||"")+";"+(a.telRenunciaUatre||"")+";"+estadoMostrar(a)+";"+a.autoriza+"\n"; }); var blob=new Blob(["\ufeff"+csv],{type:"text/csv"}); var link=document.createElement("a"); link.href=URL.createObjectURL(blob); link.download="padron_soetra_"+(loc==="TODAS"?"PERMITIDAS":loc.replace(/ /g,"_"))+"_"+lista.length+".csv"; link.click(); }
 function guardarAfiliado(){ var nombre=document.getElementById("nNombre").value; var cuil=document.getElementById("nCuil").value; if(!nombre||!cuil){ alert("Falta Nombre y CUIL"); return; } if(!validarCuil(cuil)){ alert("CUIL INCOMPLETO. Tiene que tener 11 números."); return; } afiliados.push({numAfiliado:document.getElementById("nNumAfiliado").value||"",idExcel:"",nombre:nombre,cuil:formatearCuil(cuil),dni:document.getElementById("nDni").value,condicion:document.getElementById("nCondicion").value||"TITULAR",fechaNac:document.getElementById("nNac").value,obraSocial:document.getElementById("nObra").value,fechaAfilOSocial:document.getElementById("nAfOSocial").value,domicilio:document.getElementById("nDomicilio").value,localidad:document.getElementById("nLoc").value,provincia:document.getElementById("nProv").value,fechaAfSoetra:document.getElementById("nAfSoetra").value,empresa:document.getElementById("nEmp").value,correoEmpleador:document.getElementById("nCorreoEmp").value,cuitEmpresa:document.getElementById("nCuitEmp").value,telRenunciaUatre:document.getElementById("nTelRenuncia").value,estado:"AFILIADO A SOETRA",autoriza:"SI",carpeta:{}}); guardarEnCelu(); cargarLocalidades(); alert("Guardado."); document.getElementById("formCarga").classList.add("oculto"); verPadron(); }
-// --- BUSCADOR CORREGIDO - ESTA ES LA PARTE QUE FALLABA ---
-function buscarPorCuil(){
+// --- BUSCADOR REESCRITO: ESPERA AL PADRÓN REAL ---
+async function buscarPorCuil(){
   var qRaw=document.getElementById("buscarCuil").value||"";
   var q=qRaw.trim();
   if(!q){ alert("Escribí CUIL, DNI, N° Afiliado o Nombre"); return; }
+  var div=document.getElementById("resultado");
+  div.innerHTML="<p>Buscando en TODO EL PADRÓN...</p>";
+  await asegurarPadronCargado();
   var qUp=q.toUpperCase();
   var soloNum=q.replace(/[^0-9]/g,"");
   var encontrados=afiliados.filter(function(a){
@@ -397,7 +424,6 @@ function buscarPorCuil(){
     if(numAf && numAf===q) return true;
     return false;
   });
-  var div=document.getElementById("resultado");
   if(!encontrados.length){
     div.innerHTML="<p><b>No está afiliado</b></p><p style='font-size:13px'>Buscado: "+q+" - Se buscó en TODO EL PADRÓN, hay "+afiliados.length+" afiliados.</p>";
     return;
@@ -441,7 +467,7 @@ async function cargarPadron(event){
     for(var i=0;i<lineas.length;i++){ var linea=lineas[i].trim(); if(!linea) continue; if(i===0 && linea.toLowerCase().indexOf("nombre")!==-1) continue; var partes=linea.split(";"); if(partes.length<2) partes=linea.split(","); if(partes.length<2) continue; var cuilRaw=(partes[3]||"").trim(); if(!cuilRaw) continue; var cuil=cuilRaw; if(cuil.replace(/[^0-9]/g,"").length===11) cuil=formatearCuil(cuil); nuevos.push({numAfiliado:(partes[0]||"").trim(),idExcel:(partes[1]||"").trim(),nombre:(partes[2]||"").trim(),cuil:cuil,dni:(partes[4]||"").trim(),condicion:(partes[5]||"").trim(),fechaNac:(partes[6]||"").trim(),obraSocial:(partes[7]||"").trim(),fechaAfilOSocial:(partes[8]||"").trim(),domicilio:(partes[9]||"").trim(),localidad:(partes[10]||"").trim(),provincia:(partes[11]||"").trim(),fechaAfSoetra:(partes[12]||"").trim(),empresa:(partes[13]||"").trim(),correoEmpleador:(partes[14]||"").trim(),cuitEmpresa:(partes[15]||"").trim(),telRenunciaUatre:(partes[16]||"").trim(),estado:(partes[17]||"AFILIADO A SOETRA").trim(),autoriza:(partes[18]||"SI").trim(),carpeta:{}}); }
     if(!nuevos.length){ alert("No se pudo leer el padrón."); return; }
     if(confirm("¿Reemplazar padrón actual ("+afiliados.length+") por nuevo padrón con "+nuevos.length+" afiliados?")){
-      afiliados=nuevos; guardarEnCelu(); cargarLocalidades();
+      afiliados=nuevos; guardarEnCelu(); cargarLocalidades(); padronYaCargado=true;
       if(db){ try{ var viejos=await db.collection("padron").get(); var batch=db.batch(); viejos.forEach(function(d){ batch.delete(d.ref); }); await batch.commit(); for(var k=0;k<nuevos.length;k++){ await db.collection("padron").add(nuevos[k]); } }catch(err){ alert("Se guardó en el celu pero no en Firestore: "+err.message); } }
       alert("Padrón cargado: "+nuevos.length+" afiliados en Firestore.");
       verPadron();

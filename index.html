@@ -3,563 +3,216 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SOETRA - FATREFU</title>
+<title>SOETRA - Buscar en Firebase</title>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 <style>
-*{box-sizing:border-box} body{font-family:Arial,sans-serif;margin:0;background:#f2f5f2;color:#3a3a3a}
-header{background:#8fb3a0;color:#fff;padding:14px 16px;position:sticky;top:0;z-index:10}
-header h1{margin:0;font-size:20px} header p{margin:4px 0 0;font-size:12px;opacity:.9}
-.wrap{max-width:1100px;margin:0 auto;padding:12px}
-.caja{background:#fff;padding:16px;border-radius:14px;box-shadow:0 1px 6px rgba(0,0,0,.06);margin-bottom:12px}
-h2{margin:0 0 8px;font-size:19px;color:#4a6a58} h3{margin:14px 0 8px;font-size:16px;color:#4a6a58}
-input,select,textarea{width:100%;padding:13px 12px;margin:6px 0;border:1.5px solid #d9e2db;border-radius:10px;font-size:16px}
-textarea{min-height:150px;resize:vertical}
-button{width:100%;padding:14px 12px;background:#8fb3a0;color:#fff;border:0;border-radius:10px;font-size:16px;font-weight:700;margin-top:8px;cursor:pointer}
-.btn2{background:#e2d096;color:#4a4a4a} .btnRojo{background:#d69a9a;color:#fff} .btnGris{background:#a8a8a8} .btnForm{background:#8aa8c0} .btnCargar{background:#b49ac9;color:#fff}
-.btnWsp{background:#8fd6a8;color:#fff} .btnWspChico{background:#8fd6a8;padding:10px;font-size:14px;margin:4px 0}
-.btnChico{padding:10px;font-size:14px;margin:4px 0} .btnAzulDoc{background:#9ab0c9}
-.oculto{display:none} .afiliado{border:1px solid #e8e8e8;padding:12px;border-radius:12px;margin-top:10px;background:#fcfcfc}
-.activo{color:#5a9a76;font-weight:bold} .baja{color:#c07a7a;font-weight:bold} .renuncio{color:#d6a07a;font-weight:bold}
-.carpetaBtn{background:#eaf3ec;color:#4a6a58;border:1px solid #8fb3a0;padding:10px;margin:4px 0;font-size:14px}
-.filaForm{border:1px solid #e8e8e8;padding:12px;border-radius:12px;margin-top:10px}
-.falta{color:#c07a7a;font-size:13px;font-weight:bold} .ok{color:#5a9a76;font-size:13px;font-weight:bold}
-.campo{font-size:14px;margin:3px 0;line-height:1.4} .label{color:#888;font-size:12px}
-.tabla{width:100%;font-size:13px;border-collapse:collapse} .tabla td,.tabla th{border:1px solid #e5e5e5;padding:8px;text-align:left}
-.wspBox{background:#eaf8ee;border:1px solid #8fd6a8;padding:10px;border-radius:10px;margin-top:8px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px} .grid2 button{margin-top:0}
-.cardPadron{border:1px solid #e8e8e8;border-radius:10px;padding:10px;margin:8px 0;background:#fff}
-.checkLoc{display:flex;gap:8px;align-items:center;background:#f2f5f2;padding:10px 12px;border-radius:8px;margin:6px 0}
-.checkLoc input{width:auto;margin:0}
-.avisoFuera{background:#fff3cd;border:1px solid #e2d096;padding:10px;border-radius:10px;margin-bottom:8px;font-size:13px}
-@media(max-width:768px){.grid2{grid-template-columns:1fr}.tabla{display:block;overflow-x:auto;white-space:nowrap}}
-@media(min-width:769px){header h1{font-size:24px}.layoutPC{display:grid;grid-template-columns:340px 1fr;gap:12px;align-items:start}.layoutPC .col-izq{position:sticky;top:70px}}
-.opcion{border:2px solid #dceadf;border-radius:16px;padding:22px 10px;text-align:center;cursor:pointer}
-.opcion h3{color:#4a6a58;margin:10px 0 6px} .opcion p{margin:2px 0;color:#888;font-size:14px}
-.opcion.activa{border-color:#8fb3a0;background:#eaf3ec}
+*{box-sizing:border-box} body{font-family:Arial,sans-serif;margin:0;background:#f2f5f2}
+header{background:#8fb3a0;color:#fff;padding:16px;text-align:center}
+header h1{margin:0;font-size:22px}
+.wrap{max-width:800px;margin:0 auto;padding:12px}
+.caja{background:#fff;padding:16px;border-radius:14px;margin-bottom:12px;box-shadow:0 1px 6px rgba(0,0,0,.08)}
+input,select{width:100%;padding:14px;margin:8px 0;border:1.5px solid #ddd;border-radius:10px;font-size:16px}
+button{width:100%;padding:14px;background:#8fb3a0;color:#fff;border:0;border-radius:10px;font-size:16px;font-weight:700;margin-top:8px;cursor:pointer}
+.btnGris{background:#a8a8a8} .btn2{background:#e2d096;color:#444} .btnRojo{background:#d69a9a}
+.oculto{display:none} .afiliado{border:1px solid #eee;padding:12px;border-radius:12px;margin-top:10px}
+.activo{color:#2e8b57;font-weight:bold} .label{color:#888;font-size:12px}
 </style>
 </head>
 <body>
-<header><h1>🌾 S.O.E.T.R.A. - F.A.T.R.E.F.U.</h1><p>Padrón Completo - Teléfono y PC - Firestore / Supabase</p></header>
+<header><h1>🌾 S.O.E.T.R.A. - F.A.T.R.E.F.U.</h1><p>Busca directo en Firebase - Sin localStorage</p></header>
 <div class="wrap">
-<div id="pantallaInicio" class="caja">
-<h2>Hola, bienvenido a SOETRA</h2><p style="color:#888">Elegí cómo querés entrar:</p>
-<div class="grid2">
-<div class="opcion" onclick="elegirAcceso('AUTORIZADOS')"><div style="font-size:42px">🔍</div><h3>AUTORIZADOS</h3><p>Buscar afiliado</p><p>Completar datos faltantes</p><p>Ver padrones</p></div>
-<div class="opcion" onclick="elegirAcceso('ADMINISTRADOR')"><div style="font-size:42px">🔐</div><h3>ADMINISTRADOR</h3><p>Acceso a toda</p><p>la aplicación</p><p>Gestionar usuarios</p></div>
+
+<div id="pantallaLogin" class="caja">
+<h2>Ingresar</h2>
+<input id="email" placeholder="Email" value="nolberto37@hotmail.com">
+<input id="clave" type="password" placeholder="Contraseña">
+<button onclick="entrar()">ENTRAR</button>
+<p id="errorLogin" style="color:#c00"></p>
+<p style="font-size:13px;color:#888">Admin: nolberto37@hotmail.com / Bolito**1968<br>Autorizado: usuario@soetra.com / usuario123</p>
 </div>
-<div id="loginAutorizados" class="oculto" style="margin-top:16px;border-top:1px solid #eee;padding-top:12px">
-<h3>Ingresar - AUTORIZADOS</h3>
-<input id="emailAut" placeholder="Email" inputmode="email" autocomplete="off"><input id="claveAut" type="password" placeholder="Contraseña" autocomplete="off">
-<button type="button" class="btnGris btnChico" onclick="verClave('claveAut')">👁️ VER CLAVE</button>
-<button type="button" style="background:#8aa8c0" onclick="entrarComo('AUTORIZADOS')">ENTRAR</button><p id="errorAut" style="color:#c07a7a;font-size:13px"></p></div>
-<div id="loginAdmin" class="oculto" style="margin-top:16px;border-top:1px solid #eee;padding-top:12px">
-<h3>Ingresar - ADMINISTRADOR</h3><input id="emailAdm" placeholder="Email" inputmode="email" autocomplete="off"><input id="claveAdm" type="password" placeholder="Contraseña" autocomplete="off">
-<button type="button" class="btnGris btnChico" onclick="verClave('claveAdm')">👁️ VER CLAVE</button>
-<button type="button" onclick="entrarComo('ADMINISTRADOR')">ENTRAR</button><p id="errorAdm" style="color:#c07a7a;font-size:13px"></p></div>
-</div>
+
 <div id="panel" class="oculto">
-<div class="caja"><h2 id="bienvenida">Hola</h2><p id="rol" style="margin:0;color:#888"></p>
-<p style="font-size:13px;margin:6px 0 0">Acceso: <span id="txtAcceso"></span> - Localidades Padrón: <span id="txtLocalidades"></span> - Buscar Afiliado: <b>TODAS las localidades</b><br>Padrón total: <b id="totalPadron">0</b> afiliados - Localidad: <span id="infoLocalidadTop"></span><br><span id="txtFirestore" style="color:#5a9a76;font-size:12px"></span></p>
-<button class="btnGris" onclick="salir()">SALIR / CAMBIAR DE ACCESO</button></div>
-<div id="panelAutorizados" class="caja oculto"><h3>Panel Autorizados</h3>
-<div class="grid2">
-<div class="opcion" id="tabAutBuscar" onclick="mostrarTab('buscar')"><div style="font-size:36px">🔍</div><h3>AFILIADOS</h3><p>Buscar en padrón completo</p></div>
-<div class="opcion" id="tabAutPadrones" onclick="mostrarTab('padrones')"><div style="font-size:36px">📋</div><h3>PADRONES</h3><p>Solo tus localidades</p></div>
-<div class="opcion" id="tabAutFormularios" onclick="mostrarTab('formularios')"><div style="font-size:36px">📄</div><h3>FORMULARIOS</h3><p>Descargar y enviar con archivo</p></div>
-<div class="opcion" id="tabAutDoc" onclick="mostrarTab('documentacion')"><div style="font-size:36px">📁</div><h3>DOCUMENTACIÓN</h3><p>SOETRA - FATREFU</p></div>
-</div></div>
-<div id="panelAdmin" class="caja oculto"><h3>Panel Administrador - Todo lo autorizado +</h3>
-<div class="grid2">
-<div class="opcion" id="tabAdmBuscar" onclick="mostrarTab('buscar')"><div style="font-size:36px">👥</div><h3>AFILIADOS</h3><p>Buscar y cargar</p></div>
-<div class="opcion" id="tabAdmPadrones" onclick="mostrarTab('padrones')"><div style="font-size:36px">📋</div><h3>PADRONES</h3><p>Todas las localidades</p></div>
-<div class="opcion" id="tabAdmFormularios" onclick="mostrarTab('formularios')"><div style="font-size:36px">📄</div><h3>FORMULARIOS</h3><p>Cargar</p></div>
-<div class="opcion" id="tabAdmDoc" onclick="mostrarTab('documentacion')"><div style="font-size:36px">📁</div><h3>DOCUMENTACIÓN</h3><p>SOETRA - FATREFU</p></div>
-<div class="opcion" id="tabAdmClaves" onclick="mostrarTab('claves')"><div style="font-size:36px">🔑</div><h3>CLAVES AUTORIZADOS</h3><p>Ver y cambiar claves</p></div>
-<div class="opcion" onclick="mostrarTab('copia')"><div style="font-size:36px">💾</div><h3>COPIA SEGURIDAD</h3><p>Guardar y descargar</p></div>
+<div class="caja">
+<h2 id="bienvenida">Hola</h2>
+<p id="estadoFirebase">Conectando con Firebase...</p>
+<p>Padrón en Firebase: <b id="totalFirebase">?</b></p>
+<button class="btnGris" onclick="location.reload()">SALIR</button>
 </div>
-<div id="listaUsuarios"></div></div>
-<div id="zonaPaneles" class="oculto">
-<div class="layoutPC"><div class="col-izq">
-<div id="secBuscar" class="caja oculto"><h3>🔍 Buscar Afiliado - AFILIADOS</h3><p style="font-size:13px;color:#5a9a76;font-weight:bold">✅ Busca en el PADRÓN COMPLETO, sin limitación de localidad. Podés buscar por CUIL con o sin guiones, DNI o Nombre.</p>
-<input id="buscarCuil" placeholder="CUIL, DNI, N° Afiliado o Nombre" maxlength="60">
-<button onclick="buscarPorCuil()">BUSCAR AFILIADO EN TODO EL PADRÓN</button><div id="resultado"></div><button class="btnGris" onclick="volverPanel()">← VOLVER AL PANEL</button></div>
-<div id="secFormularios" class="caja oculto"><h3>📄 Formularios PDF - Enviar con archivo adjunto</h3><p style="font-size:12px;color:#888">Tocá ENVIAR POR WHATSAPP y te abre el compartir del celular con el PDF ya adjunto.</p><div id="listaFormularios"></div>
-<button class="btnGris" onclick="volverPanel()">← VOLVER AL PANEL</button></div>
-<div id="secDocumentacion" class="caja oculto"><h3>📁 Documentación SOETRA - FATREFU</h3><p style="font-size:12px;color:#888">Tocá ENVIAR POR WHATSAPP y te abre el compartir del celular con el archivo ya adjunto.</p><div id="listaDocumentos"></div>
-<button class="btnGris" onclick="volverPanel()">← VOLVER AL PANEL</button></div>
-<div id="secClaves" class="caja oculto"><h3>🔑 Claves Autorizados - Solo Administrador</h3><p style="font-size:13px;color:#888">Tildá una o varias localidades para cada autorizado. Eso limita solo PADRÓN. En BUSCAR AFILIADO puede buscar en todo el padrón completo.</p><div id="listaClaves"></div>
-<h3>➕ Agregar Autorizado nuevo</h3><input id="nuevoEmailAut" placeholder="Email nuevo autorizado"><input id="nuevoClaveAut" placeholder="Clave nueva"><label class="label">Tildá las localidades a las que puede acceder en PADRÓN</label><div id="checksNuevoAut"></div><button class="btnCargar" onclick="agregarAutorizado()">AGREGAR AUTORIZADO</button>
-<button class="btnGris" onclick="volverPanel()">← VOLVER AL PANEL</button></div>
-<div id="secCopia" class="caja oculto"><h3>💾 Copia de Seguridad - Solo Administrador</h3><p style="font-size:13px;color:#888">Guardá una copia acá mismo y además descargá el código completo en un archivo HTML que se abre con Chrome.</p>
-<button class="btn2" onclick="guardarCopiaSeguridad()">💾 GUARDAR COPIA DE SEGURIDAD</button>
-<button class="btnForm" onclick="copiaSeguridad()">⬇️ DESCARGAR COPIA (JSON)</button>
-<button class="btnCargar" onclick="descargarCodigoCompleto()">🌐 DESCARGAR CÓDIGO COMPLETO - ARCHIVO CHROME HTML</button>
-<div id="listaCopias"></div>
-<button class="btnGris" onclick="volverPanel()">← VOLVER AL PANEL</button></div>
+
+<div class="caja">
+<h2>🔍 Buscar Afiliado - Directo en Firebase</h2>
+<p style="font-size:13px;color:#2e8b57;font-weight:bold">Busca en TODA la colección "padron" de Firebase. No usa localStorage.</p>
+<input id="buscarCuil" placeholder="CUIL, DNI o Nombre - Ej: 20-21832703-8 o MUGAS">
+<button onclick="buscarPorCuil()">BUSCAR EN FIREBASE</button>
+<div id="resultado"></div>
 </div>
-<div class="col-der"><div id="soloAdmin" class="oculto"><div class="caja"><h3>➕ Cargar Afiliado</h3>
-<button class="btn2" onclick="document.getElementById('formCarga').classList.toggle('oculto')">+ CARGAR AFILIADO</button>
-<div id="formCarga" class="oculto">
-<label class="label">N° DE AFILIADO - por ahora queda vacío</label><input id="nNumAfiliado" placeholder="N° de Afiliado (vacío por ahora)">
-<input id="nNombre" placeholder="Apellido y Nombres *"><input id="nCuil" placeholder="CUIL 11 números *" maxlength="13">
-<input id="nDni" placeholder="DNI"><input id="nCondicion" placeholder="Condición - TITULAR"><input id="nNac" placeholder="Fecha Nacimiento"><input id="nObra" placeholder="Obra Social"><input id="nAfOSocial" placeholder="Fecha Afil. O Social"><input id="nDomicilio" placeholder="Domicilio"><input id="nLoc" placeholder="Localidad"><input id="nProv" placeholder="Provincia"><input id="nAfSoetra" placeholder="Fecha Af. SOETRA"><input id="nEmp" placeholder="Empresa / Empleador"><input id="nCorreoEmp" placeholder="Correo Empleador"><input id="nCuitEmp" placeholder="CUIT Empresa"><input id="nTelRenuncia" placeholder="Tel Renuncia UATRE">
-<button onclick="guardarAfiliado()">GUARDAR AFILIADO</button></div></div></div>
-<div id="panelNotificacionEmpleador" class="oculto"><div class="caja"><h3>📧 Notificación Empleador - Solo Administrador</h3><p style="font-size:13px;color:#888">Cargás tu correo y el correo del empleador receptor. El modelo de notificación queda pendiente, lo podés editar y se guarda.</p>
-<label class="label">Correo del Administrador - Remitente</label><input id="notifCorreoAdmin" placeholder="Ej: nolberto37@hotmail.com">
-<label class="label">Nombre / Empresa Empleador - Receptor</label><input id="notifNombreEmp" placeholder="Nombre o Empresa del empleador">
-<label class="label">Correo Empleador - Receptor</label><input id="notifCorreoReceptor" placeholder="Correo del empleador receptor" inputmode="email">
-<label class="label">CUIT Empresa</label><input id="notifCuitEmp" placeholder="CUIT Empresa">
-<label class="label">Teléfono / WhatsApp Empleador</label><input id="notifTelEmp" placeholder="Ej: 353... sin +54">
-<label class="label">Asunto</label><input id="notifAsunto" value="NOTIFICACIÓN SOETRA - Afiliación y Descuento">
-<label class="label">📝 Notificación Modelo - PENDIENTE - Podés editarla</label><textarea id="notifModelo">Estimado Empleador:
 
-De nuestra mayor consideración, nos dirigimos a Ud. en carácter de S.O.E.T.R.A. - Sindicato de Obreros y Empleados de la actividad...
-
-[PENDIENTE - Modelo de notificación a completar]
-
-Afiliado:
-Empresa:
-Localidad:
-
-Quedamos a su disposición.
-Atte. S.O.E.T.R.A. - F.A.T.R.E.F.U.</textarea>
-<button class="btn2" onclick="guardarNotificacionEmpleador()">💾 GUARDAR NOTIFICACIÓN MODELO</button>
-<button class="btnForm" onclick="enviarNotificacionPorCorreo()">📧 ENVIAR POR CORREO AL EMPLEADOR</button>
-<button class="btnWsp" onclick="enviarNotificacionPorWsp()">📲 ENVIAR MISMA NOTIFICACIÓN POR WHATSAPP</button>
-<div id="vistaNotificacion"></div>
-</div></div>
-<div id="secPadrones" class="caja oculto"><h3>📋 Padrón - Descargar por Localidad</h3>
-<label class="label">Elegí la localidad - Solo las que te habilitó el Administrador</label><select id="filtroLocalidad"><option value="TODAS">TODAS LAS LOCALIDADES PERMITIDAS</option></select><p style="font-size:12px" id="infoLocalidad"></p>
-<div class="grid2"><button class="btn2" onclick="descargarExcelPorLocalidad()">⬇️ DESCARGAR POR LOCALIDAD</button><button class="btnWsp" onclick="enviarPadronPorWsp()">📲 ENVIAR POR WHATSAPP</button></div>
-<button class="btn2" onclick="verPadronPorLocalidad()">👁️ VER PADRÓN POR LOCALIDAD</button>
-<div id="bloqueAdminPadron" class="oculto">
-<button class="btn2" onclick="verPadron()">VER PADRÓN COMPLETO</button>
-<button class="btn2" onclick="descargarExcel()">⬇️ DESCARGAR COMPLETO (TODOS)</button>
-<button class="btnCargar" onclick="document.getElementById('inputPadron').click()">⬆️ CARGAR PADRÓN DESDE EXCEL / CSV</button>
-<button class="btnForm" onclick="cargarPadronDesdeFirestore()">🔄 RECARGAR PADRÓN DESDE FIRESTORE / SUPABASE</button>
+<div class="caja" id="cajaAdmin">
+<h2>📋 Padrón</h2>
+<button class="btn2" onclick="verPadronFirebase()">VER PADRÓN COMPLETO DESDE FIREBASE</button>
+<button class="btn2" onclick="contarPadron()">CONTAR CUÁNTOS HAY EN FIREBASE</button>
+<div id="padron"></div>
+<h3>Cargar padrón CSV a Firebase</h3>
+<p style="font-size:12px;color:#888">CSV con ; : N°Afiliado;ID;Nombre;CUIL;DNI;Condicion;FechaNac;ObraSocial;FechaAfOS;Domicilio;Localidad;Provincia;FechaAfSOETRA;Empresa;CorreoEmp;CUITEmpresa;TelRenuncia;Estado;Autoriza</p>
+<input type="file" id="inputPadron" accept=".csv,.txt" onchange="cargarPadronCSV(event)">
 </div>
-<input type="file" id="inputPadron" accept=".csv,.txt" style="display:none" onchange="cargarPadron(event)"><div id="padron"></div>
-<button class="btnGris" onclick="volverPanel()">← VOLVER AL PANEL</button></div>
-</div></div></div></div>
+
+<div class="caja">
+<h2>📄 Formularios</h2>
+<p><a href="Ficha.pdf" target="_blank"><button class="btn2">ABRIR FICHA DE AFILIACIÓN</button></a></p>
+<p><a href="Solicita-Autoriza.pdf" target="_blank"><button class="btn2">ABRIR SOLICITA - AUTORIZA</button></a></p>
 </div>
+</div>
+</div>
+
 <script>
-function verClave(id){ var el=document.getElementById(id); el.type = el.type==="password" ? "text" : "password"; }
-function limpiarEmail(v){ return (v||"").trim().toLowerCase().replace(/\s+/g,""); }
-function limpiarClave(v){ return (v||"").trim(); }
-var EMAIL_UNICO = "nolberto37@hotmail.com";
-var CLAVE_UNICA = "Bolito**1968";
-var RESPALDOS = { "admin@soetra.com": { clave: "admin123", rol: "ADMINISTRADOR" }, "usuario@soetra.com": { clave: "usuario123", rol: "AUTORIZADOS" } };
-var TIPOS_CARPETA = ["Ficha Afiliación","Solicita-Autoriza","DNI","Recibo Sueldo","Telegrama Renuncia SOETRA","Telegrama Renuncia UATRE"];
-// --- FIRESTORE ---
-var firebaseConfig = { apiKey: "AIzaSyAz2QsNccuKVxC4YDebOJaR1dNXBAIOCBc", authDomain: "admin-soetra.firebaseapp.com", projectId: "admin-soetra", storageBucket: "admin-soetra.firebasestorage.app", messagingSenderId: "90980716540", appId: "1:90980716540:web:101e3e32322a01734ec79", measurementId: "G-FS381E2H3F" };
-try{ firebase.initializeApp(firebaseConfig); }catch(e){}
-var db = null; try{ db = firebase.firestore(); }catch(e){}
-// --- SUPABASE - SI LO USÁS, PONÉ ACÁ TU URL Y TU CLAVE ANON ---
-var SUPABASE_URL = "";
-var SUPABASE_KEY = "";
-var padronYaCargado = false;
-var PADRON_INICIAL = [
-  {"numAfiliado":"","idExcel":1,"nombre":"SANCHEZ PEDRO FRANCISCO","cuil":"20-14856450-8","dni":"14856450","condicion":"TITULAR","fechaNac":"","obraSocial":"OTRA","fechaAfilOSocial":"","domicilio":"","localidad":"HERNANDO","provincia":"CORDOBA","fechaAfSoetra":"25/12/2025","empresa":"CENTRO TECNOLOGICO AGROPECUARIO SA","correoEmpleador":"","cuitEmpresa":"30-71009964-9","telRenunciaUatre":"","estado":"AFILIADO A SOETRA","autoriza":"SI","carpeta":{}},
-  {"numAfiliado":"","idExcel":2,"nombre":"FONSFRIA HECTOR FABIAN","cuil":"20-18587177-1","dni":"18587177","condicion":"TITULAR","fechaNac":"","obraSocial":"OTRA","fechaAfilOSocial":"","domicilio":"","localidad":"HERNANDO","provincia":"CORDOBA","fechaAfSoetra":"01/12/2025","empresa":"CENTRO TECNOLOGICO AGROPECUARIO SA","correoEmpleador":"","cuitEmpresa":"30-71009964-9","telRenunciaUatre":"","estado":"AFILIADO A SOETRA","autoriza":"SI","carpeta":{}},
-  {"numAfiliado":"","idExcel":3,"nombre":"RODRIGUEZ NOLBERTO","cuil":"20-20362729-8","dni":"20362729","condicion":"TITULAR","fechaNac":"11/12/1968","obraSocial":"OTRA","fechaAfilOSocial":"","domicilio":"ALMIRANTE BROWN 677","localidad":"HERNANDO","provincia":"CORDOBA","fechaAfSoetra":"01/12/2025","empresa":"CENTRO TECNOLOGICO AGROPECUARIO SA","correoEmpleador":"","cuitEmpresa":"30-71009964-9","telRenunciaUatre":"RENUNCIO UATRE SI","estado":"RENUNCIO A UATRE","autoriza":"SI","carpeta":{}},
-  {"numAfiliado":"","idExcel":4,"nombre":"RODRIGUEZ ROBERTO LEONIDES","cuil":"20-21126985-6","dni":"21126985","condicion":"TITULAR","fechaNac":"","obraSocial":"OTRA","fechaAfilOSocial":"","domicilio":"","localidad":"HERNANDO","provincia":"CORDOBA","fechaAfSoetra":"01/12/2025","empresa":"CENTRO TECNOLOGICO AGROPECUARIO SA","correoEmpleador":"","cuitEmpresa":"30-71009964-9","telRenunciaUatre":"","estado":"AFILIADO A SOETRA","autoriza":"SI","carpeta":{}}
-];
-var afiliados = JSON.parse(localStorage.getItem("soetra_afiliados_v3")||"null");
-if(!afiliados || afiliados.length<4){ afiliados=PADRON_INICIAL; localStorage.setItem("soetra_afiliados_v3",JSON.stringify(afiliados)); }
-afiliados.forEach(function(a){ if(a.estado==="ACTIVO" || !a.estado) a.estado="AFILIADO A SOETRA"; if(a.estado.indexOf("RENUNCIA UATRE")!==-1) a.estado="RENUNCIO A UATRE"; });
-// --- ESTA ES LA PARTE REESCRITA: CARGA EL PADRÓN REAL ANTES DE BUSCAR ---
-async function cargarPadronDesdeFirestore(){
-  if(db){
-    try{
-      var snap = await db.collection("padron").get();
-      if(snap.size>0){
-        var lista=[];
-        snap.forEach(function(doc){ var d=doc.data(); d._id=doc.id; if(!d.carpeta) d.carpeta={}; lista.push(d); });
-        afiliados=lista;
-        localStorage.setItem("soetra_afiliados_v3",JSON.stringify(afiliados));
-        padronYaCargado=true;
-        var t=document.getElementById("totalPadron"); if(t) t.innerText=afiliados.length;
-        var tf=document.getElementById("txtFirestore"); if(tf) tf.innerText="✅ Padrón desde Firestore: "+afiliados.length+" afiliados";
-        cargarLocalidades();
-        return true;
-      }
-    }catch(e){ console.log("Firestore falló",e); }
-  }
-  if(SUPABASE_URL && SUPABASE_KEY){
-    try{
-      var r = await fetch(SUPABASE_URL+"/rest/v1/padron?select=*", {headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY}});
-      var datos = await r.json();
-      if(datos && datos.length>0){
-        afiliados=datos.map(function(d){ if(!d.carpeta) d.carpeta={}; return d; });
-        localStorage.setItem("soetra_afiliados_v3",JSON.stringify(afiliados));
-        padronYaCargado=true;
-        var t2=document.getElementById("totalPadron"); if(t2) t2.innerText=afiliados.length;
-        var tf2=document.getElementById("txtFirestore"); if(tf2) tf2.innerText="✅ Padrón desde Supabase: "+afiliados.length+" afiliados";
-        cargarLocalidades();
-        return true;
-      }
-    }catch(e){ console.log("Supabase falló",e); }
-  }
-  var guardado = JSON.parse(localStorage.getItem("soetra_afiliados_v3")||"null");
-  if(guardado && guardado.length>0){ afiliados=guardado; padronYaCargado=true; return true; }
-  return false;
+// ---------- FIREBASE ----------
+var firebaseConfig = { apiKey: "AIzaSyAz2QsNccuKVxC4YDebOJaR1dNXBAIOCBc", authDomain: "admin-soetra.firebaseapp.com", projectId: "admin-soetra", storageBucket: "admin-soetra.firebasestorage.app", messagingSenderId: "90980716540", appId: "1:90980716540:web:101e3e32322a01734ec79" };
+firebase.initializeApp(firebaseConfig);
+var db = firebase.firestore();
+var esAdmin = false;
+
+function entrar(){
+  var e = document.getElementById("email").value.trim().toLowerCase();
+  var c = document.getElementById("clave").value.trim();
+  if(e==="nolberto37@hotmail.com" && c==="Bolito**1968"){ esAdmin=true; }
+  else if(e==="usuario@soetra.com" && c==="usuario123"){ esAdmin=false; }
+  else if(e==="admin@soetra.com" && c==="admin123"){ esAdmin=true; }
+  else { document.getElementById("errorLogin").innerText="Email o clave incorrecta"; return; }
+  document.getElementById("pantallaLogin").classList.add("oculto");
+  document.getElementById("panel").classList.remove("oculto");
+  document.getElementById("bienvenida").innerText="Hola - "+(esAdmin?"ADMINISTRADOR":"AUTORIZADO");
+  document.getElementById("cajaAdmin").style.display = esAdmin ? "block" : "none";
+  contarPadron();
 }
-async function asegurarPadronCargado(){
-  if(padronYaCargado && afiliados.length>4) return true;
-  await cargarPadronDesdeFirestore();
-  return afiliados.length>0;
-}
-cargarPadronDesdeFirestore();
-var FORMULARIOS = [ {id:"ficha",titulo:"FICHA DE AFILIACIÓN",archivo:"Ficha.pdf"}, {id:"autoriza",titulo:"SOLICITA - AUTORIZA",archivo:"Solicita-Autoriza.pdf"} ];
-var DOCUMENTOS = [ {id:"cbu_soetra",titulo:"CBU SOETRA",archivo:"CTA bancaria SOETRA.pdf"}, {id:"cbu_fatrefu",titulo:"CBU FATREFU",archivo:"CUENTA BANCO FATREFU.pdf"}, {id:"aut_fatrefu",titulo:"AUTORIDADES FATREFU",archivo:"Constancia Autoridades 1 FATREFU.pdf"}, {id:"cuit",titulo:"CUIT SOETRA",archivo:"CUIT SOETRA.pdf"}, {id:"est_soetra",titulo:"ESTATUTO SOETRA",archivo:"Estatuto soetra.pdf"}, {id:"est_fatrefu",titulo:"ESTATUTO FATREFU",archivo:"estatuto fatrefu.pdf"} ];
-var pdfsGuardados = JSON.parse(localStorage.getItem("soetra_pdfs")||"{}");
-var docsGuardados = JSON.parse(localStorage.getItem("soetra_docs")||"{}");
-var usuariosAut = JSON.parse(localStorage.getItem("soetra_usuarios_aut")||"null");
-if(!usuariosAut){ usuariosAut=[{email:"usuario@soetra.com",clave:"usuario123",localidades:["TODAS"]}]; localStorage.setItem("soetra_usuarios_aut",JSON.stringify(usuariosAut)); }
-function normalizarLocalidades(u){
-  if(!u.localidades) return ["TODAS"];
-  if(typeof u.localidades==="string") return [u.localidades];
-  if(Array.isArray(u.localidades) && u.localidades.length) return u.localidades;
-  return ["TODAS"];
-}
-usuariosAut.forEach(function(u){ u.localidades=normalizarLocalidades(u); });
-function guardarUsuariosAut(){ localStorage.setItem("soetra_usuarios_aut",JSON.stringify(usuariosAut)); }
-function refrescarArchivos(){ pdfsGuardados = JSON.parse(localStorage.getItem("soetra_pdfs")||"{}"); docsGuardados = JSON.parse(localStorage.getItem("soetra_docs")||"{}"); }
-function listaLocalidadesUnicas(){ return [].concat(afiliados.map(function(a){return (a.localidad||"SIN LOCALIDAD").trim().toUpperCase();})).filter(function(v,i,a){return a.indexOf(v)===i;}).sort(); }
-function puedeVerLocalidadPadron(loc){
-  if(esAdminActual) return true;
-  if(!usuarioActual || !usuarioActual.localidades) return true;
-  if(usuarioActual.localidades.indexOf("TODAS")!==-1) return true;
-  return usuarioActual.localidades.indexOf((loc||"").trim().toUpperCase())!==-1;
-}
-function puedeVerLocalidad(loc){ return puedeVerLocalidadPadron(loc); }
-var esAdminActual=false; var usuarioActual=null;
-var MODELO_NOTIF_DEFAULT = "Estimado Empleador:\n\nDe nuestra mayor consideración, nos dirigimos a Ud. en carácter de S.O.E.T.R.A. - Sindicato de Obreros y Empleados de la actividad...\n\n[PENDIENTE - Modelo de notificación a completar]\n\nAfiliado:\nEmpresa:\nLocalidad:\n\nQuedamos a su disposición.\nAtte. S.O.E.T.R.A. - F.A.T.R.E.F.U.";
-var notifEmpleador = JSON.parse(localStorage.getItem("soetra_notif_empleador")||"null");
-if(!notifEmpleador){ notifEmpleador={correoAdmin:"nolberto37@hotmail.com",nombreEmp:"",correoReceptor:"",cuitEmp:"",telEmp:"",asunto:"NOTIFICACIÓN SOETRA - Afiliación y Descuento",modelo:MODELO_NOTIF_DEFAULT}; localStorage.setItem("soetra_notif_empleador",JSON.stringify(notifEmpleador)); }
-function cargarNotificacionEmpleador(){
-  document.getElementById("notifCorreoAdmin").value=notifEmpleador.correoAdmin||"";
-  document.getElementById("notifNombreEmp").value=notifEmpleador.nombreEmp||"";
-  document.getElementById("notifCorreoReceptor").value=notifEmpleador.correoReceptor||"";
-  document.getElementById("notifCuitEmp").value=notifEmpleador.cuitEmp||"";
-  document.getElementById("notifTelEmp").value=notifEmpleador.telEmp||"";
-  document.getElementById("notifAsunto").value=notifEmpleador.asunto||"NOTIFICACIÓN SOETRA - Afiliación y Descuento";
-  document.getElementById("notifModelo").value=notifEmpleador.modelo||MODELO_NOTIF_DEFAULT;
-}
-function leerNotificacionEmpleador(){
-  notifEmpleador={correoAdmin:document.getElementById("notifCorreoAdmin").value.trim(),nombreEmp:document.getElementById("notifNombreEmp").value.trim(),correoReceptor:limpiarEmail(document.getElementById("notifCorreoReceptor").value),cuitEmp:document.getElementById("notifCuitEmp").value.trim(),telEmp:document.getElementById("notifTelEmp").value.trim(),asunto:document.getElementById("notifAsunto").value.trim(),modelo:document.getElementById("notifModelo").value};
-  return notifEmpleador;
-}
-function guardarNotificacionEmpleador(){ leerNotificacionEmpleador(); localStorage.setItem("soetra_notif_empleador",JSON.stringify(notifEmpleador)); alert("Notificación guardada. Modelo pendiente listo para usar."); }
-function armarTextoNotificacion(){
-  var n=leerNotificacionEmpleador();
-  var texto=n.modelo;
-  var encabezado="Para: "+(n.nombreEmp||"Empleador")+" - CUIT: "+(n.cuitEmp||"")+"\nCorreo Receptor: "+(n.correoReceptor||"")+"\nDe: "+(n.correoAdmin||"")+"\nAsunto: "+(n.asunto||"")+"\n\n";
-  return encabezado+texto;
-}
-function enviarNotificacionPorCorreo(){
-  var n=leerNotificacionEmpleador();
-  if(!n.correoReceptor){ alert("Cargá el Correo del Empleador Receptor"); return; }
-  localStorage.setItem("soetra_notif_empleador",JSON.stringify(n));
-  var mailto="mailto:"+encodeURIComponent(n.correoReceptor)+"?subject="+encodeURIComponent(n.asunto)+"&body="+encodeURIComponent(armarTextoNotificacion());
-  window.location.href=mailto;
-}
-function enviarNotificacionPorWsp(){
-  var n=leerNotificacionEmpleador();
-  localStorage.setItem("soetra_notif_empleador",JSON.stringify(n));
-  var texto=armarTextoNotificacion();
-  if(n.telEmp){ var tel=n.telEmp.replace(/[^0-9]/g,""); if(tel.length===10) tel="54"+tel; window.open("https://wa.me/"+tel+"?text="+encodeURIComponent(texto),"_blank"); }
-  else { window.open("https://wa.me/?text="+encodeURIComponent(texto),"_blank"); }
-}
-function dataURLaArchivo(dataURL,nombre){
+
+function formatearCuil(c){ var l=(c||"").replace(/[^0-9]/g,""); if(l.length!==11) return c; return l.slice(0,2)+"-"+l.slice(2,10)+"-"+l.slice(10,11); }
+function normalizar(a){ return { numAfiliado:a.numAfiliado||"", nombre:a.nombre||"", cuil:a.cuil||"", dni:a.dni||"", condicion:a.condicion||"", fechaNac:a.fechaNac||"", obraSocial:a.obraSocial||"", domicilio:a.domicilio||"", localidad:a.localidad||"", provincia:a.provincia||"", fechaAfSoetra:a.fechaAfSoetra||"", empresa:a.empresa||"", cuitEmpresa:a.cuitEmpresa||"", estado:a.estado||"AFILIADO A SOETRA", autoriza:a.autoriza||"SI" }; }
+
+async function contarPadron(){
   try{
-    var partes=dataURL.split(","); var mime=(partes[0].match(/:(.*?);/)||[])[1]||"application/pdf";
-    var bin=atob(partes[1]); var arr=new Uint8Array(bin.length); for(var i=0;i<bin.length;i++){ arr[i]=bin.charCodeAt(i); }
-    return new File([arr],nombre,{type:mime});
-  }catch(e){ return null; }
+    var s = await db.collection("padron").get();
+    document.getElementById("totalFirebase").innerText = s.size;
+    document.getElementById("estadoFirebase").innerText = "✅ Conectado a Firebase - Colección padron: "+s.size+" afiliados";
+  }catch(e){ document.getElementById("estadoFirebase").innerText = "❌ ERROR FIREBASE: "+e.message; }
 }
-function descargarDataURL(dataURL,nombre){
-  var a=document.createElement("a"); a.href=dataURL; a.download=nombre; a.click();
-}
-async function compartirArchivoPorWsp(dataURL,nombreArchivo,texto){
-  var archivo=dataURLaArchivo(dataURL,nombreArchivo);
-  if(archivo && navigator.share && navigator.canShare && navigator.canShare({files:[archivo]})){
-    try{ await navigator.share({files:[archivo],text:texto,title:nombreArchivo}); return true; }catch(e){ if((e.name||"")==="AbortError") return true; }
-  }
-  if(archivo && navigator.share){
-    try{ await navigator.share({files:[archivo],text:texto,title:nombreArchivo}); return true; }catch(e){}
-  }
-  descargarDataURL(dataURL,nombreArchivo);
-  alert("El archivo se descargó. Ahora se abre WhatsApp, elegí el contacto y adjuntá el archivo descargado con el clip 📎.");
-  window.open("https://wa.me/?text="+encodeURIComponent(texto+" - El archivo "+nombreArchivo+" se descargó, lo adjunto con el clip."),"_blank");
-  return false;
-}
-function estadoMostrar(a){ if(a.carpeta && a.carpeta["Telegrama Renuncia UATRE"]) return "RENUNCIO A UATRE"; if(a.telRenunciaUatre && a.telRenunciaUatre.indexOf("RENUNCIO UATRE SI")!==-1) return "RENUNCIO A UATRE"; if(a.estado==="RENUNCIO A UATRE") return "RENUNCIO A UATRE"; if(a.estado==="BAJA POR RENUNCIA") return "BAJA POR RENUNCIA"; return "AFILIADO A SOETRA"; }
-function claseEstado(a){ var e=estadoMostrar(a); if(e==="AFILIADO A SOETRA") return "activo"; if(e==="RENUNCIO A UATRE") return "renuncio"; return "baja"; }
-function elegirAcceso(tipo){ document.getElementById("loginAutorizados").classList.toggle("oculto",tipo!=="AUTORIZADOS"); document.getElementById("loginAdmin").classList.toggle("oculto",tipo!=="ADMINISTRADOR"); }
-function salir(){ location.reload(); }
-function volverPanel(){ document.getElementById("zonaPaneles").classList.add("oculto"); var z=document.getElementById("panel"); if(z) z.scrollIntoView({behavior:"smooth"}); var tabs=document.querySelectorAll(".opcion.activa"); tabs.forEach(function(t){ t.classList.remove("activa"); }); }
-function mostrarTab(seccion){
-  refrescarArchivos();
-  document.getElementById("zonaPaneles").classList.remove("oculto");
-  var mapa={buscar:"secBuscar",padrones:"secPadrones",formularios:"secFormularios",documentacion:"secDocumentacion",claves:"secClaves",copia:"secCopia"};
-  ["secBuscar","secPadrones","secFormularios","secDocumentacion","secClaves","secCopia"].forEach(function(id){ document.getElementById(id).classList.add("oculto"); });
-  document.getElementById(mapa[seccion]).classList.remove("oculto");
-  if(seccion==="formularios") mostrarFormularios();
-  if(seccion==="documentacion") mostrarDocumentos();
-  if(seccion==="claves") mostrarClaves();
-  if(seccion==="copia") mostrarCopias();
-  if(seccion==="padrones") cargarLocalidades();
-  var solo=document.getElementById("soloAdmin");
-  var panelNotif=document.getElementById("panelNotificacionEmpleador");
-  if(seccion==="buscar" && esAdminActual){ solo.classList.remove("oculto"); panelNotif.classList.remove("oculto"); cargarNotificacionEmpleador(); } else { solo.classList.add("oculto"); panelNotif.classList.add("oculto"); }
-  var bloque=document.getElementById("bloqueAdminPadron");
-  if(bloque){ bloque.classList.toggle("oculto", !esAdminActual); }
-  var idsTab = esAdminActual ? {buscar:"tabAdmBuscar",padrones:"tabAdmPadrones",formularios:"tabAdmFormularios",documentacion:"tabAdmDoc",claves:"tabAdmClaves",copia:"tabAdmCopia"} : {buscar:"tabAutBuscar",padrones:"tabAutPadrones",formularios:"tabAutFormularios",documentacion:"tabAutDoc"};
-  Object.keys(idsTab).forEach(function(k){ var el=document.getElementById(idsTab[k]); if(el) el.classList.toggle("activa", k===seccion); });
-  var zona=document.getElementById("zonaPaneles");
-  setTimeout(function(){ if(zona) zona.scrollIntoView({behavior:"smooth",block:"start"}); if(seccion==="buscar"){ var inp=document.getElementById("buscarCuil"); if(inp) inp.focus(); } }, 100);
-}
-function irA(seccion){ mostrarTab(seccion); }
-function irABuscar(){ mostrarTab("buscar"); }
-function abrirWsp(m){ window.open("https://wa.me/?text="+encodeURIComponent(m),"_blank"); }
-function enviarPadronPorWsp(){ var loc=document.getElementById("filtroLocalidad").value; var lista=filtrarPorLocalidad(); var t="Hola, te envío el PADRÓN SOETRA - Localidad: "+loc+" - Cantidad: "+lista.length+" afiliados.\n\n"; lista.slice(0,20).forEach(function(a){ t+="- "+a.nombre+" - CUIL "+a.cuil+" - "+estadoMostrar(a)+"\n"; }); descargarExcelPorLocalidad(); abrirWsp(t); }
-function enviarPadronCompletoPorWsp(){ descargarExcel(); abrirWsp("Hola, te envío el PADRÓN COMPLETO SOETRA - Total: "+afiliados.length+" afiliados. Archivo adjunto: padron_soetra_completo.csv"); }
-async function enviarFormularioPorWsp(id,titulo,archivo){
-  refrescarArchivos();
-  var data=pdfsGuardados[id];
-  if(!data){ alert("El formulario todavía no está cargado por el Administrador. Se descarga el archivo de la web si está."); window.open(archivo,"_blank"); return; }
-  await compartirArchivoPorWsp(data,archivo,"Hola, te envío el formulario SOETRA: "+titulo+" - Archivo original sin modificar.");
-}
-async function enviarDocPorWsp(id,titulo,archivo){
-  refrescarArchivos();
-  var data=docsGuardados[id];
-  if(!data){ descargarDataURL(archivo,archivo); alert("El documento no está cargado en este aparato, se abrió el archivo. En WhatsApp adjuntá el archivo descargado."); window.open("https://wa.me/?text="+encodeURIComponent("Hola, te envío documentación SOETRA: "+titulo),"_blank"); return; }
-  await compartirArchivoPorWsp(data,archivo,"Hola, te envío documentación SOETRA: "+titulo);
-}
-async function enviarArchivoCarpetaPorWsp(cuil,tipo){
-  var af=afiliados.find(function(a){return a.cuil===cuil}); var arch=af.carpeta[tipo];
-  if(!arch){ alert("Sin archivo"); return; }
-  await compartirArchivoPorWsp(arch.data,arch.nombre,"Hola, te envío el archivo SOETRA:\nAfiliado: "+af.nombre+"\nCUIL: "+af.cuil+"\nDocumento: "+tipo);
-}
-function enviarFichaCompletaPorWsp(cuil){ var af=afiliados.find(function(a){return a.cuil===cuil}); abrirWsp("FICHA SOETRA - AFILIADO:\nN° Afiliado: "+(af.numAfiliado||"(vacío)")+"\nNombre: "+af.nombre+"\nCUIL: "+af.cuil+"\nDNI: "+(af.dni||"")+"\nLocalidad: "+(af.localidad||"")+" - "+(af.provincia||"")+"\nDomicilio: "+(af.domicilio||"")+"\nFecha Af. SOETRA: "+(af.fechaAfSoetra||"")+"\nEmpresa: "+(af.empresa||"")+" - CUIT: "+(af.cuitEmpresa||"")+"\nEstado: "+estadoMostrar(af)+"\nObra Social: "+(af.obraSocial||"")); }
-function guardarEnCelu(){ localStorage.setItem("soetra_afiliados_v3",JSON.stringify(afiliados)); document.getElementById("totalPadron").innerText=afiliados.length; }
-function entrarComo(tipo){
-  var e = tipo==="AUTORIZADOS" ? limpiarEmail(document.getElementById("emailAut").value) : limpiarEmail(document.getElementById("emailAdm").value);
-  var c = tipo==="AUTORIZADOS" ? limpiarClave(document.getElementById("claveAut").value) : limpiarClave(document.getElementById("claveAdm").value);
-  var ok = false; var rolFinal = tipo; var locPermitidas = ["TODAS"];
-  if(e===EMAIL_UNICO && c===CLAVE_UNICA){ ok=true; rolFinal=tipo; locPermitidas=["TODAS"]; }
-  else if(RESPALDOS[e] && RESPALDOS[e].clave===c){ ok=true; rolFinal=RESPALDOS[e].rol; locPermitidas=["TODAS"]; }
-  else {
-    var u = usuariosAut.find(function(x){ return x.email===e && x.clave===c; });
-    if(u){ ok=true; rolFinal="AUTORIZADOS"; locPermitidas=normalizarLocalidades(u); }
-  }
-  if(ok){
-    refrescarArchivos();
-    afiliados = JSON.parse(localStorage.getItem("soetra_afiliados_v3")||"null") || afiliados;
-    usuarioActual={ nombre:"Nolberto", localidades:locPermitidas, rol:rolFinal };
-    esAdminActual=(rolFinal==="ADMINISTRADOR");
-    document.getElementById("pantallaInicio").classList.add("oculto"); document.getElementById("panel").classList.remove("oculto");
-    document.getElementById("bienvenida").innerText="Hola "+usuarioActual.nombre;
-    document.getElementById("rol").innerText="Rol: "+usuarioActual.rol;
-    document.getElementById("txtAcceso").innerText=usuarioActual.rol; document.getElementById("txtLocalidades").innerText=usuarioActual.localidades.join(", ");
-    document.getElementById("totalPadron").innerText=afiliados.length;
-    document.getElementById("panelAutorizados").classList.toggle("oculto", esAdminActual);
-    document.getElementById("panelAdmin").classList.toggle("oculto", !esAdminActual);
-    document.getElementById("zonaPaneles").classList.add("oculto");
-    var bloque=document.getElementById("bloqueAdminPadron"); if(bloque) bloque.classList.toggle("oculto", !esAdminActual);
-    cargarLocalidades(); mostrarFormularios(); mostrarDocumentos(); cargarNotificacionEmpleador();
-    cargarPadronDesdeFirestore();
-  } else {
-    var err = tipo==="AUTORIZADOS" ? document.getElementById("errorAut") : document.getElementById("errorAdm");
-    err.textContent = "Email o clave incorrecta. Revisá con VER CLAVE que no haya un espacio o una letra mal. Email escrito: " + e;
-  }
-}
-document.addEventListener("keydown",function(ev){ if(ev.key==="Enter"){ if(!document.getElementById("loginAutorizados").classList.contains("oculto")) entrarComo("AUTORIZADOS"); else if(!document.getElementById("loginAdmin").classList.contains("oculto")) entrarComo("ADMINISTRADOR"); } });
-function validarCuil(c){ return c.replace(/[^0-9]/g,"").length===11; }
-function formatearCuil(c){ var l=c.replace(/[^0-9]/g,""); return l.slice(0,2)+"-"+l.slice(2,10)+"-"+l.slice(10,11); }
-function cargarLocalidades(){
-  var sel=document.getElementById("filtroLocalidad");
-  var todas=listaLocalidadesUnicas();
-  var permitidas=todas.filter(function(l){ return puedeVerLocalidadPadron(l); });
-  sel.innerHTML='';
-  if(esAdminActual || (usuarioActual && usuarioActual.localidades.indexOf("TODAS")!==-1)){ sel.innerHTML+='<option value="TODAS">TODAS LAS LOCALIDADES PERMITIDAS ('+filtrarPorLocalidadSinFiltro(permitidas).length+')</option>'; }
-  else if(permitidas.length===1){ sel.innerHTML+='<option value="'+permitidas[0]+'">'+permitidas[0]+'</option>'; }
-  else if(permitidas.length>1){ sel.innerHTML+='<option value="TODAS">MIS LOCALIDADES ('+filtrarPorLocalidadSinFiltro(permitidas).length+')</option>'; }
-  permitidas.forEach(function(l){ var cant=afiliados.filter(function(a){return (a.localidad||"").trim().toUpperCase()===l;}).length; sel.innerHTML+='<option value="'+l+'">'+l+' ('+cant+')</option>'; });
-  actualizarInfoLocalidad();
-}
-function filtrarPorLocalidadSinFiltro(permitidas){ if(!permitidas) return afiliados; return afiliados.filter(function(a){ return permitidas.indexOf((a.localidad||"").trim().toUpperCase())!==-1; }); }
-function filtrarPorLocalidad(){
-  var loc=document.getElementById("filtroLocalidad").value;
-  var base=afiliados.filter(function(a){ return puedeVerLocalidadPadron(a.localidad); });
-  if(loc==="TODAS") return base;
-  if(!puedeVerLocalidadPadron(loc)) return [];
-  return base.filter(function(a){return (a.localidad||"").trim().toUpperCase()===loc;});
-}
-function actualizarInfoLocalidad(){ var loc=document.getElementById("filtroLocalidad").value; var lista=filtrarPorLocalidad(); document.getElementById("infoLocalidad").innerText="Localidad elegida: "+loc+" - "+lista.length+" afiliados"; document.getElementById("infoLocalidadTop").innerText=loc+" ("+lista.length+")"; }
-document.addEventListener("change",function(e){ if(e.target && e.target.id==="filtroLocalidad") actualizarInfoLocalidad(); });
-function verPadronPorLocalidad(){ var loc=document.getElementById("filtroLocalidad").value; var lista=filtrarPorLocalidad(); if(!lista.length){ document.getElementById("padron").innerHTML="<p><b>No tenés acceso a ese padrón.</b></p>"; return; } var div=document.getElementById("padron"); var esCelu=window.innerWidth<=768; var h="<h3>Padrón "+loc+" ("+lista.length+")</h3>"; if(esCelu){ lista.forEach(function(a){ h+='<div class="cardPadron"><b>'+a.nombre+'</b><br>CUIL: '+a.cuil+'<br>Localidad: '+a.localidad+'<br>Empresa: '+(a.empresa||"")+'<br>Estado: '+estadoMostrar(a)+'</div>'; }); } else { h+="<table class='tabla'><tr><th>N° Afil.</th><th>ID</th><th>Nombre</th><th>CUIL</th><th>DNI</th><th>Localidad</th><th>Empresa</th><th>Fecha Af SOETRA</th><th>Estado</th></tr>"; lista.forEach(function(a){ h+='<tr><td>'+(a.numAfiliado||"")+'</td><td>'+(a.idExcel||"")+'</td><td>'+a.nombre+'</td><td>'+a.cuil+'</td><td>'+(a.dni||"")+'</td><td>'+(a.localidad||"")+'</td><td>'+(a.empresa||"")+'</td><td>'+(a.fechaAfSoetra||"")+'</td><td>'+estadoMostrar(a)+'</td></tr>'; }); h+="</table>"; } div.innerHTML=h; }
-function descargarExcelPorLocalidad(){ var loc=document.getElementById("filtroLocalidad").value; var lista=filtrarPorLocalidad(); if(!lista.length){ alert("No tenés acceso a ese padrón."); return; } var csv="N°Afiliado;ID;Apellido y Nombres;CUIL;DNI;Condicion;Fecha Nac;Obra Social;Fecha Afil O Social;Domicilio;Localidad;Provincia;Fecha Af SOETRA;Empresa;Correo Empleador;CUIT Empresa;Tel Renuncia UATRE;Estado;Autoriza\n"; lista.forEach(function(a){ csv+=(a.numAfiliado||"")+";"+(a.idExcel||"")+";"+a.nombre+";"+a.cuil+";"+(a.dni||"")+";"+(a.condicion||"")+";"+(a.fechaNac||"")+";"+(a.obraSocial||"")+";"+(a.fechaAfilOSocial||"")+";"+(a.domicilio||"")+";"+(a.localidad||"")+";"+(a.provincia||"")+";"+(a.fechaAfSoetra||"")+";"+(a.empresa||"")+";"+(a.correoEmpleador||"")+";"+(a.cuitEmpresa||"")+";"+(a.telRenunciaUatre||"")+";"+estadoMostrar(a)+";"+a.autoriza+"\n"; }); var blob=new Blob(["\ufeff"+csv],{type:"text/csv"}); var link=document.createElement("a"); link.href=URL.createObjectURL(blob); link.download="padron_soetra_"+(loc==="TODAS"?"PERMITIDAS":loc.replace(/ /g,"_"))+"_"+lista.length+".csv"; link.click(); }
-function guardarAfiliado(){ var nombre=document.getElementById("nNombre").value; var cuil=document.getElementById("nCuil").value; if(!nombre||!cuil){ alert("Falta Nombre y CUIL"); return; } if(!validarCuil(cuil)){ alert("CUIL INCOMPLETO. Tiene que tener 11 números."); return; } afiliados.push({numAfiliado:document.getElementById("nNumAfiliado").value||"",idExcel:"",nombre:nombre,cuil:formatearCuil(cuil),dni:document.getElementById("nDni").value,condicion:document.getElementById("nCondicion").value||"TITULAR",fechaNac:document.getElementById("nNac").value,obraSocial:document.getElementById("nObra").value,fechaAfilOSocial:document.getElementById("nAfOSocial").value,domicilio:document.getElementById("nDomicilio").value,localidad:document.getElementById("nLoc").value,provincia:document.getElementById("nProv").value,fechaAfSoetra:document.getElementById("nAfSoetra").value,empresa:document.getElementById("nEmp").value,correoEmpleador:document.getElementById("nCorreoEmp").value,cuitEmpresa:document.getElementById("nCuitEmp").value,telRenunciaUatre:document.getElementById("nTelRenuncia").value,estado:"AFILIADO A SOETRA",autoriza:"SI",carpeta:{}}); guardarEnCelu(); cargarLocalidades(); alert("Guardado."); document.getElementById("formCarga").classList.add("oculto"); verPadron(); }
-// --- BUSCADOR REESCRITO: ESPERA AL PADRÓN REAL ---
+
+// ---------- BUSCADOR QUE FUNCIONA - PREGUNTA DIRECTO A FIREBASE ----------
 async function buscarPorCuil(){
-  var qRaw=document.getElementById("buscarCuil").value||"";
-  var q=qRaw.trim();
-  if(!q){ alert("Escribí CUIL, DNI, N° Afiliado o Nombre"); return; }
-  var div=document.getElementById("resultado");
-  div.innerHTML="<p>Buscando en TODO EL PADRÓN...</p>";
-  await asegurarPadronCargado();
-  var qUp=q.toUpperCase();
-  var soloNum=q.replace(/[^0-9]/g,"");
-  var encontrados=afiliados.filter(function(a){
-    var nom=(a.nombre||"").toUpperCase();
-    var cuilNum=(a.cuil||"").replace(/[^0-9]/g,"");
-    var dniNum=(a.dni||"").replace(/[^0-9]/g,"");
-    var numAf=(a.numAfiliado||"").trim();
-    if(nom.indexOf(qUp)!==-1) return true;
-    if(soloNum && cuilNum===soloNum) return true;
-    if(soloNum && dniNum===soloNum) return true;
-    if(numAf && numAf===q) return true;
-    return false;
-  });
-  if(!encontrados.length){
-    div.innerHTML="<p><b>No está afiliado</b></p><p style='font-size:13px'>Buscado: "+q+" - Se buscó en TODO EL PADRÓN, hay "+afiliados.length+" afiliados.</p>";
+  var qRaw = document.getElementById("buscarCuil").value||"";
+  var q = qRaw.trim();
+  if(!q){ alert("Escribí CUIL, DNI o Nombre"); return; }
+  var div = document.getElementById("resultado");
+  div.innerHTML = "<p>Buscando en Firebase...</p>";
+  var soloNum = q.replace(/[^0-9]/g,"");
+  var qUp = q.toUpperCase();
+  var encontrados = [];
+  var yaVistos = {};
+
+  function agregarDoc(doc){
+    if(yaVistos[doc.id]) return;
+    yaVistos[doc.id]=true;
+    var d = normalizar(doc.data());
+    d._id = doc.id;
+    encontrados.push(d);
+  }
+
+  try{
+    // 1. Si es CUIL de 11 números, buscar por CUIL con guiones y sin guiones
+    if(soloNum.length===11){
+      var cuilForm = formatearCuil(soloNum);
+      var s1 = await db.collection("padron").where("cuil","==",cuilForm).get();
+      s1.forEach(agregarDoc);
+      var s2 = await db.collection("padron").where("cuil","==",soloNum).get();
+      s2.forEach(agregarDoc);
+      // También puede estar guardado como DNI
+      var s3 = await db.collection("padron").where("dni","==",soloNum.slice(2,10)).get();
+      s3.forEach(agregarDoc);
+    }
+    // 2. Si es DNI de 7 u 8 números, buscar por DNI
+    else if(soloNum.length>=7 && soloNum.length<=8){
+      var sDni = await db.collection("padron").where("dni","==",soloNum).get();
+      sDni.forEach(agregarDoc);
+      var sDni2 = await db.collection("padron").where("dni","==",q).get();
+      sDni2.forEach(agregarDoc);
+    }
+    // 3. Si es nombre, buscar por nombre que empiece con eso
+    else if(q.length>=2){
+      var sNom = await db.collection("padron").where("nombre",">=",qUp).where("nombre","<=",qUp+"\uf8ff").get();
+      sNom.forEach(agregarDoc);
+    }
+    // 4. Si todavía no encontró nada, bajar todo y filtrar en memoria (solo para esa búsqueda, no se guarda nada)
+    if(encontrados.length===0){
+      var todos = await db.collection("padron").get();
+      todos.forEach(function(doc){
+        var d = normalizar(doc.data());
+        var nom = (d.nombre||"").toUpperCase();
+        var cuilNum = (d.cuil||"").replace(/[^0-9]/g,"");
+        var dniNum = (d.dni||"").replace(/[^0-9]/g,"");
+        if(nom.indexOf(qUp)!==-1) agregarDoc(doc);
+        else if(soloNum && cuilNum===soloNum) agregarDoc(doc);
+        else if(soloNum && dniNum===soloNum) agregarDoc(doc);
+      });
+    }
+  }catch(e){
+    div.innerHTML = "<p><b>❌ ERROR DE FIREBASE:</b> "+e.message+"</p><p style='font-size:13px'>Esto es problema de REGLAS de Firebase, no del buscador. Andá a Firebase Console > Firestore Database > Rules y poné: <br><b>allow read, write: if true;</b></p>";
     return;
   }
-  if(encontrados.length===1){ mostrarFicha(encontrados[0],div); return; }
-  var h="<p><b>Se encontraron "+encontrados.length+" afiliados</b></p>";
-  encontrados.forEach(function(a){
-    h+="<div class='afiliado' style='cursor:pointer' onclick='buscarUnoPorCuil(\""+a.cuil+"\")'><b>"+a.nombre+"</b><br>CUIL: "+a.cuil+" | DNI: "+(a.dni||"")+"<br>Localidad: "+(a.localidad||"")+" - "+estadoMostrar(a)+"<br><span style='color:#5a9a76'>Tocá para ver ficha</span></div>";
-  });
-  div.innerHTML=h;
-}
-function buscarUnoPorCuil(cuil){
-  var a=afiliados.find(function(x){ return x.cuil===cuil; });
-  if(a) mostrarFicha(a, document.getElementById("resultado"));
-}
-function mostrarFicha(a,div){
-  var clase=claseEstado(a); var est=estadoMostrar(a);
-  var fueraPadron = !esAdminActual && !puedeVerLocalidadPadron(a.localidad);
-  var html='';
-  if(fueraPadron){ html+='<div class="avisoFuera">⚠️ Este afiliado es de <b>'+(a.localidad||"")+'</b>, que NO tenés habilitada en PADRÓN, pero igual lo podés ver acá porque BUSCAR AFILIADO busca en el padrón completo.</div>'; }
-  html+='<div class="afiliado"><b style="font-size:18px">'+a.nombre+'</b><br><div class="campo"><span class="label">N° AFILIADO:</span> <b>'+(a.numAfiliado||"(vacío por ahora)")+'</b> | <span class="label">ID Excel:</span> '+(a.idExcel||"")+'</div><div class="campo"><span class="label">CUIL:</span> '+a.cuil+' | <span class="label">DNI:</span> '+(a.dni||"")+' | <span class="label">CONDICION:</span> '+(a.condicion||"")+'</div><div class="campo"><span class="label">Fecha Nacimiento:</span> '+(a.fechaNac||"")+' | <span class="label">Obra Social:</span> '+(a.obraSocial||"")+' | <span class="label">Fecha Afil. O Social:</span> '+(a.fechaAfilOSocial||"")+'</div><div class="campo"><span class="label">Domicilio:</span> '+(a.domicilio||"")+'</div><div class="campo"><span class="label">Localidad:</span> '+(a.localidad||"")+' - <span class="label">Provincia:</span> '+(a.provincia||"")+'</div><div class="campo"><span class="label">Fecha Af. SOETRA:</span> '+(a.fechaAfSoetra||"")+'</div><div class="campo"><span class="label">Empresa:</span> '+(a.empresa||"")+' | <span class="label">CUIT Empresa:</span> '+(a.cuitEmpresa||"")+'</div><div class="campo"><span class="label">Correo Empleador:</span> '+(a.correoEmpleador||"")+'</div><div class="campo"><span class="label">Tel Renuncia UATRE:</span> '+(a.telRenunciaUatre||"")+'</div><div class="campo"><span class="label">Estado:</span> <span class="'+clase+'">'+est+'</span> | <span class="label">Autoriza:</span> '+a.autoriza+'</div>';
-  if(esAdminActual){ html+='<div class="wspBox"><b>📲 Enviar ficha por WhatsApp (Solo Admin)</b><br><button class="btnWspChico" onclick="enviarFichaCompletaPorWsp(\''+a.cuil+'\')">📲 ENVIAR FICHA POR WHATSAPP</button></div>'; }
-  html+='<hr><b>Completar datos - Admin puede cambiar todo</b><br><label class="label">N° de Afiliado (Vacío - podés completarlo)</label><input id="editNum_'+a.cuil.replace(/[^0-9]/g,"")+'" value="'+(a.numAfiliado||"")+'"><label class="label">DNI</label><input value="'+(a.dni||"")+'" id="editDni_'+a.cuil.replace(/[^0-9]/g,"")+'"><label class="label">Fecha Nacimiento</label><input value="'+(a.fechaNac||"")+'" id="editNac_'+a.cuil.replace(/[^0-9]/g,"")+'"><label class="label">Obra Social</label><input value="'+(a.obraSocial||"")+'" id="editObra_'+a.cuil.replace(/[^0-9]/g,"")+'"><label class="label">Fecha Afil. O Social (Vacío - podés completarlo)</label><input value="'+(a.fechaAfilOSocial||"")+'" id="editAfOS_'+a.cuil.replace(/[^0-9]/g,"")+'">';
-  if(esAdminActual){ html+='<button class="btn2" onclick="guardarEdicion(\''+a.cuil+'\')">GUARDAR DATOS</button>'; }
-  html+='<hr><b>📁 CARPETA DEL AFILIADO - Solo descarga para Autorizados</b><br>';
-  TIPOS_CARPETA.forEach(function(tipo,idx){ var arch=a.carpeta?a.carpeta[tipo]:null; var safe=a.cuil.replace(/[^0-9]/g,""); html+='<div style="border:1px solid #eee;padding:8px;margin:4px 0;border-radius:8px"><b>'+tipo+':</b> '; if(arch){ html+='<span class="ok">✅ Cargado: '+arch.nombre+'</span><br><button class="carpetaBtn btnChico" onclick="abrirArchivoCarpeta(\''+a.cuil+'\',\''+tipo+'\')">📥 ABRIR / DESCARGAR</button>'; if(esAdminActual) html+=' <button class="btnWspChico" onclick="enviarArchivoCarpetaPorWsp(\''+a.cuil+'\',\''+tipo+'\')">📲 ENVIAR POR WHATSAPP</button> <button class="btnGris btnChico" onclick="document.getElementById(\'file_'+safe+'_'+idx+'\').click()">REEMPLAZAR (Admin)</button>'; } else { html+='<span class="falta">Sin archivo</span><br><span style="font-size:12px">Sin archivo cargado - Solo el Administrador puede subirlo</span><br>'; if(esAdminActual) html+='<button class="btnCargar btnChico" onclick="document.getElementById(\'file_'+safe+'_'+idx+'\').click()">⬆️ CARGAR ARCHIVO (Solo Admin)</button>'; } html+='<input type="file" id="file_'+safe+'_'+idx+'" style="display:none" accept=".pdf,.jpg,.jpeg,.png" onchange="cargarArchivoCarpeta(event,\''+a.cuil+'\',\''+tipo+'\')"></div>'; });
-  if(esAdminActual){ html+='<hr><b>Telegrama Renuncia:</b><br><select id="tipoRenuncia"><option value="SOETRA">Renuncia a SOETRA</option><option value="UATRE">Renuncia a UATRE</option></select><button class="btnRojo" onclick="cargarRenuncia(\''+a.cuil+'\')">APLICAR RENUNCIA</button>'; }
-  html+='</div>'; div.innerHTML=html;
-}
-function guardarEdicion(cuil){ var safe=cuil.replace(/[^0-9]/g,""); var af=afiliados.find(function(a){return a.cuil===cuil}); af.numAfiliado=document.getElementById("editNum_"+safe).value; af.dni=document.getElementById("editDni_"+safe).value; af.fechaNac=document.getElementById("editNac_"+safe).value; af.obraSocial=document.getElementById("editObra_"+safe).value; af.fechaAfilOSocial=document.getElementById("editAfOS_"+safe).value; guardarEnCelu(); alert("Datos guardados"); buscarPorCuil(); }
-function cargarRenuncia(cuil){ var tipo=document.getElementById("tipoRenuncia").value; var af=afiliados.find(function(a){return a.cuil===cuil}); if(tipo==="SOETRA"){ af.estado="BAJA POR RENUNCIA"; alert("BAJA POR RENUNCIA - SOETRA"); } else { af.estado="RENUNCIO A UATRE"; af.telRenunciaUatre="RENUNCIO UATRE SI"; alert("RENUNCIO A UATRE - Sigue afiliado a SOETRA"); } guardarEnCelu(); buscarPorCuil(); }
-function cargarArchivoCarpeta(event,cuil,tipo){ if(!esAdminActual){ alert("Solo el Administrador puede subir archivos"); return; } var archivo=event.target.files[0]; if(!archivo) return; var lector=new FileReader(); lector.onload=function(e){ var af=afiliados.find(function(a){return a.cuil===cuil}); if(!af.carpeta) af.carpeta={}; af.carpeta[tipo]={nombre:archivo.name,data:e.target.result}; if(tipo==="Telegrama Renuncia UATRE"){ af.estado="RENUNCIO A UATRE"; af.telRenunciaUatre="RENUNCIO UATRE SI"; } if(tipo==="Telegrama Renuncia SOETRA"){ af.estado="BAJA POR RENUNCIA"; } guardarEnCelu(); alert(tipo+" cargado para "+af.nombre+" - Estado ahora: "+estadoMostrar(af)); buscarPorCuil(); }; lector.readAsDataURL(archivo); }
-function abrirArchivoCarpeta(cuil,tipo){ var af=afiliados.find(function(a){return a.cuil===cuil}); var arch=af.carpeta[tipo]; if(!arch){ alert("Sin archivo"); return; } var v=window.open(""); if(arch.data && arch.data.indexOf("data:image")===0){ v.document.write('<img src="'+arch.data+'" style="width:100%">'); } else { v.document.write('<iframe src="'+arch.data+'" style="width:100%;height:100vh;border:none"></iframe>'); } }
-function verPadron(){ if(!esAdminActual){ alert("Solo el Administrador puede ver el padrón completo."); return; } var div=document.getElementById("padron"); var esCelu=window.innerWidth<=768; var h="<h3>Padrón ("+afiliados.length+")</h3>"; if(esCelu){ afiliados.forEach(function(a){ h+='<div class="cardPadron"><b>'+a.nombre+'</b><br>CUIL: '+a.cuil+'<br>Localidad: '+a.localidad+'<br>Estado: '+estadoMostrar(a)+'</div>'; }); } else { h+="<table class='tabla'><tr><th>N° Afil.</th><th>ID</th><th>Nombre</th><th>CUIL</th><th>DNI</th><th>Localidad</th><th>Empresa</th><th>Fecha Af SOETRA</th><th>Estado</th></tr>"; afiliados.forEach(function(a){ h+='<tr><td>'+(a.numAfiliado||"")+'</td><td>'+(a.idExcel||"")+'</td><td>'+a.nombre+'</td><td>'+a.cuil+'</td><td>'+(a.dni||"")+'</td><td>'+(a.localidad||"")+'</td><td>'+(a.empresa||"")+'</td><td>'+(a.fechaAfSoetra||"")+'</td><td>'+estadoMostrar(a)+'</td></tr>'; }); h+="</table>"; } div.innerHTML=h; }
-function descargarExcel(){ if(!esAdminActual){ alert("Solo el Administrador puede descargar el padrón completo."); return; } var csv="N°Afiliado;ID;Apellido y Nombres;CUIL;DNI;Condicion;Fecha Nac;Obra Social;Fecha Afil O Social;Domicilio;Localidad;Provincia;Fecha Af SOETRA;Empresa;Correo Empleador;CUIT Empresa;Tel Renuncia UATRE;Estado;Autoriza\n"; afiliados.forEach(function(a){ csv+=(a.numAfiliado||"")+";"+(a.idExcel||"")+";"+a.nombre+";"+a.cuil+";"+(a.dni||"")+";"+(a.condicion||"")+";"+(a.fechaNac||"")+";"+(a.obraSocial||"")+";"+(a.fechaAfilOSocial||"")+";"+(a.domicilio||"")+";"+(a.localidad||"")+";"+(a.provincia||"")+";"+(a.fechaAfSoetra||"")+";"+(a.empresa||"")+";"+(a.correoEmpleador||"")+";"+(a.cuitEmpresa||"")+";"+(a.telRenunciaUatre||"")+";"+estadoMostrar(a)+";"+a.autoriza+"\n"; }); var blob=new Blob(["\ufeff"+csv],{type:"text/csv"}); var link=document.createElement("a"); link.href=URL.createObjectURL(blob); link.download="padron_soetra_completo.csv"; link.click(); }
-async function cargarPadron(event){
-  var archivo=event.target.files[0]; if(!archivo) return;
-  var lector=new FileReader();
-  lector.onload=async function(e){
-    var texto=e.target.result; var lineas=texto.split(/\r?\n/); var nuevos=[];
-    for(var i=0;i<lineas.length;i++){ var linea=lineas[i].trim(); if(!linea) continue; if(i===0 && linea.toLowerCase().indexOf("nombre")!==-1) continue; var partes=linea.split(";"); if(partes.length<2) partes=linea.split(","); if(partes.length<2) continue; var cuilRaw=(partes[3]||"").trim(); if(!cuilRaw) continue; var cuil=cuilRaw; if(cuil.replace(/[^0-9]/g,"").length===11) cuil=formatearCuil(cuil); nuevos.push({numAfiliado:(partes[0]||"").trim(),idExcel:(partes[1]||"").trim(),nombre:(partes[2]||"").trim(),cuil:cuil,dni:(partes[4]||"").trim(),condicion:(partes[5]||"").trim(),fechaNac:(partes[6]||"").trim(),obraSocial:(partes[7]||"").trim(),fechaAfilOSocial:(partes[8]||"").trim(),domicilio:(partes[9]||"").trim(),localidad:(partes[10]||"").trim(),provincia:(partes[11]||"").trim(),fechaAfSoetra:(partes[12]||"").trim(),empresa:(partes[13]||"").trim(),correoEmpleador:(partes[14]||"").trim(),cuitEmpresa:(partes[15]||"").trim(),telRenunciaUatre:(partes[16]||"").trim(),estado:(partes[17]||"AFILIADO A SOETRA").trim(),autoriza:(partes[18]||"SI").trim(),carpeta:{}}); }
-    if(!nuevos.length){ alert("No se pudo leer el padrón."); return; }
-    if(confirm("¿Reemplazar padrón actual ("+afiliados.length+") por nuevo padrón con "+nuevos.length+" afiliados?")){
-      afiliados=nuevos; guardarEnCelu(); cargarLocalidades(); padronYaCargado=true;
-      if(db){ try{ var viejos=await db.collection("padron").get(); var batch=db.batch(); viejos.forEach(function(d){ batch.delete(d.ref); }); await batch.commit(); for(var k=0;k<nuevos.length;k++){ await db.collection("padron").add(nuevos[k]); } }catch(err){ alert("Se guardó en el celu pero no en Firestore: "+err.message); } }
-      alert("Padrón cargado: "+nuevos.length+" afiliados en Firestore.");
-      verPadron();
-    }
-  }; lector.readAsText(archivo);
-}
-function mostrarFormularios(){ refrescarArchivos(); var div=document.getElementById("listaFormularios"); var html=""; FORMULARIOS.forEach(function(f){ var cargado=pdfsGuardados[f.id]?true:false; html+='<div class="filaForm"><b>📄 '+f.titulo+'</b><br><span style="font-size:12px">Archivo: '+f.archivo+'</span><br>'; if(cargado){ html+='<span class="ok">✅ CARGADO - PDF ORIGINAL</span><br><button class="btnForm" onclick="abrirPDF(\''+f.id+'\')">DESCARGAR FORMULARIO VACÍO / ABRIR</button><br>'; if(!esAdminActual){ html+='<label style="display:flex;gap:8px;align-items:center;background:#eaf3ec;padding:10px;border-radius:8px;margin:8px 0"><input type="checkbox" checked style="width:auto"> ✓ Enviar PDF con archivo adjunto por WhatsApp</label><button class="btnWsp" onclick="enviarFormularioPorWsp(\''+f.id+'\',\''+f.titulo+'\',\''+f.archivo+'\')">📲 ENVIAR PDF POR WHATSAPP - CON ARCHIVO</button>'; } if(esAdminActual) html+='<button class="btnGris" onclick="document.getElementById(\'input_'+f.id+'\').click()">REEMPLAZAR PDF (Admin)</button>'; } else { html+='<span class="falta">⚠️ TODAVÍA NO ESTÁ CARGADO</span><br><a href="'+f.archivo+'" target="_blank"><button class="btnForm">DESCARGAR FORMULARIO VACÍO / ABRIR</button></a><br>'; if(!esAdminActual){ html+='<label style="display:flex;gap:8px;align-items:center;background:#eaf3ec;padding:10px;border-radius:8px;margin:8px 0"><input type="checkbox" checked style="width:auto"> ✓ Enviar PDF por WhatsApp</label><button class="btnWsp" onclick="enviarFormularioPorWsp(\''+f.id+'\',\''+f.titulo+'\',\''+f.archivo+'\')">📲 ENVIAR PDF POR WHATSAPP</button>'; } if(esAdminActual) html+='<button class="btnCargar" onclick="document.getElementById(\'input_'+f.id+'\').click()">⬆️ CARGAR PDF (Solo Admin)</button>'; else html+='<p style="font-size:12px">Pedile al Administrador que lo cargue.</p>'; } html+='<input type="file" id="input_'+f.id+'" accept=".pdf" style="display:none" onchange="cargarPDF(event,\''+f.id+'\')"></div>'; }); div.innerHTML=html; }
-function mostrarDocumentos(){ refrescarArchivos(); var div=document.getElementById("listaDocumentos"); var html=""; DOCUMENTOS.forEach(function(f){ var cargado=docsGuardados[f.id]?true:false; html+='<div class="filaForm"><b>'+f.titulo+'</b><br><span style="font-size:12px">Cargado: '+f.archivo+'</span><br>'; if(cargado) html+='<span class="ok">✅ CARGADO</span><br>'; else html+='<span class="falta">⚠️ No cargado en este aparato - Pedile al Admin que lo cargue</span><br>'; html+='<button class="btnAzulDoc" onclick="abrirDoc(\''+f.id+'\',\''+f.archivo+'\')">DESCARGAR / ABRIR</button><br>'; if(!esAdminActual){ html+='<label style="display:flex;gap:8px;align-items:center;background:#eaf3ec;padding:10px;border-radius:8px;margin:8px 0"><input type="checkbox" checked style="width:auto"> ✓ Enviar con archivo adjunto por WhatsApp</label><button class="btnWsp" onclick="enviarDocPorWsp(\''+f.id+'\',\''+f.titulo+'\',\''+f.archivo+'\')">📲 ENVIAR POR WHATSAPP - CON ARCHIVO</button>'; } if(esAdminActual) html+='<button class="btnGris" onclick="document.getElementById(\'inputDoc_'+f.id+'\').click()">REEMPLAZAR (Admin)</button>'; if(esAdminActual && !cargado) html+='<button class="btnCargar" onclick="document.getElementById(\'inputDoc_'+f.id+'\').click()">⬆️ CARGAR (Solo Admin)</button>'; html+='<input type="file" id="inputDoc_'+f.id+'" accept=".pdf" style="display:none" onchange="cargarDoc(event,\''+f.id+'\')"></div>'; }); div.innerHTML=html; }
-function cargarPDF(event,id){ var archivo=event.target.files[0]; if(!archivo) return; var lector=new FileReader(); lector.onload=function(e){ pdfsGuardados[id]=e.target.result; localStorage.setItem("soetra_pdfs",JSON.stringify(pdfsGuardados)); alert("PDF cargado y guardado. Ya se replica en Autorizados en este mismo aparato."); mostrarFormularios(); }; lector.readAsDataURL(archivo); }
-function cargarDoc(event,id){ var archivo=event.target.files[0]; if(!archivo) return; var lector=new FileReader(); lector.onload=function(e){ docsGuardados[id]=e.target.result; localStorage.setItem("soetra_docs",JSON.stringify(docsGuardados)); alert("Documento cargado. Ya se replica en Autorizados en este mismo aparato."); mostrarDocumentos(); }; lector.readAsDataURL(archivo); }
-function abrirPDF(id){ refrescarArchivos(); var data=pdfsGuardados[id]; if(!data){ alert("Todavía no está cargado en este dispositivo."); return; } var v=window.open(""); v.document.write('<iframe src="'+data+'" style="width:100%;height:100vh;border:none"></iframe>'); }
-function abrirDoc(id,archivo){ refrescarArchivos(); var data=docsGuardados[id]; if(data){ var v=window.open(""); v.document.write('<iframe src="'+data+'" style="width:100%;height:100vh;border:none"></iframe>'); } else { window.open(archivo,"_blank"); } }
-function leerChecksLocalidad(prefijo,idx){
-  var todas=document.getElementById(prefijo+"TODAS_"+idx);
-  if(todas && todas.checked) return ["TODAS"];
-  var locs=listaLocalidadesUnicas(); var sel=[];
-  locs.forEach(function(l){ var el=document.getElementById(prefijo+idx+"_"+l); if(el && el.checked) sel.push(l); });
-  if(!sel.length) return ["TODAS"];
-  return sel;
-}
-function mostrarClaves(){
-  var div=document.getElementById("listaClaves"); var html=""; var locs=listaLocalidadesUnicas();
-  usuariosAut.forEach(function(u,idx){
-    var cur=normalizarLocalidades(u);
-    html+='<div class="filaForm"><b>'+u.email+'</b><br><label class="label">Nueva clave</label><input id="claveAut_'+idx+'" value="'+u.clave+'"><label class="label">Tildá las localidades a las que puede acceder en PADRÓN - podés tildar varias</label>';
-    html+='<label class="checkLoc"><input type="checkbox" id="locTODAS_'+idx+'" '+(cur.indexOf("TODAS")!==-1?"checked":"")+' onchange="if(this.checked){ document.querySelectorAll(\'[id^=loc'+idx+'_]\').forEach(function(c){ c.checked=false; }); }"> TODAS LAS LOCALIDADES</label>';
-    locs.forEach(function(l){ html+='<label class="checkLoc"><input type="checkbox" id="loc'+idx+'_'+l+'" '+(cur.indexOf(l)!==-1?"checked":"")+' onchange="var t=document.getElementById(\'locTODAS_'+idx+'\'); if(t) t.checked=false;"> '+l+'</label>'; });
-    html+='<button class="btn2" onclick="cambiarClaveAut('+idx+')">GUARDAR CLAVE Y LOCALIDADES</button><button class="btnRojo" onclick="eliminarAutorizado('+idx+')">ELIMINAR</button></div>';
-  });
-  html+='<div class="filaForm"><b>Administrador principal</b><br>nolberto37@hotmail.com - puede acceder a TODAS las localidades</div>';
-  div.innerHTML=html;
-  var checksNuevo=document.getElementById("checksNuevoAut");
-  if(checksNuevo){
-    var h='<label class="checkLoc"><input type="checkbox" id="nuevoLocTODAS" checked> TODAS LAS LOCALIDADES</label>';
-    locs.forEach(function(l){ h+='<label class="checkLoc"><input type="checkbox" id="nuevoLoc_'+l+'" onchange="var t=document.getElementById(\'nuevoLocTODAS\'); if(t) t.checked=false;"> '+l+'</label>'; });
-    checksNuevo.innerHTML=h;
+
+  if(!encontrados.length){
+    div.innerHTML = "<p><b>No está afiliado</b></p><p>Buscado: "+q+" - Se buscó en TODA la colección padron de Firebase.</p>";
+    return;
   }
-  var lu=document.getElementById("listaUsuarios"); if(lu) lu.innerHTML="";
+  var h = "<p><b>Encontrados: "+encontrados.length+"</b></p>";
+  encontrados.forEach(function(a){
+    h += '<div class="afiliado"><b style="font-size:18px">'+a.nombre+'</b><br><span class="label">CUIL:</span> '+a.cuil+' | <span class="label">DNI:</span> '+a.dni+'<br><span class="label">Localidad:</span> '+a.localidad+' - '+a.provincia+'<br><span class="label">Domicilio:</span> '+a.domicilio+'<br><span class="label">Empresa:</span> '+a.empresa+' | <span class="label">CUIT:</span> '+a.cuitEmpresa+'<br><span class="label">Fecha Af. SOETRA:</span> '+a.fechaAfSoetra+'<br><span class="label">Estado:</span> <span class="activo">'+a.estado+'</span><br>';
+    if(esAdmin){ h += '<button class="btnRojo" onclick="borrarAfiliado(\''+a._id+'\')">ELIMINAR (Admin)</button>'; }
+    h += '</div>';
+  });
+  div.innerHTML = h;
 }
-function cambiarClaveAut(idx){ var nueva=document.getElementById("claveAut_"+idx).value.trim(); if(!nueva){ alert("Escribí la nueva clave"); return; } var locs=leerChecksLocalidad("loc",idx); usuariosAut[idx].clave=nueva; usuariosAut[idx].localidades=locs; guardarUsuariosAut(); alert("Guardado para "+usuariosAut[idx].email+" - Localidades Padrón: "+locs.join(", ")); mostrarClaves(); }
-function eliminarAutorizado(idx){ if(!confirm("¿Eliminar a "+usuariosAut[idx].email+"?")) return; usuariosAut.splice(idx,1); guardarUsuariosAut(); mostrarClaves(); }
-function agregarAutorizado(){
-  var em=limpiarEmail(document.getElementById("nuevoEmailAut").value); var cl=limpiarClave(document.getElementById("nuevoClaveAut").value);
-  var todas=document.getElementById("nuevoLocTODAS"); var locs=["TODAS"];
-  if(todas && !todas.checked){ locs=[]; listaLocalidadesUnicas().forEach(function(l){ var el=document.getElementById("nuevoLoc_"+l); if(el && el.checked) locs.push(l); }); if(!locs.length) locs=["TODAS"]; }
-  if(!em || !cl){ alert("Falta email y clave"); return; } if(usuariosAut.find(function(x){return x.email===em;})){ alert("Ese email ya existe"); return; }
-  usuariosAut.push({email:em,clave:cl,localidades:locs}); guardarUsuariosAut(); document.getElementById("nuevoEmailAut").value=""; document.getElementById("nuevoClaveAut").value=""; alert("Autorizado agregado: "+em+" - Localidades Padrón: "+locs.join(", ")); mostrarClaves();
+
+async function borrarAfiliado(id){
+  if(!confirm("¿Borrar este afiliado de Firebase?")) return;
+  await db.collection("padron").doc(id).delete();
+  alert("Borrado de Firebase");
+  contarPadron();
 }
-function gestionarUsuarios(){ mostrarTab("claves"); }
-function mostrarCopias(){
-  var div=document.getElementById("listaCopias"); if(!div) return;
-  var hist=JSON.parse(localStorage.getItem("soetra_backup_historial")||"[]");
-  var html="<h3>Copias guardadas en este aparato ("+hist.length+")</h3>";
-  if(!hist.length) html+="<p style='font-size:13px;color:#888'>Todavía no guardaste ninguna copia. Tocá GUARDAR COPIA DE SEGURIDAD.</p>";
-  hist.slice().reverse().forEach(function(h,i){ html+='<div class="filaForm"><b>'+h.fecha+'</b><br>'+h.afiliados+' afiliados - '+h.pdfs+' formularios - '+h.docs+' documentos - '+h.usuarios+' autorizados<br><button class="btn2" onclick="restaurarCopia('+ (hist.length-1-i) +')">RESTAURAR ESTA COPIA</button></div>'; });
-  div.innerHTML=html;
-}
-function guardarCopiaSeguridad(){
-  var datos={fecha:new Date().toLocaleString(),afiliados:afiliados.length,pdfs:Object.keys(pdfsGuardados).length,docs:Object.keys(docsGuardados).length,usuarios:usuariosAut.length,afiliadosData:afiliados,pdfsData:pdfsGuardados,docsData:docsGuardados,usuariosData:usuariosAut,notifData:notifEmpleador};
-  var hist=JSON.parse(localStorage.getItem("soetra_backup_historial")||"[]");
-  hist.push(datos); if(hist.length>10) hist.shift();
-  localStorage.setItem("soetra_backup_historial",JSON.stringify(hist));
-  alert("Copia guardada: "+datos.fecha+" - "+datos.afiliados+" afiliados");
-  mostrarCopias();
-}
-function restaurarCopia(idx){
-  var hist=JSON.parse(localStorage.getItem("soetra_backup_historial")||"[]");
-  var h=hist[idx]; if(!h) return;
-  if(!confirm("¿Restaurar la copia de "+h.fecha+"? Se reemplaza lo actual.")) return;
-  afiliados=h.afiliadosData; pdfsGuardados=h.pdfsData; docsGuardados=h.docsData; usuariosAut=h.usuariosData; if(h.notifData) notifEmpleador=h.notifData;
-  localStorage.setItem("soetra_afiliados_v3",JSON.stringify(afiliados));
-  localStorage.setItem("soetra_pdfs",JSON.stringify(pdfsGuardados));
-  localStorage.setItem("soetra_docs",JSON.stringify(docsGuardados));
-  localStorage.setItem("soetra_usuarios_aut",JSON.stringify(usuariosAut));
-  localStorage.setItem("soetra_notif_empleador",JSON.stringify(notifEmpleador));
-  guardarEnCelu(); cargarLocalidades(); mostrarFormularios(); mostrarDocumentos(); cargarNotificacionEmpleador();
-  alert("Copia restaurada: "+h.fecha);
-}
-function copiaSeguridad(){ var datos={fecha:new Date().toISOString(),afiliados:afiliados,pdfs:pdfsGuardados,docs:docsGuardados,usuarios:usuariosAut,notif:notifEmpleador}; var blob=new Blob([JSON.stringify(datos,null,2)],{type:"application/json"}); var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="copia-seguridad-soetra.json"; a.click(); alert("Copia de seguridad descargada en JSON"); }
-function descargarCodigoCompleto(){
+
+async function verPadronFirebase(){
+  var div = document.getElementById("padron");
+  div.innerHTML = "Cargando desde Firebase...";
   try{
-    var datosRespaldo={afiliados:afiliados,pdfs:pdfsGuardados,docs:docsGuardados,usuarios:usuariosAut,notif:notifEmpleador};
-    var datosStr=JSON.stringify(datosRespaldo).replace(/</g,"\\u003c");
-    var codigo="<!DOCTYPE html>\n"+document.documentElement.outerHTML;
-    var scriptRespaldo='<script>try{var D='+datosStr+';localStorage.setItem("soetra_afiliados_v3",JSON.stringify(D.afiliados));localStorage.setItem("soetra_pdfs",JSON.stringify(D.pdfs));localStorage.setItem("soetra_docs",JSON.stringify(D.docs));localStorage.setItem("soetra_usuarios_aut",JSON.stringify(D.usuarios));if(D.notif) localStorage.setItem("soetra_notif_empleador",JSON.stringify(D.notif));}catch(e){}<\/script>';
-    if(codigo.indexOf("</body>")!==-1){ codigo=codigo.replace("</body>",scriptRespaldo+"</body>"); } else { codigo+=scriptRespaldo; }
-    var blob=new Blob([codigo],{type:"text/html"});
-    var a=document.createElement("a"); a.href=URL.createObjectURL(blob);
-    var hoy=new Date(); var f=hoy.getFullYear()+"-"+("0"+(hoy.getMonth()+1)).slice(-2)+"-"+("0"+hoy.getDate()).slice(-2);
-    a.download="soetra_completo_"+f+".html"; a.click();
-    alert("Código completo descargado: soetra_completo_"+f+".html - Abrilo con doble clic en Chrome, ya trae todo adentro.");
-  }catch(e){ alert("No se pudo descargar el código completo. Probá con GUARDAR COPIA y DESCARGAR COPIA JSON."); }
+    var s = await db.collection("padron").orderBy("nombre").get();
+    var h = "<h3>Padrón Firebase ("+s.size+")</h3>";
+    s.forEach(function(doc){
+      var a = normalizar(doc.data());
+      h += '<div class="afiliado"><b>'+a.nombre+'</b><br>CUIL: '+a.cuil+' | DNI: '+a.dni+' | '+a.localidad+' | '+a.estado+'</div>';
+    });
+    div.innerHTML = h;
+  }catch(e){ div.innerHTML = "Error: "+e.message; }
+}
+
+async function cargarPadronCSV(event){
+  var archivo = event.target.files[0]; if(!archivo) return;
+  var texto = await archivo.text();
+  var lineas = texto.split(/\r?\n/);
+  var nuevos = [];
+  for(var i=0;i<lineas.length;i++){
+    var linea = lineas[i].trim(); if(!linea) continue;
+    if(i===0 && linea.toLowerCase().indexOf("nombre")!==-1) continue;
+    var p = linea.split(";"); if(p.length<4) p = linea.split(",");
+    if(p.length<4) continue;
+    var cuilRaw = (p[3]||"").trim(); if(!cuilRaw) continue;
+    var cuil = cuilRaw; if(cuil.replace(/[^0-9]/g,"").length===11) cuil = formatearCuil(cuil);
+    nuevos.push({numAfiliado:(p[0]||"").trim(), idExcel:(p[1]||"").trim(), nombre:(p[2]||"").trim().toUpperCase(), cuil:cuil, dni:(p[4]||"").trim(), condicion:(p[5]||"").trim()||"TITULAR", fechaNac:(p[6]||"").trim(), obraSocial:(p[7]||"").trim(), fechaAfilOSocial:(p[8]||"").trim(), domicilio:(p[9]||"").trim(), localidad:(p[10]||"").trim().toUpperCase(), provincia:(p[11]||"").trim().toUpperCase(), fechaAfSoetra:(p[12]||"").trim(), empresa:(p[13]||"").trim(), correoEmpleador:(p[14]||"").trim(), cuitEmpresa:(p[15]||"").trim(), telRenunciaUatre:(p[16]||"").trim(), estado:(p[17]||"AFILIADO A SOETRA").trim(), autoriza:(p[18]||"SI").trim()});
+  }
+  if(!nuevos.length){ alert("No se pudo leer el CSV"); return; }
+  if(!confirm("¿Subir "+nuevos.length+" afiliados a Firebase? Esto agrega, no borra los que ya están.")) return;
+  for(var k=0;k<nuevos.length;k++){ await db.collection("padron").add(nuevos[k]); }
+  alert("Subidos "+nuevos.length+" a Firebase");
+  contarPadron();
 }
 </script>
 </body>

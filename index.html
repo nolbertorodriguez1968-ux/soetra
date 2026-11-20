@@ -350,7 +350,7 @@ var resp=await fetch("https://api.cloudinary.com/v1_1/"+CLOUD_NAME+"/auto/upload
 var data=await resp.json();
 if(!data.secure_url) throw new Error("Error al subir");
 if(!af.carpeta) af.carpeta={};
-af.carpeta[tipo]={nombre:archivo.name,data:data.secure_url,[STRIPPED]};
+af.carpeta[tipo]={nombre:archivo.name,data:data.secure_url};
 if(tipo==="Telegrama Renuncia UATRE"){af.estado="AFILIADO A SOETRA";af.telRenunciaUatre="RENUNCIO UATRE SI";}
 if(tipo==="Telegrama Renuncia SOETRA"){af.estado="BAJA POR RENUNCIA";}
 guardarEnCelu();

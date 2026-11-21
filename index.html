@@ -143,12 +143,12 @@ Atte. S.O.E.T.R.A. - F.A.T.R.E.F.U.</textarea>
 <script>
 /* ===== FIREBASE - PEGAR TU CONFIG REAL ACA ABAJO ===== */
 var firebaseConfig = {
-  apiKey: "PEGAR-ACA-TU-APIKEY-DE-administrador-soetra",
-  authDomain: "administrador-soetra.firebaseapp.com",
-  projectId: "administrador-soetra",
-  storageBucket: "administrador-soetra.appspot.com",
-  messagingSenderId: "PEGAR-ACA",
-  appId: "PEGAR-ACA"
+  apiKey: "AIzaSyAz2QsNccuKVXc4YDEbOJaR1dNX8AIOcBc",
+  authDomain: "admin-soetra.firebaseapp.com",
+  projectId: "admin-soetra",
+  storageBucket: "admin-soetra.firebasestorage.app",
+  messagingSenderId: "90980716540",
+  appId: "1:90980716540:web:101e3e323322a01734ec79"
 };
 var db = null;
 try{ if(typeof firebase!=="undefined" && firebaseConfig.apiKey.indexOf("PEGAR")!==0){ firebase.initializeApp(firebaseConfig); db = firebase.firestore(); } }catch(e){ db=null; console.log("Firebase no conectado",e); }

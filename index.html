@@ -257,22 +257,33 @@ async function cargarDesdeFirebase(){
 }
 async function guardarEnFirebase(){
   if(!db) return;
-  try{ await db.collection("Poeta").doc("usuarios").set({usuariosAut: usuariosAut, actualizado: new Date().toISOString()}, {merge:true}); }catch(e){ console.log("No se pudo guardar claves",e); alert("No se pudo guardar claves en Firebase: "+e.message); }
-  try{ await db.collection("Poeta").doc("patrón").set({afiliados: afiliados, actualizado: new Date().toISOString()}, {merge:true}); }catch(e){ console.log("No se pudo guardar padrón",e); }
-async function guardarEnFirebase(){
-  if(!db) return;
-  try{ await db.collection("Poeta").doc("usuarios").set({usuariosAut: usuariosAut, actualizado: new Date().toISOString()}, {merge:true}); }catch(e){ console.log("No se pudo guardar claves",e); alert("No se pudo guardar claves en Firebase: "+e.message); }
-  try{ await db.collection("Poeta").doc("patrón").set({afiliados: afiliados, actualizado: new Date().toISOString()}, {merge:true}); }catch(e){ console.log("No se pudo guardar padrón",e); }
+  try{
+    await db.collection("Poeta").doc("usuarios").set({usuariosAut: usuariosAut, actualizado: new Date().toISOString()}, {merge:true});
+  }catch(e){ console.log("No se pudo guardar claves",e); }
+  try{
+    await db.collection("Poeta").doc("patrón").set({afiliados: afiliados, actualizado: new Date().toISOString()}, {merge:true});
+  }catch(e){ console.log("No se pudo guardar padrón",e); }
 }
 async function cargarUsuariosDesdeFirebase(){
   if(!db) return false;
   try{
-    var doc = await db.collection("Poeta").doc("patrón").get();
-    if(!doc.exists) return false;
-    var data = doc.data();
-    var lista = data.usuariosAut || data.usuarios_aut || [];
-    if(lista.length){
-      usuariosAut = lista.filter(function(u){return (u.email||"").toLowerCase()!=="usuario@soetra.com";});
+    var doc = await db.collection("Poeta").doc("usuarios").get();
+    if(doc.exists){
+      var data = doc.data();
+      var lista = data.usuariosAut || [];
+      if(lista.length){
+        usuariosAut = lista.filter(function(u){return (u.email||"").toLowerCase()!=="usuario@soetra.com";});
+        usuariosAut.forEach(function(u){u.localidades=normalizarLocalidades(u);});
+        localStorage.setItem("soetra_usuarios_aut", JSON.stringify(usuariosAut));
+        return true;
+      }
+    }
+    var doc2 = await db.collection("Poeta").doc("patrón").get();
+    if(!doc2.exists) return false;
+    var data2 = doc2.data();
+    var lista2 = data2.usuariosAut || data2.usuarios_aut || [];
+    if(lista2.length){
+      usuariosAut = lista2.filter(function(u){return (u.email||"").toLowerCase()!=="usuario@soetra.com";});
       usuariosAut.forEach(function(u){u.localidades=normalizarLocalidades(u);});
       localStorage.setItem("soetra_usuarios_aut", JSON.stringify(usuariosAut));
       return true;

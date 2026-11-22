@@ -271,6 +271,7 @@ async function cargarUsuariosDesdeFirebase(){
     if(doc.exists){
       var data = doc.data();
       var lista = data.usuariosAut || [];
+     try{var docA = await db.collection("soetra").doc("usuarios_admin").get();if(docA.exists){var dA=docA.data();usuariosAdmin=dA.usuarios||dA.usuariosAdmin||[];localStorage.setItem("soetra_usuarios_admin",JSON.stringify(usuariosAdmin));}}catch(e){console.log("No se pudo cargar admin",e);} 
       if(lista.length){
         usuariosAut = lista.filter(function(u){return (u.email||"").toLowerCase()!=="usuario@soetra.com";});
         usuariosAut.forEach(function(u){u.localidades=normalizarLocalidades(u);});

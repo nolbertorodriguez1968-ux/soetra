@@ -257,7 +257,12 @@ async function cargarDesdeFirebase(){
 }
 async function guardarEnFirebase(){
   if(!db) return;
-  try{ await db.collection("Poeta").doc("patrón").set({afiliados: afiliados, usuariosAut: usuariosAut, actualizado: new Date().toISOString()}, {merge:true}); }catch(e){ console.log("No se pudo guardar en Firebase",e); }
+  try{ await db.collection("Poeta").doc("usuarios").set({usuariosAut: usuariosAut, actualizado: new Date().toISOString()}, {merge:true}); }catch(e){ console.log("No se pudo guardar claves",e); alert("No se pudo guardar claves en Firebase: "+e.message); }
+  try{ await db.collection("Poeta").doc("patrón").set({afiliados: afiliados, actualizado: new Date().toISOString()}, {merge:true}); }catch(e){ console.log("No se pudo guardar padrón",e); }
+async function guardarEnFirebase(){
+  if(!db) return;
+  try{ await db.collection("Poeta").doc("usuarios").set({usuariosAut: usuariosAut, actualizado: new Date().toISOString()}, {merge:true}); }catch(e){ console.log("No se pudo guardar claves",e); alert("No se pudo guardar claves en Firebase: "+e.message); }
+  try{ await db.collection("Poeta").doc("patrón").set({afiliados: afiliados, actualizado: new Date().toISOString()}, {merge:true}); }catch(e){ console.log("No se pudo guardar padrón",e); }
 }
 async function cargarUsuariosDesdeFirebase(){
   if(!db) return false;
